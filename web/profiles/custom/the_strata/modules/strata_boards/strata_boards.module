@@ -1,0 +1,235 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Strata Boards module.
+ */
+
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Url;
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_node_access().
+ *
+ * Restrict viewing of board and ticket content to users with 'access strata boards' permission.
+ */
+function strata_boards_node_access(NodeInterface $node, string $op, AccountInterface $account): AccessResult {
+  // Only affect board and ticket content types.
+  if (!in_array($node->bundle(), ['board', 'ticket'])) {
+    return AccessResult::neutral();
+  }
+
+  // For view operations, require 'access strata boards' permission.
+  if ($op === 'view') {
+    $has_access = $account->hasPermission('access strata boards');
+    return AccessResult::forbiddenIf(!$has_access, 'You do not have permission to view this content.')
+      ->addCacheContexts(['user.permissions'])
+      ->cachePerPermissions();
+  }
+
+  return AccessResult::neutral();
+}
+
+/**
+ * Implements hook_page_attachments().
+ *
+ * Add meta robots tag to prevent search engine indexing.
+ */
+function strata_boards_page_attachments(array &$attachments): void {
+  // Add noindex, nofollow meta tag to all pages.
+  $attachments['#attached']['html_head'][] = [
+    [
+      '#type' => 'html_tag',
+      '#tag' => 'meta',
+      '#attributes' => [
+        'name' => 'robots',
+        'content' => 'noindex, nofollow',
+      ],
+    ],
+    'robots',
+  ];
+
+  // Add X-Robots-Tag header as well for additional coverage.
+  $attachments['#attached']['http_header'][] = [
+    'X-Robots-Tag',
+    'noindex, nofollow',
+  ];
+}
+
+/**
+ * Implements hook_toolbar().
+ */
+function strata_boards_toolbar(): array {
+  $items = [];
+
+  $items['strata'] = [
+    '#type' => 'toolbar_item',
+    '#weight' => -5,
+    'tab' => [
+      '#type' => 'link',
+      '#title' => t('Strata'),
+      '#url' => Url::fromRoute('view.strata_boards.page_1'),
+      '#attributes' => [
+        'title' => t('Strata management'),
+        'class' => ['toolbar-icon', 'toolbar-icon-strata'],
+      ],
+    ],
+    'tray' => [
+      '#heading' => t('Strata management'),
+      'strata_menu' => [
+        '#theme' => 'item_list',
+        '#items' => [
+          'boards' => [
+            '#type' => 'link',
+            '#title' => t('Boards'),
+            '#url' => Url::fromRoute('view.strata_boards.page_1'),
+            '#attributes' => ['class' => ['toolbar-icon', 'toolbar-icon-strata-boards']],
+          ],
+          'tickets' => [
+            '#type' => 'link',
+            '#title' => t('Tickets'),
+            '#url' => Url::fromRoute('view.strata_tickets.page_1'),
+            '#attributes' => ['class' => ['toolbar-icon', 'toolbar-icon-strata-tickets']],
+          ],
+          'notices' => [
+            '#type' => 'link',
+            '#title' => t('Notices'),
+            '#url' => Url::fromRoute('view.strata_notices.page_1'),
+            '#attributes' => ['class' => ['toolbar-icon', 'toolbar-icon-strata-notices']],
+          ],
+        ],
+        '#attributes' => [
+          'class' => ['toolbar-menu'],
+        ],
+      ],
+    ],
+    '#attached' => [
+      'library' => [
+        'strata_boards/toolbar',
+      ],
+    ],
+  ];
+
+  return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function strata_boards_theme(): array {
+  return [
+    'strata_board' => [
+      'variables' => [
+        'board' => NULL,
+        'columns' => [],
+        'add_ticket_url' => NULL,
+      ],
+      'template' => 'strata-board',
+    ],
+    'strata_ticket_card' => [
+      'variables' => [
+        'ticket' => NULL,
+        'title' => NULL,
+        'description' => NULL,
+        'deadline' => NULL,
+        'ticket_type' => NULL,
+        'assigned_to' => NULL,
+        'ticket_url' => NULL,
+        'comment_count' => 0,
+        'file_count' => 0,
+        'created' => NULL,
+      ],
+      'template' => 'strata-ticket-card',
+    ],
+    'strata_boards_list' => [
+      'variables' => [
+        'boards' => [],
+        'create_url' => NULL,
+      ],
+      'template' => 'strata-boards-list',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for node_ticket_form.
+ */
+function strata_boards_form_node_ticket_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  $request = \Drupal::request();
+
+  // Pre-populate board field from query parameter.
+  $board_id = $request->query->get('board');
+  if ($board_id && isset($form['field_ticket_board'])) {
+    $form['field_ticket_board']['widget'][0]['target_id']['#default_value'] = \Drupal::entityTypeManager()
+      ->getStorage('node')
+      ->load($board_id);
+  }
+
+  // Pre-populate status from query parameter or default to "ToDo".
+  $status_id = $request->query->get('status');
+  if ($status_id && isset($form['field_ticket_status'])) {
+    $form['field_ticket_status']['widget']['#default_value'] = [$status_id];
+  }
+  elseif (isset($form['field_ticket_status']) && empty($form['field_ticket_status']['widget']['#default_value'])) {
+    $terms = \Drupal::entityTypeManager()
+      ->getStorage('taxonomy_term')
+      ->loadByProperties([
+        'vid' => 'ticket_column',
+        'name' => 'ToDo',
+      ]);
+    if ($terms) {
+      $todo_term = reset($terms);
+      $form['field_ticket_status']['widget']['#default_value'] = [$todo_term->id()];
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for node_ticket_edit_form.
+ */
+function strata_boards_form_node_ticket_edit_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  // Nothing special for edit form yet.
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_view_alter() for node entities.
+ */
+function strata_boards_node_view_alter(array &$build, NodeInterface $node, EntityViewDisplayInterface $display): void {
+  // For board nodes in full/default view mode, replace the content with the board view.
+  if ($node->bundle() === 'board' && in_array($display->getMode(), ['full', 'default'])) {
+    // Get the board controller and render the board view.
+    $controller = \Drupal::classResolver()->getInstanceFromDefinition(
+      'Drupal\strata_boards\Controller\BoardController'
+    );
+    $board_build = $controller->view($node);
+
+    // Clear existing build except metadata.
+    foreach (array_keys($build) as $key) {
+      if (!str_starts_with($key, '#') && $key !== '_layout_builder') {
+        unset($build[$key]);
+      }
+    }
+
+    // Merge in the board view and ensure cache is invalidated.
+    $build['board_view'] = $board_build;
+
+    // Add cache tags to ensure proper invalidation.
+    $build['#cache']['tags'][] = 'node_list:ticket';
+  }
+
+  // For ticket nodes, add wrapper class to comments field and attach library.
+  if ($node->bundle() === 'ticket' && $display->getMode() === 'full') {
+    // Attach the ticket CSS library.
+    $build['#attached']['library'][] = 'strata_boards/ticket';
+
+    // Wrap the comments field with our custom class.
+    if (isset($build['field_ticket_comments'])) {
+      $build['field_ticket_comments']['#prefix'] = '<div class="strata-ticket-comments">';
+      $build['field_ticket_comments']['#suffix'] = '</div>';
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{#
+/**
+ * @file
+ * Template for listing all boards.
+ *
+ * Available variables:
+ * - boards: Array of board items with 'board', 'ticket_count', and 'url'.
+ * - create_url: URL to create a new board.
+ */
+#}
+<div class="strata-boards-list">
+  <div class="strata-boards-list__header">
+    <h1 class="strata-boards-list__title">{{ 'Your Boards'|t }}</h1>
+    <a href="{{ create_url }}" class="strata-boards-list__create button button--primary">
+      + {{ 'Create Board'|t }}
+    </a>
+  </div>
+
+  {% if boards %}
+    <div class="strata-boards-list__grid">
+      {% for item in boards %}
+        <a href="{{ item.url }}" class="strata-boards-list__item">
+          <div class="strata-boards-list__item-content">
+            <h2 class="strata-boards-list__item-title">{{ item.board.label }}</h2>
+            <p class="strata-boards-list__item-count">
+              {{ item.ticket_count }} {{ item.ticket_count == 1 ? 'ticket'|t : 'tickets'|t }}
+            </p>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="strata-boards-list__empty">
+      <p>{{ 'No boards yet. Create your first board to get started!'|t }}</p>
+    </div>
+  {% endif %}
+</div>

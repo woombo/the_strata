@@ -1,0 +1,14 @@
+name: 'Strata Notice'
+type: module
+description: 'Provides notice content type for strata communications.'
+core_version_requirement: ^11
+package: Strata
+dependencies:
+  - drupal:node
+  - drupal:file
+  - drupal:image
+  - drupal:text
+  - drupal:media
+  - drupal:media_library
+  - drupal:views
+  - pathauto:pathauto

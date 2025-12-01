@@ -1,0 +1,19 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: ticket
+label: Ticket
+type: 'canonical_entities:node'
+pattern: 'ticket/[node:title]'
+selection_criteria:
+  -
+    id: entity_bundle:node
+    bundles:
+      ticket: ticket
+    negate: false
+    context_mapping:
+      node: node
+selection_logic: and
+weight: 0

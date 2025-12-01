@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - file
+id: document
+label: Document
+description: 'Use documents for uploading and sharing files such as PDF, Word, Excel, etc.'
+source: file
+queue_thumbnail_downloads: false
+new_revision: true
+source_configuration:
+  source_field: field_media_file
+field_map: {}

@@ -1,0 +1,17 @@
+name: 'Strata Boards'
+type: module
+description: 'Trello-like board management system for project tracking.'
+core_version_requirement: ^11
+package: Strata
+dependencies:
+  - drupal:node
+  - drupal:taxonomy
+  - drupal:file
+  - drupal:user
+  - drupal:datetime
+  - drupal:text
+  - drupal:options
+  - drupal:views
+  - drupal:toolbar
+  - drupal:comment
+  - pathauto:pathauto

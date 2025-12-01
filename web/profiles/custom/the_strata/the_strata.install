@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * @file
+ * Install, update, and uninstall functions for The Strata installation profile.
+ */
+
+/**
+ * Implements hook_install().
+ *
+ * Perform actions to set up the site for this profile.
+ */
+function the_strata_install() {
+  // Set Claro as the default theme.
+  \Drupal::configFactory()
+    ->getEditable('system.theme')
+    ->set('default', 'claro')
+    ->set('admin', 'claro')
+    ->save();
+
+  // Set the default homepage.
+  \Drupal::configFactory()
+    ->getEditable('system.site')
+    ->set('page.front', '/node')
+    ->save();
+
+  // Allow visitor account creation with administrative approval.
+  \Drupal::configFactory()
+    ->getEditable('user.settings')
+    ->set('register', 'visitors_admin_approval')
+    ->save();
+
+  // Set default country and timezone.
+  \Drupal::configFactory()
+    ->getEditable('system.date')
+    ->set('country.default', '')
+    ->set('timezone.default', 'UTC')
+    ->set('timezone.user.configurable', TRUE)
+    ->save();
+
+  // Grant basic_html text format permission to anonymous and authenticated.
+  user_role_grant_permissions('anonymous', ['use text format basic_html']);
+  user_role_grant_permissions('authenticated', ['use text format basic_html']);
+}
+
+/**
+ * Implements hook_requirements().
+ */
+function the_strata_requirements($phase) {
+  $requirements = [];
+
+  if ($phase === 'install') {
+    // Check PHP version.
+    if (version_compare(PHP_VERSION, '8.3.0', '<')) {
+      $requirements['php_version'] = [
+        'title' => t('PHP Version'),
+        'value' => PHP_VERSION,
+        'severity' => REQUIREMENT_ERROR,
+        'description' => t('The Strata requires PHP 8.3 or higher. You are running PHP @version.', [
+          '@version' => PHP_VERSION,
+        ]),
+      ];
+    }
+  }
+
+  return $requirements;
+}

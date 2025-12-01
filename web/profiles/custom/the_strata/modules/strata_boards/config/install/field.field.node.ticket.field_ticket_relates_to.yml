@@ -1,0 +1,25 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ticket_relates_to
+    - node.type.ticket
+id: node.ticket.field_ticket_relates_to
+field_name: field_ticket_relates_to
+entity_type: node
+bundle: ticket
+label: 'Relates to'
+description: 'Other tickets related to this one.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      ticket: ticket
+    sort:
+      field: _none
+    auto_create: false
+field_type: entity_reference

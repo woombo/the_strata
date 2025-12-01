@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ticket_board
+    - node.type.ticket
+    - node.type.board
+id: node.ticket.field_ticket_board
+field_name: field_ticket_board
+entity_type: node
+bundle: ticket
+label: Board
+description: 'The board this ticket belongs to.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      board: board
+    sort:
+      field: _none
+    auto_create: false
+field_type: entity_reference

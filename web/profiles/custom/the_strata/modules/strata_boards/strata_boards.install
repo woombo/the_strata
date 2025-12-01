@@ -1,0 +1,184 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Strata Boards module.
+ */
+
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\taxonomy\Entity\Term;
+use Drupal\user\Entity\Role;
+
+/**
+ * Implements hook_install().
+ */
+function strata_boards_install(): void {
+  // Create default ticket column terms.
+  $columns = [
+    ['name' => 'ToDo', 'weight' => 0],
+    ['name' => 'In Progress', 'weight' => 1],
+    ['name' => 'Blocked', 'weight' => 2],
+    ['name' => 'Done', 'weight' => 3],
+  ];
+
+  foreach ($columns as $column) {
+    Term::create([
+      'vid' => 'ticket_column',
+      'name' => $column['name'],
+      'weight' => $column['weight'],
+    ])->save();
+  }
+
+  // Create default ticket type terms.
+  $types = [
+    'Bug',
+    'Feature',
+    'Task',
+    'Improvement',
+  ];
+
+  foreach ($types as $weight => $type) {
+    Term::create([
+      'vid' => 'ticket_type',
+      'name' => $type,
+      'weight' => $weight,
+    ])->save();
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function strata_boards_uninstall(): void {
+  // Delete all tickets first (to avoid orphaned references).
+  $storage = \Drupal::entityTypeManager()->getStorage('node');
+  $tickets = $storage->loadByProperties(['type' => 'ticket']);
+  $storage->delete($tickets);
+
+  // Delete all boards.
+  $boards = $storage->loadByProperties(['type' => 'board']);
+  $storage->delete($boards);
+
+  // Delete taxonomy terms.
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+
+  $column_terms = $term_storage->loadByProperties(['vid' => 'ticket_column']);
+  $term_storage->delete($column_terms);
+
+  $type_terms = $term_storage->loadByProperties(['vid' => 'ticket_type']);
+  $term_storage->delete($type_terms);
+}
+
+/**
+ * Add weight field to ticket content type.
+ */
+function strata_boards_update_10001(): void {
+  // Create field storage if it doesn't exist.
+  if (!FieldStorageConfig::loadByName('node', 'field_ticket_weight')) {
+    FieldStorageConfig::create([
+      'field_name' => 'field_ticket_weight',
+      'entity_type' => 'node',
+      'type' => 'integer',
+      'cardinality' => 1,
+      'translatable' => FALSE,
+    ])->save();
+  }
+
+  // Create field instance if it doesn't exist.
+  if (!FieldConfig::loadByName('node', 'ticket', 'field_ticket_weight')) {
+    FieldConfig::create([
+      'field_name' => 'field_ticket_weight',
+      'entity_type' => 'node',
+      'bundle' => 'ticket',
+      'label' => 'Weight',
+      'description' => 'Used to order tickets within a column. Lower values appear first.',
+      'required' => FALSE,
+      'default_value' => [['value' => 0]],
+    ])->save();
+  }
+}
+
+/**
+ * Create Strata roles and assign board permissions.
+ */
+function strata_boards_update_10002(): void {
+  $permissions = [
+    'access strata boards',
+    'create board content',
+    'create ticket content',
+    'edit any board content',
+    'edit any ticket content',
+    'delete any ticket content',
+  ];
+
+  $roles = [
+    'strata_council' => 'Strata council',
+    'strata_manager' => 'Strata manager',
+    'strata_coordinator' => 'Strata coordinator',
+  ];
+
+  foreach ($roles as $role_id => $role_label) {
+    // Create role if it doesn't exist.
+    $role = Role::load($role_id);
+    if (!$role) {
+      $role = Role::create([
+        'id' => $role_id,
+        'label' => $role_label,
+      ]);
+      $role->save();
+    }
+
+    // Grant permissions.
+    foreach ($permissions as $permission) {
+      $role->grantPermission($permission);
+    }
+    $role->save();
+  }
+}
+
+/**
+ * Add description field to board content type.
+ */
+function strata_boards_update_10003(): void {
+  // Create field storage if it doesn't exist.
+  if (!FieldStorageConfig::loadByName('node', 'field_board_description')) {
+    FieldStorageConfig::create([
+      'field_name' => 'field_board_description',
+      'entity_type' => 'node',
+      'type' => 'text_long',
+      'cardinality' => 1,
+      'translatable' => TRUE,
+    ])->save();
+  }
+
+  // Create field instance if it doesn't exist.
+  if (!FieldConfig::loadByName('node', 'board', 'field_board_description')) {
+    FieldConfig::create([
+      'field_name' => 'field_board_description',
+      'entity_type' => 'node',
+      'bundle' => 'board',
+      'label' => 'Description',
+      'description' => 'A brief description of this board.',
+      'required' => FALSE,
+    ])->save();
+  }
+}
+
+/**
+ * Create boards list view.
+ */
+function strata_boards_update_10004(): void {
+  $view_storage = \Drupal::entityTypeManager()->getStorage('view');
+
+  // Only create if it doesn't exist.
+  if (!$view_storage->load('strata_boards')) {
+    $module_path = \Drupal::service('extension.list.module')->getPath('strata_boards');
+    $config_path = $module_path . '/config/install/views.view.strata_boards.yml';
+
+    if (file_exists($config_path)) {
+      $config_data = \Symfony\Component\Yaml\Yaml::parseFile($config_path);
+      $view_storage->create($config_data)->save();
+    }
+  }
+}

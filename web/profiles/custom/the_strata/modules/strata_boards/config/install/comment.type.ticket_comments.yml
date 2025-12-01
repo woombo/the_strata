@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: ticket_comments
+label: 'Ticket comments'
+target_entity_type_id: node
+description: 'Comments for tickets.'

@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_notice_description
+    - node.type.notice
+  module:
+    - text
+id: node.notice.field_notice_description
+field_name: field_notice_description
+entity_type: node
+bundle: notice
+label: Description
+description: 'The main content of the notice.'
+required: false
+translatable: false
+default_value:
+  -
+    value: ''
+    format: basic_html
+default_value_callback: ''
+settings: {}
+field_type: text_long

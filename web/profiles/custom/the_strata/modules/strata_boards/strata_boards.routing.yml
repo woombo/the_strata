@@ -1,0 +1,41 @@
+strata_boards.ticket_update_status:
+  path: '/api/strata-boards/ticket/{node}/status'
+  defaults:
+    _controller: '\Drupal\strata_boards\Controller\BoardController::updateTicketStatus'
+  requirements:
+    _permission: 'access strata boards'
+    node: '\d+'
+    _format: 'json'
+  methods: [POST]
+  options:
+    parameters:
+      node:
+        type: entity:node
+
+strata_boards.add_ticket:
+  path: '/node/{node}/add-ticket'
+  defaults:
+    _controller: '\Drupal\strata_boards\Controller\BoardController::addTicket'
+    _title: 'Add Ticket'
+  requirements:
+    _permission: 'access strata boards'
+    _custom_access: '\Drupal\strata_boards\Controller\BoardController::accessBoard'
+    node: '\d+'
+  options:
+    parameters:
+      node:
+        type: entity:node
+
+strata_boards.update_ticket_order:
+  path: '/api/strata-boards/column/{term}/order'
+  defaults:
+    _controller: '\Drupal\strata_boards\Controller\BoardController::updateTicketOrder'
+  requirements:
+    _permission: 'access strata boards'
+    term: '\d+'
+    _format: 'json'
+  methods: [POST]
+  options:
+    parameters:
+      term:
+        type: entity:taxonomy_term
