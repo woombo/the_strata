@@ -1,0 +1,30 @@
+board:
+  version: 1.x
+  css:
+    theme:
+      css/board.css: {}
+  js:
+    js/board.js: {}
+  dependencies:
+    - core/drupal
+    - core/drupalSettings
+    - core/once
+    - core/drupal.announce
+
+boards-list:
+  version: 1.x
+  css:
+    theme:
+      css/board.css: {}
+
+toolbar:
+  version: 1.x
+  css:
+    theme:
+      css/toolbar.css: {}
+
+ticket:
+  version: 1.x
+  css:
+    theme:
+      css/board.css: {}

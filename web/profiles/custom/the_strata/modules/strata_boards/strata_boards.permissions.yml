@@ -1,0 +1,8 @@
+administer strata boards:
+  title: 'Administer Strata Boards'
+  description: 'Perform administration tasks for Strata Boards.'
+  restrict access: true
+
+access strata boards:
+  title: 'Access Strata Boards'
+  description: 'View and interact with Strata Boards.'

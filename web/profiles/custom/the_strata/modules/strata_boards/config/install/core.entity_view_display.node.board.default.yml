@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.board.field_board_description
+    - node.type.board
+  module:
+    - text
+id: node.board.default
+targetEntityType: node
+bundle: board
+mode: default
+content:
+  field_board_description:
+    type: text_default
+    label: above
+    weight: 0
+    region: content
+    settings: {}
+    third_party_settings: {}
+  links:
+    weight: 100
+    region: content
+    settings: {}
+    third_party_settings: {}
+hidden: {}

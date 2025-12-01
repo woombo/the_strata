@@ -1,0 +1,46 @@
+{#
+/**
+ * @file
+ * Template for a Trello-like board view.
+ *
+ * Available variables:
+ * - board: The board node entity.
+ * - columns: Array of columns with tickets.
+ * - add_ticket_url: URL to add a new ticket.
+ */
+#}
+<div class="strata-board">
+  <div class="strata-board__header">
+    <div class="strata-board__header-content">
+      {% if board.field_board_description.value %}
+        <p class="strata-board__description">{{ board.field_board_description.value|striptags }}</p>
+      {% endif %}
+    </div>
+    <div class="strata-board__actions">
+      <a href="{{ add_ticket_url }}" class="strata-board__add-ticket button button--primary">
+        + Add Ticket
+      </a>
+    </div>
+  </div>
+
+  <div class="strata-board__columns">
+    {% for column_id, column in columns %}
+      <div class="strata-board__column" data-column-id="{{ column_id }}">
+        <div class="strata-board__column-header">
+          <h2 class="strata-board__column-title">{{ column.name }}</h2>
+          <span class="strata-board__column-count">{{ column.tickets|length }}</span>
+        </div>
+        <div class="strata-board__column-content" data-column-id="{{ column_id }}">
+          {% for ticket in column.tickets %}
+            {{ ticket }}
+          {% endfor %}
+        </div>
+        <div class="strata-board__column-footer">
+          <a href="{{ path('node.add', {'node_type': 'ticket'}, {'query': {'board': board.id, 'status': column_id}}) }}" class="strata-board__column-add-ticket">
+            + Add ticket
+          </a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>

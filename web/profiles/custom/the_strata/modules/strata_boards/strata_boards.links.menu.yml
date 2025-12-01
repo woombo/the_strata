@@ -1,0 +1,5 @@
+strata_boards.boards_list:
+  title: 'Boards'
+  route_name: view.strata_boards.page_1
+  menu_name: main
+  weight: 10

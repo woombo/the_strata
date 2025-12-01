@@ -1,0 +1,28 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ticket_created_by
+    - node.type.ticket
+  module:
+    - user
+id: node.ticket.field_ticket_created_by
+field_name: field_ticket_created_by
+entity_type: node
+bundle: ticket
+label: 'Created by'
+description: 'The user who created this ticket.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: 'Drupal\strata_boards\DefaultValueCallback::currentUser'
+settings:
+  handler: 'default:user'
+  handler_settings:
+    include_anonymous: false
+    filter:
+      type: _none
+    sort:
+      field: _none
+    auto_create: false
+field_type: entity_reference

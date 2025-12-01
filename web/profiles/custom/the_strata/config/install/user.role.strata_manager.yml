@@ -1,0 +1,17 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - strata_boards
+id: strata_manager
+label: 'Strata manager'
+weight: 4
+is_admin: false
+permissions:
+  - 'access strata boards'
+  - 'create board content'
+  - 'create ticket content'
+  - 'edit any board content'
+  - 'edit any ticket content'
+  - 'delete any ticket content'

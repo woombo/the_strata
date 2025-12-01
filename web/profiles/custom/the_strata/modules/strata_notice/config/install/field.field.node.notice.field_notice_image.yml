@@ -1,0 +1,31 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_notice_image
+    - node.type.notice
+  module:
+    - image
+id: node.notice.field_notice_image
+field_name: field_notice_image
+entity_type: node
+bundle: notice
+label: Image
+description: 'An optional image for this notice.'
+required: false
+translatable: false
+default_value: {}
+default_value_callback: ''
+settings:
+  file_directory: 'notices/images/[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'png gif jpg jpeg webp'
+  max_filesize: '5 MB'
+  max_resolution: ''
+  min_resolution: ''
+  alt_field: true
+  alt_field_required: true
+  title_field: false
+  title_field_required: false
+  handler: 'default:file'
+  handler_settings: {}
+field_type: image

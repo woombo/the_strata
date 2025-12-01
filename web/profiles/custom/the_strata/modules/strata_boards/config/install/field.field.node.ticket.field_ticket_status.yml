@@ -1,0 +1,27 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ticket_status
+    - node.type.ticket
+    - taxonomy.vocabulary.ticket_column
+id: node.ticket.field_ticket_status
+field_name: field_ticket_status
+entity_type: node
+bundle: ticket
+label: Status
+description: 'The current status/column of the ticket.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      ticket_column: ticket_column
+    sort:
+      field: weight
+      direction: asc
+    auto_create: false
+field_type: entity_reference

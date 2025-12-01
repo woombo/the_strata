@@ -1,0 +1,50 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.notice.field_notice_description
+    - field.field.node.notice.field_notice_files
+    - field.field.node.notice.field_notice_image
+    - node.type.notice
+  module:
+    - image
+    - media
+    - text
+id: node.notice.default
+targetEntityType: node
+bundle: notice
+mode: default
+content:
+  field_notice_description:
+    type: text_default
+    label: hidden
+    weight: 1
+    region: content
+    settings: {}
+    third_party_settings: {}
+  field_notice_files:
+    type: entity_reference_entity_view
+    label: above
+    weight: 3
+    region: content
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {}
+  field_notice_image:
+    type: image
+    label: hidden
+    weight: 0
+    region: content
+    settings:
+      image_link: ''
+      image_style: large
+      image_loading:
+        attribute: lazy
+    third_party_settings: {}
+  links:
+    weight: 100
+    region: content
+    settings: {}
+    third_party_settings: {}
+hidden: {}

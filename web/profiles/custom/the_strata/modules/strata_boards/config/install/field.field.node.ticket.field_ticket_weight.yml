@@ -1,0 +1,19 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ticket_weight
+    - node.type.ticket
+id: node.ticket.field_ticket_weight
+field_name: field_ticket_weight
+entity_type: node
+bundle: ticket
+label: Weight
+description: 'Used to order tickets within a column. Lower values appear first.'
+required: false
+translatable: false
+default_value:
+  - value: 0
+default_value_callback: ''
+settings: {}
+field_type: integer
