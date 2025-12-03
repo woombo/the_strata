@@ -28,3 +28,9 @@ ticket:
   css:
     theme:
       css/board.css: {}
+
+poll:
+  version: 1.x
+  css:
+    theme:
+      css/poll.css: {}

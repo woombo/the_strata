@@ -79,11 +79,11 @@ function _the_strata_install_module($module, array &$context) {
  *   The current install state.
  */
 function the_strata_final_configuration(array &$install_state) {
-  // Set the default theme.
+  // Set Gin as the default theme.
   \Drupal::configFactory()
     ->getEditable('system.theme')
-    ->set('default', 'olivero')
-    ->set('admin', 'claro')
+    ->set('default', 'gin')
+    ->set('admin', 'gin')
     ->save();
 
   // Disable the default frontpage view.

@@ -1,0 +1,5 @@
+notice:
+  version: VERSION
+  css:
+    theme:
+      css/notice.css: {}

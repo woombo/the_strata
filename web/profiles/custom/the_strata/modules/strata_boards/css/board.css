@@ -33,9 +33,13 @@
 .strata-board__description {
   margin: 0.5rem 0 0;
   font-size: 0.9375rem;
-  color: rgba(255, 255, 255, 0.85);
   line-height: 1.5;
-  max-width: 600px;
+}
+
+.strata-board__actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
 }
 
 .strata-board__add-ticket {
@@ -55,6 +59,27 @@
 
 .strata-board__add-ticket:hover {
   background: rgba(255, 255, 255, 0.3);
+  color: #fff;
+}
+
+.strata-board__view-all-tickets {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.625rem 1.25rem;
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.strata-board__view-all-tickets:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.7);
   color: #fff;
 }
 
@@ -416,6 +441,21 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
+/* Remove link from comment title */
+.strata-ticket-comments .comment__title,
+.strata-ticket-comments .comment-title,
+.strata-ticket-comments h3.comment__title {
+  display: none;
+}
+
+.strata-ticket-comments .comment__title a,
+.strata-ticket-comments .comment-title a,
+.strata-ticket-comments h3 a[href*="comment"] {
+  color: inherit;
+  text-decoration: none;
+  pointer-events: none;
+}
+
 .strata-ticket-comments .comment__meta {
   display: flex;
   align-items: center;
@@ -586,6 +626,413 @@
   font-size: 0.8125rem;
   font-weight: 600;
   border-radius: 10px;
+}
+
+/* Ticket View Page */
+.strata-ticket-view {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.strata-ticket-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  border: 1px solid #e1e4e8;
+}
+
+.strata-ticket-meta .field {
+  margin: 0;
+}
+
+.strata-ticket-meta .field__label {
+  display: none;
+}
+
+/* Status badge */
+.strata-ticket-meta__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  border-radius: 4px;
+  background: #ebecf0;
+  color: #172b4d;
+}
+
+.strata-ticket-meta__status::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.strata-ticket-meta__status--todo {
+  background: #ebecf0;
+  color: #5e6c84;
+}
+
+.strata-ticket-meta__status--in-progress {
+  background: #deebff;
+  color: #0747a6;
+}
+
+.strata-ticket-meta__status--done {
+  background: #e3fcef;
+  color: #006644;
+}
+
+.strata-ticket-meta__status--blocked {
+  background: #ffebe6;
+  color: #bf2600;
+}
+
+/* Type badge */
+.strata-ticket-meta__type {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 4px;
+  letter-spacing: 0.025em;
+}
+
+.strata-ticket-meta__type--bug {
+  background: #ffebe6;
+  color: #bf2600;
+}
+
+.strata-ticket-meta__type--feature {
+  background: #e3fcef;
+  color: #006644;
+}
+
+.strata-ticket-meta__type--task {
+  background: #deebff;
+  color: #0747a6;
+}
+
+.strata-ticket-meta__type--improvement {
+  background: #fff0b3;
+  color: #172b4d;
+}
+
+/* Assigned user */
+.strata-ticket-meta__assigned {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem 0.25rem 0.25rem;
+  font-size: 0.8125rem;
+  background: #fff;
+  border: 1px solid #e1e4e8;
+  border-radius: 16px;
+  color: #172b4d;
+}
+
+.strata-ticket-meta__assigned-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  border-radius: 50%;
+}
+
+.strata-ticket-meta__assigned a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.strata-ticket-meta__assigned a:hover {
+  text-decoration: underline;
+  color: #0052cc;
+}
+
+/* Deadline */
+.strata-ticket-meta__deadline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+  background: #fff;
+  border: 1px solid #e1e4e8;
+  border-radius: 4px;
+  color: #5e6c84;
+}
+
+.strata-ticket-meta__deadline svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.strata-ticket-meta__deadline--overdue {
+  background: #ffebe6;
+  border-color: #ffbdad;
+  color: #bf2600;
+}
+
+.strata-ticket-meta__deadline--soon {
+  background: #fff0b3;
+  border-color: #ffe380;
+  color: #172b4d;
+}
+
+/* Ticket description */
+.strata-ticket-view .field--name-field-ticket-description {
+  margin: 1.5rem 0;
+  line-height: 1.6;
+  color: #333;
+}
+
+.strata-ticket-view .field--name-field-ticket-description .field__label {
+  display: none;
+}
+
+/* Board reference */
+.strata-ticket-view .field--name-field-ticket-board {
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border-left: 3px solid #0052cc;
+}
+
+.strata-ticket-view .field--name-field-ticket-board .field__label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #5e6c84;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+}
+
+.strata-ticket-view .field--name-field-ticket-board a {
+  color: #0052cc;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.strata-ticket-view .field--name-field-ticket-board a:hover {
+  text-decoration: underline;
+}
+
+/* Files section */
+.strata-ticket-files,
+.strata-notice-files {
+  margin: 1.5rem 0;
+}
+
+.strata-ticket-files__label,
+.strata-notice-files__label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #172b4d;
+  margin: 0 0 0.75rem;
+}
+
+/* Files table */
+.strata-ticket-view .field--name-field-ticket-files {
+  margin: 1.5rem 0;
+}
+
+.strata-ticket-view .field--name-field-ticket-files .field__label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #172b4d;
+  margin-bottom: 0.75rem;
+}
+
+/* Media view table styling */
+.strata-ticket-files .views-table,
+.strata-notice-files .views-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.strata-ticket-files .views-table th,
+.strata-notice-files .views-table th {
+  background: #f8f9fa;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #5e6c84;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  border-bottom: 1px solid #e1e4e8;
+}
+
+.strata-ticket-files .views-table td,
+.strata-notice-files .views-table td {
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  border-bottom: 1px solid #f4f5f7;
+  vertical-align: middle;
+}
+
+.strata-ticket-files .views-table tr:last-child td,
+.strata-notice-files .views-table tr:last-child td {
+  border-bottom: none;
+}
+
+.strata-ticket-files .views-table a,
+.strata-notice-files .views-table a {
+  color: #0052cc;
+  text-decoration: none;
+}
+
+.strata-ticket-files .views-table a:hover,
+.strata-notice-files .views-table a:hover {
+  text-decoration: underline;
+}
+
+.strata-ticket-view .field--name-field-ticket-files table,
+.strata-ticket-view .field--name-field-ticket-files .file-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.strata-ticket-view .field--name-field-ticket-files th,
+.strata-ticket-view .field--name-field-ticket-files thead td {
+  background: #f8f9fa;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #5e6c84;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  border-bottom: 1px solid #e1e4e8;
+}
+
+.strata-ticket-view .field--name-field-ticket-files td,
+.strata-ticket-view .field--name-field-ticket-files tbody td {
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  border-bottom: 1px solid #f4f5f7;
+  vertical-align: middle;
+}
+
+.strata-ticket-view .field--name-field-ticket-files tr:last-child td,
+.strata-ticket-view .field--name-field-ticket-files tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.strata-ticket-view .field--name-field-ticket-files a {
+  color: #0052cc;
+  text-decoration: none;
+}
+
+.strata-ticket-view .field--name-field-ticket-files a:hover {
+  text-decoration: underline;
+}
+
+/* File icon styling */
+.strata-ticket-view .field--name-field-ticket-files .file {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.strata-ticket-view .field--name-field-ticket-files .file-icon {
+  flex-shrink: 0;
+}
+
+.strata-ticket-view .field--name-field-ticket-files .file-size {
+  color: #5e6c84;
+  font-size: 0.8125rem;
+}
+
+/* Related tickets */
+.strata-ticket-view .field--name-field-ticket-relates-to {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+}
+
+.strata-ticket-view .field--name-field-ticket-relates-to .field__label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #172b4d;
+  margin-bottom: 0.5rem;
+}
+
+.strata-ticket-view .field--name-field-ticket-relates-to .field__item {
+  margin-bottom: 0.25rem;
+}
+
+.strata-ticket-view .field--name-field-ticket-relates-to a {
+  color: #0052cc;
+  text-decoration: none;
+}
+
+.strata-ticket-view .field--name-field-ticket-relates-to a:hover {
+  text-decoration: underline;
+}
+
+/* Hide unwanted elements */
+.strata-ticket-view .field--name-user-member-for,
+.strata-ticket-view .user-member-for,
+.strata-ticket-view .field--name-field-ticket-created-by,
+.strata-ticket-view .field--name-field-ticket-created-on,
+/* Hide "Member for" text in user profile displays */
+.strata-ticket-view .user-info,
+.strata-ticket-view .profile,
+.strata-ticket-comments .user-info,
+.strata-ticket-comments .profile,
+.strata-ticket-comments .comment .user-picture + .user-info,
+.strata-ticket-comments .field--name-user-member-for,
+.strata-ticket-comments .member-for,
+.strata-ticket-comments time.member-for,
+.strata-ticket-comments .comment__meta .member-for,
+.strata-ticket-comments .comment-meta .member-for {
+  display: none !important;
+}
+
+/* Hide "Add new comment" title and form heading */
+.strata-ticket-comments h2.title.comment-form__title,
+.strata-ticket-comments h2.comment-form__title,
+.strata-ticket-comments .comment-form__title,
+.strata-ticket-comments h2[class*="comment"],
+.strata-ticket-comments .field__label:has(+ .comment-form),
+.strata-ticket-comments > h2,
+.strata-ticket-comments .comment-wrapper > h2,
+.strata-ticket-comments .comment-add > h2 {
+  display: none !important;
+}
+
+/* Also hide the "Add new comment" link */
+.strata-ticket-comments a[href*="comment/reply"],
+.strata-ticket-comments .comment-add-link,
+.strata-ticket-comments .add-comment-link {
+  display: none !important;
 }
 
 /* Responsive */

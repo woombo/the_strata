@@ -1,0 +1,47 @@
+{#
+/**
+ * @file
+ * Strata override for poll meter template.
+ *
+ * Displays poll results with list of voters for each option.
+ *
+ * Available variables:
+ * - display_value: The textual representation of the meter bar.
+ * - percentage: A number specifying the current percentage of the gauge.
+ * - attributes: HTML attributes for the containing element.
+ * - choice: The choice of a poll.
+ * - is_current_selection: TRUE if the current choice is the user vote.
+ * - voters: Array of voters for this option, each with 'name' and 'url'.
+ *
+ * @see template_preprocess_poll_meter()
+ * @see strata_boards_preprocess_poll_meter()
+ */
+#}
+{% set is_current_selection_class = is_current_selection ? 'is-current-selection' : 'not-current-selection' %}
+<dt class="choice-title {{ is_current_selection_class }}">{{ choice }}</dt>
+<dd class="choice-result {{ is_current_selection_class }}">
+  <div{{ attributes }}>
+    <div style="width: {{ percentage }}%" class="foreground"></div>
+  </div>
+
+  {% if display_value %}
+    <div class="percent">{{ display_value }}</div>
+  {% endif %}
+
+  {% if voters is not empty %}
+    <div class="poll-voters">
+      <span class="poll-voters__label">{{ 'Voted by:'|t }}</span>
+      <ul class="poll-voters__list">
+        {% for voter in voters %}
+          <li class="poll-voters__item">
+            {% if voter.url %}
+              <a href="{{ voter.url }}">{{ voter.name }}</a>
+            {% else %}
+              {{ voter.name }}
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+</dd>

@@ -11,11 +11,11 @@
  * Perform actions to set up the site for this profile.
  */
 function the_strata_install() {
-  // Set Claro as the default theme.
+  // Set Gin as the default theme.
   \Drupal::configFactory()
     ->getEditable('system.theme')
-    ->set('default', 'claro')
-    ->set('admin', 'claro')
+    ->set('default', 'gin')
+    ->set('admin', 'gin')
     ->save();
 
   // Set the default homepage.

@@ -1,101 +1,36 @@
 langcode: en
 status: true
 dependencies:
-  config:
-    - node.type.ticket
   module:
-    - node
+    - poll
     - user
-id: strata_tickets
-label: Tickets
+id: strata_polls
+label: 'Strata Polls'
 module: views
-description: 'Lists all tickets.'
+description: 'Strata polls administration'
 tag: ''
-base_table: node_field_data
-base_field: nid
+base_table: poll_field_data
+base_field: id
 display:
   default:
     id: default
-    display_title: Default
+    display_title: Master
     display_plugin: default
     position: 0
     display_options:
-      title: Tickets
+      title: Polls
       fields:
-        title:
-          id: title
-          table: node_field_data
-          field: title
+        question:
+          id: question
+          table: poll_field_data
+          field: question
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: node
-          entity_field: title
+          entity_type: null
+          entity_field: question
           plugin_id: field
-          label: ''
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: string
-          settings:
-            link_to_entity: true
-          group_column: value
-          group_columns: {}
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        field_ticket_status:
-          id: field_ticket_status
-          table: node__field_ticket_status
-          field: field_ticket_status
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: field
-          label: Status
+          label: Question
           exclude: false
           alter:
             alter_text: false
@@ -136,12 +71,12 @@ display:
           hide_empty: false
           empty_zero: false
           hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
+          click_sort_column: value
+          type: string
           settings:
-            link: false
-          group_column: target_id
-          group_columns: {}
+            link_to_entity: true
+          group_column: value
+          group_columns: {  }
           group_rows: true
           delta_limit: 0
           delta_offset: 0
@@ -150,15 +85,67 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        field_ticket_board:
-          id: field_ticket_board
-          table: node__field_ticket_board
-          field: field_ticket_board
+        votes:
+          id: votes
+          table: poll_field_data
+          field: votes
           relationship: none
           group_type: group
           admin_label: ''
+          entity_type: poll
+          plugin_id: poll_totalvotes
+          label: 'Total votes'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+        uid:
+          id: uid
+          table: poll_field_data
+          field: uid
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: poll
+          entity_field: uid
           plugin_id: field
-          label: Board
+          label: Author
           exclude: false
           alter:
             alter_text: false
@@ -204,7 +191,7 @@ display:
           settings:
             link: true
           group_column: target_id
-          group_columns: {}
+          group_columns: {  }
           group_rows: true
           delta_limit: 0
           delta_offset: 0
@@ -213,137 +200,17 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        comment_count:
-          id: comment_count
-          table: comment_entity_statistics
-          field: comment_count
+        status:
+          id: status
+          table: poll_field_data
+          field: status
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: numeric
-          label: Comments
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: '0'
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          set_precision: false
-          precision: 0
-          decimal: .
-          separator: ''
-          format_plural: false
-          format_plural_string: "1\x03@count"
-          prefix: ''
-          suffix: ''
-        field_ticket_files_count:
-          id: field_ticket_files_count
-          table: node__field_ticket_files
-          field: field_ticket_files
-          relationship: none
-          group_type: group
-          admin_label: ''
+          entity_type: poll
+          entity_field: status
           plugin_id: field
-          label: Files
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: true
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: '0'
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: target_id
-          type: entity_reference_label
-          settings:
-            link: false
-          group_column: target_id
-          group_columns: {}
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: count
-          separator: ''
-          field_api_classes: false
-        created:
-          id: created
-          table: node_field_data
-          field: created
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: node
-          entity_field: created
-          plugin_id: field
-          label: Created
+          label: Status
           exclude: false
           alter:
             alter_text: false
@@ -385,13 +252,13 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: timestamp
+          type: boolean
           settings:
-            date_format: medium
-            custom_date_format: ''
-            timezone: ''
+            format: custom
+            format_custom_false: Unpublished
+            format_custom_true: Published
           group_column: value
-          group_columns: {}
+          group_columns: {  }
           group_rows: true
           delta_limit: 0
           delta_offset: 0
@@ -400,22 +267,245 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+        status_with_runtime:
+          id: status_with_runtime
+          table: poll_field_data
+          field: status_with_runtime
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: poll
+          plugin_id: poll_status
+          label: 'Voting active'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+        anonymous_vote_allow:
+          id: anonymous_vote_allow
+          table: poll_field_data
+          field: anonymous_vote_allow
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: poll
+          entity_field: anonymous_vote_allow
+          plugin_id: field
+          label: 'Allow anonymous votes'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: boolean
+          settings:
+            format: yes-no
+            format_custom_false: ''
+            format_custom_true: ''
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        created:
+          id: created
+          table: poll_field_data
+          field: created
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: poll
+          entity_field: created
+          plugin_id: date
+          label: Created
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          date_format: fallback
+          custom_date_format: ''
+          timezone: ''
+        operations:
+          id: operations
+          table: poll
+          field: operations
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: poll
+          plugin_id: entity_operations
+          label: 'Operations'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          destination: true
       pager:
         type: full
         options:
           offset: 0
-          items_per_page: 20
+          pagination_heading_level: h4
+          items_per_page: 50
           total_pages: null
           id: 0
           tags:
-            next: 'Next ›'
-            previous: '‹ Previous'
-            first: '« First'
-            last: 'Last »'
+            next: 'next ›'
+            previous: '‹ previous'
+            first: '« first'
+            last: 'last »'
           expose:
             items_per_page: false
             items_per_page_label: 'Items per page'
-            items_per_page_options: '5, 10, 20, 50'
+            items_per_page_options: '5, 10, 25, 50'
             items_per_page_options_all: false
             items_per_page_options_all_label: '- All -'
             offset: false
@@ -424,7 +514,7 @@ display:
       exposed_form:
         type: basic
         options:
-          submit_button: Search
+          submit_button: Filter
           reset_button: true
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
@@ -434,10 +524,10 @@ display:
       access:
         type: perm
         options:
-          perm: 'access strata boards'
+          perm: 'access poll overview'
       cache:
-        type: tag
-        options: {}
+        type: none
+        options: {  }
       empty:
         area_text_custom:
           id: area_text_custom
@@ -448,342 +538,200 @@ display:
           admin_label: ''
           plugin_id: text_custom
           empty: true
-          content: '<p>No tickets have been created yet.</p><p><a href="/node/add/ticket" class="button button--primary">Create your first ticket</a></p>'
+          content: 'No polls are available.'
           tokenize: false
-      sorts:
-        created:
-          id: created
-          table: node_field_data
-          field: created
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: node
-          entity_field: created
-          plugin_id: date
-          order: DESC
-          expose:
-            label: ''
-            field_identifier: ''
-          exposed: false
-          granularity: second
-      arguments: {}
+      sorts: {  }
+      arguments: {  }
       filters:
-        status:
-          id: status
-          table: node_field_data
-          field: status
-          entity_type: node
-          entity_field: status
-          plugin_id: boolean
-          value: '1'
-          group: 1
-          expose:
-            operator: ''
-        type:
-          id: type
-          table: node_field_data
-          field: type
-          entity_type: node
-          entity_field: type
-          plugin_id: bundle
-          value:
-            ticket: ticket
-          group: 1
-        combine:
-          id: combine
-          table: views
-          field: combine
+        question:
+          id: question
+          table: poll_field_data
+          field: question
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: combine
+          entity_type: poll
+          entity_field: question
+          plugin_id: string
           operator: contains
           value: ''
           group: 1
           exposed: true
           expose:
-            operator_id: combine_op
-            label: Search
+            operator_id: question_op
+            label: Question
             description: ''
             use_operator: false
-            operator: combine_op
-            operator_limit_selection: false
-            operator_list: {}
-            identifier: search
+            operator: question_op
+            identifier: question
             required: false
             remember: false
             multiple: false
             remember_roles:
               authenticated: authenticated
-            placeholder: 'Search tickets...'
+              anonymous: '0'
+              administrator: '0'
           is_grouped: false
-          fields:
-            title: title
-      style:
-        type: table
-        options:
-          grouping: {}
-          row_class: ''
-          default_row_class: true
-          columns:
-            title: title
-            field_ticket_status: field_ticket_status
-            field_ticket_board: field_ticket_board
-            comment_count: comment_count
-            field_ticket_files_count: field_ticket_files_count
-            created: created
-          default: created
-          info:
-            title:
-              sortable: true
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_ticket_status:
-              sortable: true
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_ticket_board:
-              sortable: true
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            comment_count:
-              sortable: true
-              default_sort_order: desc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_ticket_files_count:
-              sortable: false
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            created:
-              sortable: true
-              default_sort_order: desc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-          override: true
-          sticky: false
-          summary: ''
-          empty_table: false
-          caption: ''
-          description: ''
-      row:
-        type: fields
-      query:
-        type: views_query
-        options:
-          query_comment: ''
-          disable_sql_rewrite: false
-          distinct: false
-          replica: false
-          query_tags: {}
-      relationships: {}
-      header:
-        area_text_custom:
-          id: area_text_custom
-          table: views
-          field: area_text_custom
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text_custom
-          empty: false
-          content: '<p><a href="/node/add/ticket" class="button button--primary">+ Add new Ticket</a></p>'
-          tokenize: false
-      footer: {}
-      display_extenders: {}
-    cache_metadata:
-      max-age: -1
-      contexts:
-        - 'languages:language_content'
-        - 'languages:language_interface'
-        - url.query_args
-        - user.permissions
-      tags: {}
-  page_1:
-    id: page_1
-    display_title: Page
-    display_plugin: page
-    position: 1
-    display_options:
-      display_extenders: {}
-      path: admin/strata/tickets
-    cache_metadata:
-      max-age: -1
-      contexts:
-        - 'languages:language_content'
-        - 'languages:language_interface'
-        - url.query_args
-        - user.permissions
-      tags: {}
-  page_board_tickets:
-    id: page_board_tickets
-    display_title: 'Board Tickets'
-    display_plugin: page
-    position: 2
-    display_options:
-      display_extenders: {}
-      path: node/%node/tickets
-      title: 'All Tickets'
-      defaults:
-        title: false
-        arguments: false
-        filters: false
-        filter_groups: false
-        header: false
-        style: false
-        row: false
-      arguments:
-        field_ticket_board_target_id:
-          id: field_ticket_board_target_id
-          table: node__field_ticket_board
-          field: field_ticket_board_target_id
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: numeric
-          default_action: 'not found'
-          exception:
-            value: all
-            title_enable: false
-            title: All
-          title_enable: true
-          title: 'All Tickets - %1'
-          default_argument_type: node
-          default_argument_options: {}
-          summary_options:
-            base_path: ''
-            count: true
-            override: false
-            items_per_page: 25
-          summary:
-            sort_order: asc
-            number_of_records: 0
-            format: default_summary
-          specify_validation: true
-          validate:
-            type: 'entity:node'
-            fail: 'not found'
-          validate_options:
-            bundles:
-              board: board
-            access: true
-            operation: view
-            multiple: 0
-          break_phrase: false
-          not: false
-      filters:
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
         status:
           id: status
-          table: node_field_data
+          table: poll_field_data
           field: status
-          entity_type: node
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: poll
           entity_field: status
           plugin_id: boolean
+          operator: '='
           value: '1'
           group: 1
+          exposed: true
           expose:
-            operator: ''
+            operator_id: ''
+            label: 'True'
+            description: null
+            use_operator: false
+            operator: status_op
             operator_limit_selection: false
-            operator_list: {}
-        type:
-          id: type
-          table: node_field_data
-          field: type
-          entity_type: node
-          entity_field: type
-          plugin_id: bundle
-          value:
-            ticket: ticket
+            operator_list: {  }
+            identifier: status
+            required: true
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: true
+          group_info:
+            label: Status
+            description: ''
+            identifier: status
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items:
+              1:
+                title: Published
+                operator: '='
+                value: '1'
+              2:
+                title: Unpublished
+                operator: '='
+                value: '0'
+        active:
+          id: active
+          table: poll_field_data
+          field: active
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: poll
+          entity_field: active
+          plugin_id: boolean
+          operator: '='
+          value: ''
           group: 1
+          exposed: true
           expose:
-            operator: ''
+            operator_id: ''
+            label: Active
+            description: null
+            use_operator: false
+            operator: active_op
             operator_limit_selection: false
-            operator_list: {}
-      filter_groups:
-        operator: AND
-        groups:
-          1: AND
-      header: {}
+            operator_list: {  }
+            identifier: active
+            required: true
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: true
+          group_info:
+            label: 'Voting active'
+            description: ''
+            identifier: active
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items:
+              1:
+                title: Active
+                operator: '='
+                value: '1'
+              2:
+                title: Inactive
+                operator: '='
+                value: '0'
       style:
         type: table
         options:
-          grouping:
-            - field: field_ticket_status
-              rendered: true
-              rendered_strip: false
+          grouping: {  }
           row_class: ''
           default_row_class: true
           columns:
-            title: title
-            field_ticket_status: field_ticket_status
-            field_ticket_type: field_ticket_type
-            field_ticket_assigned_to: field_ticket_assigned_to
-            field_ticket_deadline: field_ticket_deadline
-            comment_count: comment_count
-            field_ticket_files_count: field_ticket_files_count
+            question: question
+            votes: votes
+            uid: uid
+            status: status
+            status_with_runtime: status_with_runtime
+            anonymous_vote_allow: anonymous_vote_allow
             created: created
+            operations: operations
           default: created
           info:
-            title:
+            question:
               sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
-            field_ticket_status:
+            votes:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            uid:
               sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
-            field_ticket_type:
+            status:
               sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
-            field_ticket_assigned_to:
-              sortable: true
+            status_with_runtime:
+              sortable: false
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
-            field_ticket_deadline:
-              sortable: true
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            comment_count:
-              sortable: true
-              default_sort_order: desc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
-            field_ticket_files_count:
+            anonymous_vote_allow:
               sortable: false
               default_sort_order: asc
               align: ''
@@ -793,6 +741,13 @@ display:
             created:
               sortable: true
               default_sort_order: desc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            operations:
+              sortable: false
+              default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
@@ -805,11 +760,60 @@ display:
           description: ''
       row:
         type: fields
+        options:
+          default_field_elements: true
+          inline:
+            question: question
+          separator: ''
+          hide_empty: false
+      query:
+        type: views_query
+        options:
+          query_comment: ''
+          disable_sql_rewrite: false
+          distinct: false
+          replica: false
+          query_tags: {  }
+      relationships: {  }
+      header:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: false
+          content:
+            value: '<a href="/poll/add" class="button button--primary button--small">+ Add Poll</a>'
+            format: full_html
+          tokenize: false
+      footer: {  }
+      display_extenders: {  }
     cache_metadata:
       max-age: -1
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
+        - url.query_args
         - user.permissions
-      tags: {}
+      tags: {  }
+  page_1:
+    id: page_1
+    display_title: Page
+    display_plugin: page
+    position: 1
+    display_options:
+      display_extenders: {  }
+      path: admin/strata/polls
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - url.query_args
+        - user.permissions
+      tags: {  }

@@ -15,3 +15,4 @@ dependencies:
   - drupal:toolbar
   - drupal:comment
   - pathauto:pathauto
+  - poll:poll

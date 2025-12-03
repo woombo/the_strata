@@ -5,7 +5,8 @@
       "Bash(lando info:*)",
       "Bash(ddev drush:*)",
       "Bash(ddev composer require:*)",
-      "Bash(curl:*)"
+      "Bash(curl:*)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []

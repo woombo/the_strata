@@ -3,8 +3,10 @@ status: true
 dependencies:
   config:
     - filter.format.basic_html
+    - embed.button.poll
   module:
     - ckeditor5
+    - entity_embed
 format: basic_html
 editor: ckeditor5
 settings:
@@ -23,6 +25,8 @@ settings:
       - heading
       - '|'
       - sourceEditing
+      - '|'
+      - poll
   plugins:
     ckeditor5_heading:
       enabled_headings:
@@ -32,6 +36,6 @@ settings:
         - heading5
         - heading6
     ckeditor5_sourceEditing:
-      allowed_tags: {}
+      allowed_tags: {  }
 image_upload:
   status: false

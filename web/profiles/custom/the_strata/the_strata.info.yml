@@ -44,16 +44,21 @@ install:
   - media
   - media_library
   - pathauto
+  - poll
   - token
+  - entity_embed
+  - gin_toolbar
+  - gin_login
   - strata_boards
   - strata_notice
 
 themes:
   - olivero
   - claro
+  - gin
 
 distribution:
   name: 'The Strata'
   install:
-    theme: claro
+    theme: gin
     finish_url: '/admin'

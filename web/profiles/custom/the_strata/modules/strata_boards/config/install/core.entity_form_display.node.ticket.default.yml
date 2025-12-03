@@ -17,7 +17,7 @@ dependencies:
   module:
     - comment
     - datetime
-    - file
+    - media_library
     - text
 id: node.ticket.default
 targetEntityType: node
@@ -81,12 +81,12 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_ticket_files:
-    type: file_generic
+    type: media_library_widget
     weight: 9
     region: content
     settings:
-      progress_indicator: throbber
-    third_party_settings: {  }
+      media_types: {}
+    third_party_settings: {}
   field_ticket_relates_to:
     type: entity_reference_autocomplete
     weight: 10

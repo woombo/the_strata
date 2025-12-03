@@ -22,15 +22,6 @@ content:
     region: content
     settings: {}
     third_party_settings: {}
-  field_notice_files:
-    type: entity_reference_entity_view
-    label: above
-    weight: 3
-    region: content
-    settings:
-      view_mode: default
-      link: false
-    third_party_settings: {}
   field_notice_image:
     type: image
     label: hidden
@@ -47,4 +38,5 @@ content:
     region: content
     settings: {}
     third_party_settings: {}
-hidden: {}
+hidden:
+  field_notice_files: true
