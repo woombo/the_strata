@@ -416,7 +416,7 @@ display:
     position: 1
     display_options:
       display_extenders: {}
-      path: notices
+      path: admin/strata/notices
     cache_metadata:
       max-age: -1
       contexts:

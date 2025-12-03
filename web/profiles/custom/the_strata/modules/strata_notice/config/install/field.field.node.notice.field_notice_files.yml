@@ -3,7 +3,6 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_notice_files
-    - media.type.document
     - node.type.notice
   module:
     - media
@@ -12,7 +11,7 @@ field_name: field_notice_files
 entity_type: node
 bundle: notice
 label: Files
-description: 'Attach documents to this notice. You can select existing files or upload new ones.'
+description: 'Attach files to this notice. You can select existing files or upload new ones.'
 required: false
 translatable: false
 default_value: {}
@@ -21,7 +20,10 @@ settings:
   handler: 'default:media'
   handler_settings:
     target_bundles:
+      audio: audio
       document: document
+      image: image
+      video: video
     sort:
       field: _none
       direction: ASC

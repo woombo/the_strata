@@ -5,7 +5,7 @@ dependencies:
     - field.storage.node.field_ticket_files
     - node.type.ticket
   module:
-    - file
+    - media
 id: node.ticket.field_ticket_files
 field_name: field_ticket_files
 entity_type: node
@@ -14,11 +14,19 @@ label: Files
 description: 'Attach files to this ticket.'
 required: false
 translatable: false
-default_value: {  }
+default_value: {}
 default_value_callback: ''
 settings:
-  file_directory: 'tickets/[date:custom:Y]-[date:custom:m]'
-  file_extensions: 'txt pdf doc docx xls xlsx ppt pptx jpg jpeg png gif zip'
-  max_filesize: '10 MB'
-  description_field: true
-field_type: file
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      audio: audio
+      document: document
+      image: image
+      video: video
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

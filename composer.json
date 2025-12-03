@@ -16,7 +16,12 @@
         "drupal/core-composer-scaffold": "^11",
         "drupal/core-project-message": "^11",
         "drupal/core-recommended": "^11",
+        "drupal/entity_embed": "^1.7",
+        "drupal/gin": "^5.0",
+        "drupal/gin_login": "^2.1",
+        "drupal/gin_toolbar": "^3.0",
         "drupal/pathauto": "^1.14",
+        "drupal/poll": "2.0.x-dev",
         "drush/drush": "^13"
     },
     "require-dev": {
@@ -43,6 +48,9 @@
         "drupal-scaffold": {
             "locations": {
                 "web-root": "web/"
+            },
+            "file-mapping": {
+                "[web-root]/robots.txt": false
             }
         },
         "installer-paths": {

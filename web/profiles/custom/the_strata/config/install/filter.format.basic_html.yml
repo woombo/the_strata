@@ -2,24 +2,38 @@ langcode: en
 status: true
 dependencies:
   module:
-    - editor
+    - entity_embed
 name: 'Basic HTML'
 format: basic_html
 weight: 0
 filters:
+  entity_embed:
+    id: entity_embed
+    provider: entity_embed
+    status: true
+    weight: 100
+    settings: {  }
+  filter_autop:
+    id: filter_autop
+    provider: filter
+    status: true
+    weight: 0
+    settings: {  }
   filter_html:
     id: filter_html
     provider: filter
     status: true
     weight: -10
     settings:
-      allowed_html: '<a href hreflang> <em> <strong> <cite> <blockquote cite> <code> <ul type> <ol start type> <li> <dl> <dt> <dd> <h2 id> <h3 id> <h4 id> <h5 id> <h6 id> <p> <br> <span> <img src alt height width data-entity-type data-entity-uuid data-align data-caption> <table> <caption> <tbody> <thead> <tfoot> <th> <td> <tr>'
-  filter_autop:
-    id: filter_autop
+      allowed_html: '<a href hreflang> <em> <strong> <cite> <blockquote cite> <code> <ul type> <ol start type> <li> <dl> <dt> <dd> <h2 id> <h3 id> <h4 id> <h5 id> <h6 id> <p> <br> <span> <img src alt height width data-entity-type data-entity-uuid data-align data-caption> <table> <caption> <tbody> <thead> <tfoot> <th> <td> <tr> <drupal-entity data-entity-type data-entity-uuid data-entity-embed-display data-entity-embed-display-settings data-align data-caption>'
+      filter_html_help: true
+      filter_html_nofollow: false
+  filter_htmlcorrector:
+    id: filter_htmlcorrector
     provider: filter
     status: true
-    weight: 0
-    settings: {}
+    weight: 10
+    settings: {  }
   filter_url:
     id: filter_url
     provider: filter
@@ -27,9 +41,3 @@ filters:
     weight: 0
     settings:
       filter_url_length: 72
-  filter_htmlcorrector:
-    id: filter_htmlcorrector
-    provider: filter
-    status: true
-    weight: 10
-    settings: {}

@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
@@ -101,6 +102,12 @@ function strata_boards_toolbar(): array {
             '#url' => Url::fromRoute('view.strata_notices.page_1'),
             '#attributes' => ['class' => ['toolbar-icon', 'toolbar-icon-strata-notices']],
           ],
+          'polls' => [
+            '#type' => 'link',
+            '#title' => t('Polls'),
+            '#url' => Url::fromRoute('view.strata_polls.page_1'),
+            '#attributes' => ['class' => ['toolbar-icon', 'toolbar-icon-strata-polls']],
+          ],
         ],
         '#attributes' => [
           'class' => ['toolbar-menu'],
@@ -125,8 +132,10 @@ function strata_boards_theme(): array {
     'strata_board' => [
       'variables' => [
         'board' => NULL,
+        'description' => NULL,
         'columns' => [],
         'add_ticket_url' => NULL,
+        'all_tickets_url' => NULL,
       ],
       'template' => 'strata-board',
     ],
@@ -153,6 +162,27 @@ function strata_boards_theme(): array {
       'template' => 'strata-boards-list',
     ],
   ];
+}
+
+/**
+ * Implements hook_theme_registry_alter().
+ *
+ * Override poll_meter template to display voters.
+ */
+function strata_boards_theme_registry_alter(array &$theme_registry): void {
+  if (isset($theme_registry['poll_meter'])) {
+    $module_path = \Drupal::service('extension.list.module')->getPath('strata_boards');
+    $theme_registry['poll_meter']['path'] = $module_path . '/templates';
+  }
+}
+
+/**
+ * Implements hook_preprocess_poll_results().
+ *
+ * Attach poll library for styling.
+ */
+function strata_boards_preprocess_poll_results(array &$variables): void {
+  $variables['#attached']['library'][] = 'strata_boards/poll';
 }
 
 /**
@@ -222,14 +252,278 @@ function strata_boards_node_view_alter(array &$build, NodeInterface $node, Entit
   }
 
   // For ticket nodes, add wrapper class to comments field and attach library.
-  if ($node->bundle() === 'ticket' && $display->getMode() === 'full') {
+  if ($node->bundle() === 'ticket' && in_array($display->getMode(), ['full', 'default'])) {
     // Attach the ticket CSS library.
     $build['#attached']['library'][] = 'strata_boards/ticket';
+
+    // Add wrapper class for the ticket view.
+    $build['#attributes']['class'][] = 'strata-ticket-view';
+
+    // Build the metadata section with styled badges.
+    $meta_items = [];
+
+    // Status badge.
+    if (isset($build['field_ticket_status']) && $node->hasField('field_ticket_status') && !$node->get('field_ticket_status')->isEmpty()) {
+      $status_term = $node->get('field_ticket_status')->entity;
+      if ($status_term) {
+        $status_name = $status_term->label();
+        $status_class = strtolower(str_replace(' ', '-', $status_name));
+        $meta_items['status'] = [
+          '#type' => 'html_tag',
+          '#tag' => 'span',
+          '#value' => $status_name,
+          '#attributes' => [
+            'class' => ['strata-ticket-meta__status', 'strata-ticket-meta__status--' . $status_class],
+          ],
+          '#weight' => 0,
+        ];
+        unset($build['field_ticket_status']);
+      }
+    }
+
+    // Type badge.
+    if (isset($build['field_ticket_type']) && $node->hasField('field_ticket_type') && !$node->get('field_ticket_type')->isEmpty()) {
+      $type_term = $node->get('field_ticket_type')->entity;
+      if ($type_term) {
+        $type_name = $type_term->label();
+        $type_class = strtolower(str_replace(' ', '-', $type_name));
+        $meta_items['type'] = [
+          '#type' => 'html_tag',
+          '#tag' => 'span',
+          '#value' => $type_name,
+          '#attributes' => [
+            'class' => ['strata-ticket-meta__type', 'strata-ticket-meta__type--' . $type_class],
+          ],
+          '#weight' => 1,
+        ];
+        unset($build['field_ticket_type']);
+      }
+    }
+
+    // Assigned to badge.
+    if (isset($build['field_ticket_assigned_to']) && $node->hasField('field_ticket_assigned_to') && !$node->get('field_ticket_assigned_to')->isEmpty()) {
+      $assigned_user = $node->get('field_ticket_assigned_to')->entity;
+      if ($assigned_user) {
+        $display_name = $assigned_user->getDisplayName();
+        $initials = _strata_boards_get_initials($display_name);
+        $user_url = $assigned_user->toUrl()->toString();
+
+        $meta_items['assigned'] = [
+          '#type' => 'html_tag',
+          '#tag' => 'span',
+          '#attributes' => [
+            'class' => ['strata-ticket-meta__assigned'],
+          ],
+          '#weight' => 2,
+          'avatar' => [
+            '#type' => 'html_tag',
+            '#tag' => 'span',
+            '#value' => $initials,
+            '#attributes' => [
+              'class' => ['strata-ticket-meta__assigned-avatar'],
+            ],
+          ],
+          'name' => [
+            '#type' => 'link',
+            '#title' => $display_name,
+            '#url' => $assigned_user->toUrl(),
+          ],
+        ];
+        unset($build['field_ticket_assigned_to']);
+      }
+    }
+
+    // Deadline badge.
+    if (isset($build['field_ticket_deadline']) && $node->hasField('field_ticket_deadline') && !$node->get('field_ticket_deadline')->isEmpty()) {
+      $deadline_value = $node->get('field_ticket_deadline')->value;
+      if ($deadline_value) {
+        $deadline_timestamp = strtotime($deadline_value);
+        $formatted_date = \Drupal::service('date.formatter')->format($deadline_timestamp, 'custom', 'M j, Y');
+
+        // Determine if overdue or soon.
+        $now = time();
+        $days_until = ($deadline_timestamp - $now) / 86400;
+        $deadline_class = '';
+        if ($days_until < 0) {
+          $deadline_class = 'strata-ticket-meta__deadline--overdue';
+        }
+        elseif ($days_until <= 3) {
+          $deadline_class = 'strata-ticket-meta__deadline--soon';
+        }
+
+        // Calendar icon SVG.
+        $calendar_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>';
+
+        $meta_items['deadline'] = [
+          '#type' => 'html_tag',
+          '#tag' => 'span',
+          '#attributes' => [
+            'class' => array_filter(['strata-ticket-meta__deadline', $deadline_class]),
+          ],
+          '#weight' => 3,
+          'icon' => [
+            '#type' => 'inline_template',
+            '#template' => $calendar_icon,
+          ],
+          'date' => [
+            '#type' => 'html_tag',
+            '#tag' => 'span',
+            '#value' => $formatted_date,
+          ],
+        ];
+        unset($build['field_ticket_deadline']);
+      }
+    }
+
+    // Add the metadata section if we have items.
+    if (!empty($meta_items)) {
+      $build['ticket_meta'] = [
+        '#type' => 'container',
+        '#attributes' => [
+          'class' => ['strata-ticket-meta'],
+        ],
+        '#weight' => -100,
+      ] + $meta_items;
+    }
+
+    // Embed the strata_media view for files.
+    if ($node->hasField('field_ticket_files') && !$node->get('field_ticket_files')->isEmpty()) {
+      $media_ids = [];
+      foreach ($node->get('field_ticket_files') as $item) {
+        if ($item->target_id) {
+          $media_ids[] = $item->target_id;
+        }
+      }
+      if (!empty($media_ids)) {
+        $build['ticket_files'] = [
+          '#type' => 'container',
+          '#attributes' => [
+            'class' => ['strata-ticket-files'],
+          ],
+          '#weight' => 6,
+          'label' => [
+            '#type' => 'html_tag',
+            '#tag' => 'h3',
+            '#value' => t('Files'),
+            '#attributes' => [
+              'class' => ['strata-ticket-files__label'],
+            ],
+          ],
+          'view' => views_embed_view('strata_media', 'embed_1', implode('+', $media_ids)),
+        ];
+      }
+    }
 
     // Wrap the comments field with our custom class.
     if (isset($build['field_ticket_comments'])) {
       $build['field_ticket_comments']['#prefix'] = '<div class="strata-ticket-comments">';
       $build['field_ticket_comments']['#suffix'] = '</div>';
+    }
+  }
+}
+
+/**
+ * Get initials from a display name.
+ */
+function _strata_boards_get_initials(string $name): string {
+  $parts = explode(' ', trim($name));
+  if (count($parts) >= 2) {
+    return strtoupper(substr($parts[0], 0, 1) . substr(end($parts), 0, 1));
+  }
+  return strtoupper(substr($name, 0, 2));
+}
+
+/**
+ * Implements hook_entity_embed_alter().
+ *
+ * Adds entity type class to embedded entity wrapper.
+ */
+function strata_boards_entity_embed_alter(array &$build, EntityInterface $entity, array $context): void {
+  // Add class based on entity type.
+  $entity_type = $entity->getEntityTypeId();
+  $build['#attributes']['class'][] = 'embedded-entity--' . str_replace('_', '-', $entity_type);
+
+  // For entities with bundles, add bundle-specific class.
+  if (method_exists($entity, 'bundle')) {
+    $bundle = $entity->bundle();
+    $build['#attributes']['class'][] = 'embedded-entity--' . str_replace('_', '-', $entity_type) . '--' . str_replace('_', '-', $bundle);
+  }
+}
+
+/**
+ * Implements hook_preprocess_poll_meter().
+ *
+ * Adds list of voters to each poll option.
+ */
+function strata_boards_preprocess_poll_meter(array &$variables): void {
+  $variables['voters'] = [];
+
+  // Get the poll entity from the render array.
+  if (!isset($variables['poll'])) {
+    return;
+  }
+
+  $poll = $variables['poll'];
+  if (!$poll instanceof \Drupal\poll\PollInterface) {
+    return;
+  }
+
+  // Get the choice ID from the value attribute (it's the vote count for this choice).
+  // We need to find the choice ID by matching the choice label.
+  $choice_markup = $variables['choice'] ?? NULL;
+  if (!$choice_markup) {
+    return;
+  }
+
+  // Render the choice to get the text.
+  $choice_text = '';
+  if (is_array($choice_markup) && isset($choice_markup['#markup'])) {
+    $choice_text = $choice_markup['#markup'];
+  }
+  elseif (is_string($choice_markup)) {
+    $choice_text = $choice_markup;
+  }
+
+  // Find the choice ID by matching the option text.
+  $options = $poll->getOptions();
+  $choice_id = NULL;
+  foreach ($options as $cid => $option_text) {
+    if ($option_text === $choice_text) {
+      $choice_id = $cid;
+      break;
+    }
+  }
+
+  if ($choice_id === NULL) {
+    return;
+  }
+
+  // Query the poll_vote table for voters on this choice.
+  $database = \Drupal::database();
+  $query = $database->select('poll_vote', 'pv')
+    ->fields('pv', ['uid'])
+    ->condition('pv.pid', $poll->id())
+    ->condition('pv.chid', $choice_id);
+  $uids = $query->execute()->fetchCol();
+
+  if (empty($uids)) {
+    return;
+  }
+
+  // Load user entities and build voter list.
+  $users = \Drupal::entityTypeManager()->getStorage('user')->loadMultiple($uids);
+  foreach ($users as $user) {
+    if ($user->id() == 0) {
+      $variables['voters'][] = [
+        'name' => t('Anonymous'),
+        'url' => NULL,
+      ];
+    }
+    else {
+      $variables['voters'][] = [
+        'name' => $user->getDisplayName(),
+        'url' => $user->toUrl()->toString(),
+      ];
     }
   }
 }

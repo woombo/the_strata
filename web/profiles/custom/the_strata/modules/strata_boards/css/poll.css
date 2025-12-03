@@ -1,0 +1,104 @@
+/**
+ * @file
+ * Strata poll styling with voters display.
+ */
+
+.embedded-entity--poll {
+    margin: 0 auto;
+    border: 1px solid lightgrey;
+    padding: 20px;
+    max-width: 400px;
+}
+
+.poll-voters {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.poll-voters__label {
+  font-weight: 500;
+  margin-right: 0.25rem;
+}
+
+.poll-voters__list {
+  display: inline;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.poll-voters__item {
+  display: inline;
+}
+
+.poll-voters__item:not(:last-child)::after {
+  content: ", ";
+}
+
+.poll-voters__item a {
+  color: #0073e6;
+  text-decoration: none;
+}
+
+.poll-voters__item a:hover {
+  text-decoration: underline;
+}
+
+/* Poll results styling */
+.poll dl {
+  margin: 0;
+}
+
+.poll .choice-title {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.poll .choice-title.is-current-selection {
+  color: #0073e6;
+}
+
+.poll .choice-title.is-current-selection::after {
+  content: " (your vote)";
+  font-weight: normal;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.poll .choice-result {
+  margin-bottom: 1rem;
+  margin-left: 0;
+}
+
+.poll .choice-result .bar {
+  background-color: #e5e5e5;
+  border-radius: 4px;
+  height: 1.5rem;
+  overflow: hidden;
+  position: relative;
+}
+
+.poll .choice-result .bar .foreground {
+  background-color: #0073e6;
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.poll .choice-result.is-current-selection .bar .foreground {
+  background-color: #005bb5;
+}
+
+.poll .choice-result .percent {
+  margin-top: 0.25rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.poll .total {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e5e5;
+  font-weight: 500;
+}

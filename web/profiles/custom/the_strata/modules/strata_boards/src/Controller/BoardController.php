@@ -66,11 +66,22 @@ class BoardController extends ControllerBase {
       }
     }
 
+    // Render the description field.
+    $description = NULL;
+    if ($node->hasField('field_board_description') && !$node->get('field_board_description')->isEmpty()) {
+      $description = $node->get('field_board_description')->view([
+        'label' => 'hidden',
+        'type' => 'text_default',
+      ]);
+    }
+
     return [
       '#theme' => 'strata_board',
       '#board' => $node,
+      '#description' => $description,
       '#columns' => $columns_data,
       '#add_ticket_url' => Url::fromRoute('strata_boards.add_ticket', ['node' => $node->id()])->toString(),
+      '#all_tickets_url' => Url::fromRoute('view.strata_tickets.page_board_tickets', ['node' => $node->id()])->toString(),
       '#attached' => [
         'library' => [
           'strata_boards/board',
