@@ -51,6 +51,7 @@ install:
   - gin_login
   - strata_boards
   - strata_notice
+  - strata_violation
 
 themes:
   - olivero

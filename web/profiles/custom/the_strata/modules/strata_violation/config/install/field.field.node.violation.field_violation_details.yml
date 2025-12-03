@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_violation_details
+    - node.type.violation
+  module:
+    - text
+id: node.violation.field_violation_details
+field_name: field_violation_details
+entity_type: node
+bundle: violation
+label: Details
+description: 'Detailed description of the violation.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

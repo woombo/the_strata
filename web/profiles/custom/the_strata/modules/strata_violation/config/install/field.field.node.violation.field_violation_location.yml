@@ -1,0 +1,27 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_violation_location
+    - node.type.violation
+    - taxonomy.vocabulary.buildings
+id: node.violation.field_violation_location
+field_name: field_violation_location
+entity_type: node
+bundle: violation
+label: Location
+description: 'Select the building(s) where the violation occurred.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      buildings: buildings
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+field_type: entity_reference

@@ -1,0 +1,13 @@
+name: 'Strata Violation'
+type: module
+description: 'Violation tracking and management for strata properties.'
+core_version_requirement: ^11
+package: Strata
+dependencies:
+  - drupal:node
+  - drupal:taxonomy
+  - drupal:user
+  - drupal:datetime
+  - drupal:text
+  - drupal:options
+  - drupal:media

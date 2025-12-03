@@ -1,0 +1,29 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Strata Violation module.
+ */
+
+use Drupal\taxonomy\Entity\Term;
+
+/**
+ * Implements hook_install().
+ */
+function strata_violation_install(): void {
+  // Create default building terms.
+  $buildings = [
+    'Building A',
+    'Building B',
+    'Building C',
+    'Building D',
+  ];
+
+  foreach ($buildings as $weight => $name) {
+    Term::create([
+      'vid' => 'buildings',
+      'name' => $name,
+      'weight' => $weight,
+    ])->save();
+  }
+}
