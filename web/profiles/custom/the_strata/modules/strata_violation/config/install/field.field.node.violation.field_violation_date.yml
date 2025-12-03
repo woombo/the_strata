@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_violation_date
+    - node.type.violation
+  module:
+    - datetime
+id: node.violation.field_violation_date
+field_name: field_violation_date
+entity_type: node
+bundle: violation
+label: 'Date of Violation'
+description: 'The date and time when the violation occurred.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime
