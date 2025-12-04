@@ -278,7 +278,7 @@ display:
           admin_label: ''
           entity_type: media
           entity_field: mid
-          plugin_id: media_id
+          plugin_id: numeric
           default_action: empty
           exception:
             value: all

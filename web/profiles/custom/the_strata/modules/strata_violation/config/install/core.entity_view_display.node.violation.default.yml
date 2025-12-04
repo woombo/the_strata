@@ -2,7 +2,10 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.violation.field_board_ref
+    - field.field.node.violation.field_board_status
     - field.field.node.violation.field_violation_date
+    - field.field.node.violation.field_violation_deadline
     - field.field.node.violation.field_violation_details
     - field.field.node.violation.field_violation_files
     - field.field.node.violation.field_violation_location
@@ -10,6 +13,7 @@ dependencies:
     - field.field.node.violation.field_violation_police_file
     - field.field.node.violation.field_violation_repeat
     - field.field.node.violation.field_violation_suite
+    - field.field.node.violation.field_violation_type
     - node.type.violation
   module:
     - datetime
@@ -20,9 +24,34 @@ targetEntityType: node
 bundle: violation
 mode: default
 content:
+  field_board_ref:
+    type: entity_reference_label
+    weight: -5
+    region: content
+    label: inline
+    settings:
+      link: true
+    third_party_settings: {  }
+  field_board_status:
+    type: entity_reference_label
+    weight: -3
+    region: content
+    label: inline
+    settings:
+      link: false
+    third_party_settings: {  }
   field_violation_date:
     type: datetime_default
     weight: 1
+    region: content
+    label: inline
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+  field_violation_deadline:
+    type: datetime_default
+    weight: 9
     region: content
     label: inline
     settings:
@@ -83,6 +112,14 @@ content:
     label: inline
     settings:
       link_to_entity: false
+    third_party_settings: {  }
+  field_violation_type:
+    type: entity_reference_label
+    weight: -2
+    region: content
+    label: inline
+    settings:
+      link: true
     third_party_settings: {  }
   links:
     weight: 100

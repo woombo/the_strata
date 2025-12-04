@@ -2,6 +2,8 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.notice.field_board_ref
+    - field.field.node.notice.field_board_status
     - field.field.node.notice.field_notice_description
     - field.field.node.notice.field_notice_files
     - field.field.node.notice.field_notice_image
@@ -16,17 +18,33 @@ targetEntityType: node
 bundle: notice
 mode: default
 content:
+  field_board_ref:
+    type: entity_reference_label
+    weight: -1
+    region: content
+    label: inline
+    settings:
+      link: true
+    third_party_settings: {  }
+  field_board_status:
+    type: entity_reference_label
+    weight: 0
+    region: content
+    label: inline
+    settings:
+      link: false
+    third_party_settings: {  }
   field_notice_description:
     type: text_default
     label: hidden
-    weight: 1
+    weight: 2
     region: content
     settings: {  }
     third_party_settings: {  }
   field_notice_image:
     type: image
     label: hidden
-    weight: 0
+    weight: 1
     region: content
     settings:
       image_link: ''

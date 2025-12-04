@@ -26,4 +26,40 @@ function strata_violation_install(): void {
       'weight' => $weight,
     ])->save();
   }
+
+  // Create default violation status terms.
+  $statuses = [
+    'Open',
+    'In Progress',
+    'Pending Review',
+    'Resolved',
+    'Closed',
+  ];
+
+  foreach ($statuses as $weight => $name) {
+    Term::create([
+      'vid' => 'violation_status',
+      'name' => $name,
+      'weight' => $weight,
+    ])->save();
+  }
+
+  // Create default violation type terms.
+  $types = [
+    'Noise',
+    'Parking',
+    'Pets',
+    'Property Damage',
+    'Unauthorized Modification',
+    'Common Area Misuse',
+    'Other',
+  ];
+
+  foreach ($types as $weight => $name) {
+    Term::create([
+      'vid' => 'violation_type',
+      'name' => $name,
+      'weight' => $weight,
+    ])->save();
+  }
 }

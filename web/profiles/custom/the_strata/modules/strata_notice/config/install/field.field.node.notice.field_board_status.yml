@@ -1,0 +1,27 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_board_status
+    - node.type.notice
+    - taxonomy.vocabulary.board_column
+id: node.notice.field_board_status
+field_name: field_board_status
+entity_type: node
+bundle: notice
+label: Status
+description: 'The current status/column of the notice.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      board_column: board_column
+    sort:
+      field: weight
+      direction: asc
+    auto_create: false
+field_type: entity_reference

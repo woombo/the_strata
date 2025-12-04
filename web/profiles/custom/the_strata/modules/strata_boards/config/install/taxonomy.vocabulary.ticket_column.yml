@@ -1,8 +1,0 @@
-langcode: en
-status: true
-dependencies: {  }
-name: 'Ticket Column'
-vid: ticket_column
-description: 'Board columns for ticket status (ToDo, In Progress, Blocked, Done).'
-weight: 0
-new_revision: false

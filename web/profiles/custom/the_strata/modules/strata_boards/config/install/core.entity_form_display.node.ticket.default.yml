@@ -3,7 +3,7 @@ status: true
 dependencies:
   config:
     - field.field.node.ticket.field_ticket_assigned_to
-    - field.field.node.ticket.field_ticket_board
+    - field.field.node.ticket.field_board_ref
     - field.field.node.ticket.field_ticket_comments
     - field.field.node.ticket.field_ticket_created_by
     - field.field.node.ticket.field_ticket_created_on
@@ -11,7 +11,7 @@ dependencies:
     - field.field.node.ticket.field_ticket_description
     - field.field.node.ticket.field_ticket_files
     - field.field.node.ticket.field_ticket_relates_to
-    - field.field.node.ticket.field_ticket_status
+    - field.field.node.ticket.field_board_status
     - field.field.node.ticket.field_ticket_type
     - field.field.node.ticket.field_ticket_weight
     - node.type.ticket
@@ -40,7 +40,7 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_ticket_board:
+  field_board_ref:
     type: entity_reference_autocomplete
     weight: 0
     region: content
@@ -97,7 +97,7 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_ticket_status:
+  field_board_status:
     type: options_select
     weight: 3
     region: content

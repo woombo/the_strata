@@ -7,8 +7,10 @@
  * - board: The board node entity.
  * - description: The rendered description field.
  * - columns: Array of columns with tickets.
- * - add_ticket_url: URL to add a new ticket.
- * - all_tickets_url: URL to view all tickets in table format.
+ * - entity_type: The machine name of the content type for this board.
+ * - entity_type_label: The label of the content type for this board.
+ * - add_ticket_url: URL to add a new item.
+ * - all_tickets_url: URL to view all items in table format.
  */
 #}
 <div class="strata-board">
@@ -20,10 +22,10 @@
     </div>
     <div class="strata-board__actions">
       <a href="{{ add_ticket_url }}" class="strata-board__add-ticket button button--primary">
-        + Add Ticket
+        + Add {{ entity_type_label }}
       </a>
       <a href="{{ all_tickets_url }}" class="strata-board__view-all-tickets button button--secondary">
-        View All Tickets
+        View All Items
       </a>
     </div>
   </div>
@@ -41,8 +43,8 @@
           {% endfor %}
         </div>
         <div class="strata-board__column-footer">
-          <a href="{{ path('node.add', {'node_type': 'ticket'}, {'query': {'board': board.id, 'status': column_id}}) }}" class="strata-board__column-add-ticket">
-            + Add ticket
+          <a href="{{ path('node.add', {'node_type': entity_type}, {'query': {'board': board.id, 'status': column_id}}) }}" class="strata-board__column-add-ticket">
+            + Add {{ entity_type_label|lower }}
           </a>
         </div>
       </div>

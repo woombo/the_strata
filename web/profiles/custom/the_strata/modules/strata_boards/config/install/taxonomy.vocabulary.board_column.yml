@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {  }
+name: 'Board Column'
+vid: board_column
+description: 'Board columns for status (ToDo, In Progress, Blocked, Done).'
+weight: 0
+new_revision: false
