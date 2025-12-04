@@ -8,8 +8,6 @@ dependencies:
     - media.type.image
     - media.type.video
     - node.type.violation
-  module:
-    - media
 id: node.violation.field_violation_files
 field_name: field_violation_files
 entity_type: node

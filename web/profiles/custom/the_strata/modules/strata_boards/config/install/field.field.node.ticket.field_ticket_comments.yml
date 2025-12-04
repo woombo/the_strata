@@ -2,7 +2,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - comment.type.ticket_comments
     - field.storage.node.field_ticket_comments
     - node.type.ticket
   module:

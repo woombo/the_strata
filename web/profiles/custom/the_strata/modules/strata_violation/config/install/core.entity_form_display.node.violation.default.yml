@@ -14,6 +14,7 @@ dependencies:
   module:
     - datetime
     - media_library
+    - path
     - text
 id: node.violation.default
 targetEntityType: node

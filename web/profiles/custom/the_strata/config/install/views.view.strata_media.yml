@@ -4,8 +4,8 @@ dependencies:
   config:
     - image.style.strata_thumbnail
   module:
+    - image
     - media
-    - user
 id: strata_media
 label: 'Strata Media'
 module: views
@@ -81,7 +81,7 @@ display:
             image_loading:
               attribute: lazy
           group_column: ''
-          group_columns: {}
+          group_columns: {  }
           group_rows: true
           delta_limit: 0
           delta_offset: 0
@@ -146,7 +146,7 @@ display:
           settings:
             link_to_entity: false
           group_column: value
-          group_columns: {}
+          group_columns: {  }
           group_rows: true
           delta_limit: 0
           delta_offset: 0
@@ -211,7 +211,7 @@ display:
           settings:
             link: false
           group_column: target_id
-          group_columns: {}
+          group_columns: {  }
           group_rows: true
           delta_limit: 0
           delta_offset: 0
@@ -236,10 +236,10 @@ display:
           sort_desc_label: Desc
       access:
         type: none
-        options: {}
+        options: {  }
       cache:
         type: tag
-        options: {}
+        options: {  }
       empty:
         area_text_custom:
           id: area_text_custom
@@ -302,7 +302,7 @@ display:
           validate:
             type: none
             fail: 'not found'
-          validate_options: {}
+          validate_options: {  }
           break_phrase: true
           not: false
       filters:
@@ -318,11 +318,11 @@ display:
           expose:
             operator: ''
             operator_limit_selection: false
-            operator_list: {}
+            operator_list: {  }
       style:
         type: table
         options:
-          grouping: {}
+          grouping: {  }
           row_class: ''
           default_row_class: true
           columns:
@@ -367,11 +367,11 @@ display:
           disable_sql_rewrite: false
           distinct: false
           replica: false
-          query_tags: {}
-      relationships: {}
-      header: {}
-      footer: {}
-      display_extenders: {}
+          query_tags: {  }
+      relationships: {  }
+      header: {  }
+      footer: {  }
+      display_extenders: {  }
     cache_metadata:
       max-age: -1
       contexts:
@@ -379,14 +379,14 @@ display:
         - 'languages:language_interface'
         - url
         - user.permissions
-      tags: {}
+      tags: {  }
   embed_1:
     id: embed_1
     display_title: 'Embed - Files'
     display_plugin: embed
     position: 1
     display_options:
-      display_extenders: {}
+      display_extenders: {  }
       title: Files
     cache_metadata:
       max-age: -1
@@ -395,4 +395,4 @@ display:
         - 'languages:language_interface'
         - url
         - user.permissions
-      tags: {}
+      tags: {  }

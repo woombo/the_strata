@@ -11,4 +11,5 @@ type_settings:
   entity_type: poll
   bundles: {  }
   display_plugins: {  }
+icon: {  }
 icon_uuid: null

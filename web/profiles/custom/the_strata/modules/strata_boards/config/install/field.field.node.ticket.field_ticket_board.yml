@@ -3,8 +3,8 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_ticket_board
-    - node.type.ticket
     - node.type.board
+    - node.type.ticket
 id: node.ticket.field_ticket_board
 field_name: field_ticket_board
 entity_type: node

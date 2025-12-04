@@ -4,8 +4,6 @@ dependencies:
   config:
     - field.storage.node.field_ticket_files
     - node.type.ticket
-  module:
-    - media
 id: node.ticket.field_ticket_files
 field_name: field_ticket_files
 entity_type: node
@@ -14,7 +12,7 @@ label: Files
 description: 'Attach files to this ticket.'
 required: false
 translatable: false
-default_value: {}
+default_value: {  }
 default_value_callback: ''
 settings:
   handler: 'default:media'

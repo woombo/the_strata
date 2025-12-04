@@ -14,7 +14,7 @@ label: File
 description: ''
 required: true
 translatable: false
-default_value: {}
+default_value: {  }
 default_value_callback: ''
 settings:
   file_directory: 'documents/[date:custom:Y]-[date:custom:m]'
@@ -22,5 +22,5 @@ settings:
   max_filesize: '20 MB'
   description_field: true
   handler: 'default:file'
-  handler_settings: {}
+  handler_settings: {  }
 field_type: file

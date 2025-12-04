@@ -13,9 +13,9 @@ dependencies:
     - field.field.node.ticket.field_ticket_relates_to
     - field.field.node.ticket.field_ticket_status
     - field.field.node.ticket.field_ticket_type
+    - field.field.node.ticket.field_ticket_weight
     - node.type.ticket
   module:
-    - comment
     - datetime
     - media_library
     - text
@@ -85,8 +85,8 @@ content:
     weight: 9
     region: content
     settings:
-      media_types: {}
-    third_party_settings: {}
+      media_types: {  }
+    third_party_settings: {  }
   field_ticket_relates_to:
     type: entity_reference_autocomplete
     weight: 10
@@ -149,4 +149,6 @@ content:
       placeholder: ''
     third_party_settings: {  }
 hidden:
+  field_ticket_comments: true
+  field_ticket_weight: true
   path: true

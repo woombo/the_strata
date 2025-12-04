@@ -3,9 +3,8 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_notice_files
+    - media.type.document
     - node.type.notice
-  module:
-    - media
 id: node.notice.field_notice_files
 field_name: field_notice_files
 entity_type: node
@@ -14,7 +13,7 @@ label: Files
 description: 'Attach files to this notice. You can select existing files or upload new ones.'
 required: false
 translatable: false
-default_value: {}
+default_value: {  }
 default_value_callback: ''
 settings:
   handler: 'default:media'
