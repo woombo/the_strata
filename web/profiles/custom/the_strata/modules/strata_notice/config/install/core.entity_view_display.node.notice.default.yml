@@ -5,11 +5,12 @@ dependencies:
     - field.field.node.notice.field_notice_description
     - field.field.node.notice.field_notice_files
     - field.field.node.notice.field_notice_image
+    - image.style.large
     - node.type.notice
   module:
     - image
-    - media
     - text
+    - user
 id: node.notice.default
 targetEntityType: node
 bundle: notice
@@ -20,8 +21,8 @@ content:
     label: hidden
     weight: 1
     region: content
-    settings: {}
-    third_party_settings: {}
+    settings: {  }
+    third_party_settings: {  }
   field_notice_image:
     type: image
     label: hidden
@@ -32,11 +33,11 @@ content:
       image_style: large
       image_loading:
         attribute: lazy
-    third_party_settings: {}
+    third_party_settings: {  }
   links:
     weight: 100
     region: content
-    settings: {}
-    third_party_settings: {}
+    settings: {  }
+    third_party_settings: {  }
 hidden:
   field_notice_files: true

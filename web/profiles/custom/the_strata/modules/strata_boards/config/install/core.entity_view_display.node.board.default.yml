@@ -6,6 +6,7 @@ dependencies:
     - node.type.board
   module:
     - text
+    - user
 id: node.board.default
 targetEntityType: node
 bundle: board
@@ -16,11 +17,11 @@ content:
     label: above
     weight: 0
     region: content
-    settings: {}
-    third_party_settings: {}
+    settings: {  }
+    third_party_settings: {  }
   links:
     weight: 100
     region: content
-    settings: {}
-    third_party_settings: {}
-hidden: {}
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

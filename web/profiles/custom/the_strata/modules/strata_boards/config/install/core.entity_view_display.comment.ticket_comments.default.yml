@@ -6,7 +6,6 @@ dependencies:
     - field.field.comment.ticket_comments.comment_body
   module:
     - text
-    - user
 id: comment.ticket_comments.default
 targetEntityType: comment
 bundle: ticket_comments
@@ -17,11 +16,11 @@ content:
     label: hidden
     weight: 0
     region: content
-    settings: {}
-    third_party_settings: {}
+    settings: {  }
+    third_party_settings: {  }
   links:
     weight: 100
     region: content
-    settings: {}
-    third_party_settings: {}
-hidden: {}
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

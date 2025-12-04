@@ -1,6 +1,6 @@
 langcode: en
 status: true
-dependencies: {}
+dependencies: {  }
 name: strata_thumbnail
 label: 'Strata Thumbnail (100x100)'
 effects:

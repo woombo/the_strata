@@ -7,11 +7,13 @@ id: node.field_ticket_weight
 field_name: field_ticket_weight
 entity_type: node
 type: integer
-settings: {}
+settings:
+  unsigned: false
+  size: normal
 module: core
 locked: false
 cardinality: 1
 translatable: false
-indexes: {}
+indexes: {  }
 persist_with_no_fields: false
 custom_storage: false

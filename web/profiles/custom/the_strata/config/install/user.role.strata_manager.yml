@@ -1,6 +1,9 @@
 langcode: en
 status: true
 dependencies:
+  config:
+    - node.type.board
+    - node.type.ticket
   module:
     - node
     - strata_boards
@@ -12,6 +15,6 @@ permissions:
   - 'access strata boards'
   - 'create board content'
   - 'create ticket content'
+  - 'delete any ticket content'
   - 'edit any board content'
   - 'edit any ticket content'
-  - 'delete any ticket content'

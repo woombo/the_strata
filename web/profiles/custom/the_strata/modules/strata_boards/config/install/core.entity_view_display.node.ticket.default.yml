@@ -5,12 +5,15 @@ dependencies:
     - field.field.node.ticket.field_ticket_assigned_to
     - field.field.node.ticket.field_ticket_board
     - field.field.node.ticket.field_ticket_comments
+    - field.field.node.ticket.field_ticket_created_by
+    - field.field.node.ticket.field_ticket_created_on
     - field.field.node.ticket.field_ticket_deadline
     - field.field.node.ticket.field_ticket_description
     - field.field.node.ticket.field_ticket_files
     - field.field.node.ticket.field_ticket_relates_to
     - field.field.node.ticket.field_ticket_status
     - field.field.node.ticket.field_ticket_type
+    - field.field.node.ticket.field_ticket_weight
     - node.type.ticket
   module:
     - comment
@@ -22,22 +25,6 @@ targetEntityType: node
 bundle: ticket
 mode: default
 content:
-  field_ticket_status:
-    type: entity_reference_label
-    label: hidden
-    weight: 0
-    region: content
-    settings:
-      link: false
-    third_party_settings: {}
-  field_ticket_type:
-    type: entity_reference_label
-    label: hidden
-    weight: 1
-    region: content
-    settings:
-      link: false
-    third_party_settings: {}
   field_ticket_assigned_to:
     type: entity_reference_label
     label: hidden
@@ -45,16 +32,7 @@ content:
     region: content
     settings:
       link: true
-    third_party_settings: {}
-  field_ticket_deadline:
-    type: datetime_default
-    label: hidden
-    weight: 3
-    region: content
-    settings:
-      timezone_override: ''
-      format_type: medium
-    third_party_settings: {}
+    third_party_settings: {  }
   field_ticket_board:
     type: entity_reference_label
     label: above
@@ -62,22 +40,7 @@ content:
     region: content
     settings:
       link: true
-    third_party_settings: {}
-  field_ticket_description:
-    type: text_default
-    label: hidden
-    weight: 5
-    region: content
-    settings: {}
-    third_party_settings: {}
-  field_ticket_relates_to:
-    type: entity_reference_label
-    label: above
-    weight: 7
-    region: content
-    settings:
-      link: true
-    third_party_settings: {}
+    third_party_settings: {  }
   field_ticket_comments:
     type: comment_default
     label: hidden
@@ -86,13 +49,54 @@ content:
     settings:
       view_mode: default
       pager_id: 0
-    third_party_settings: {}
+    third_party_settings: {  }
+  field_ticket_deadline:
+    type: datetime_default
+    label: hidden
+    weight: 3
+    region: content
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+  field_ticket_description:
+    type: text_default
+    label: hidden
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_ticket_relates_to:
+    type: entity_reference_label
+    label: above
+    weight: 7
+    region: content
+    settings:
+      link: true
+    third_party_settings: {  }
+  field_ticket_status:
+    type: entity_reference_label
+    label: hidden
+    weight: 0
+    region: content
+    settings:
+      link: false
+    third_party_settings: {  }
+  field_ticket_type:
+    type: entity_reference_label
+    label: hidden
+    weight: 1
+    region: content
+    settings:
+      link: false
+    third_party_settings: {  }
   links:
     weight: 100
     region: content
-    settings: {}
-    third_party_settings: {}
+    settings: {  }
+    third_party_settings: {  }
 hidden:
   field_ticket_created_by: true
   field_ticket_created_on: true
   field_ticket_files: true
+  field_ticket_weight: true

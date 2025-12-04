@@ -3,10 +3,8 @@ status: true
 dependencies:
   config:
     - filter.format.basic_html
-    - embed.button.poll
   module:
     - ckeditor5
-    - entity_embed
 format: basic_html
 editor: ckeditor5
 settings:

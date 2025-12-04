@@ -12,7 +12,9 @@ dependencies:
     - field.field.node.violation.field_violation_suite
     - node.type.violation
   module:
+    - datetime
     - text
+    - user
 id: node.violation.default
 targetEntityType: node
 bundle: violation
