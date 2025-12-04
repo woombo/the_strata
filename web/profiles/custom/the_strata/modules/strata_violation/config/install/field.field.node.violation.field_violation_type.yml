@@ -2,15 +2,15 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_ticket_type
-    - node.type.ticket
-    - taxonomy.vocabulary.board_type
-id: node.ticket.field_ticket_type
-field_name: field_ticket_type
+    - field.storage.node.field_violation_type
+    - node.type.violation
+    - taxonomy.vocabulary.violation_type
+id: node.violation.field_violation_type
+field_name: field_violation_type
 entity_type: node
-bundle: ticket
+bundle: violation
 label: Type
-description: 'The type of ticket (Bug, Feature, Task, etc.).'
+description: 'The type of violation.'
 required: false
 translatable: false
 default_value: {  }
@@ -19,7 +19,7 @@ settings:
   handler: 'default:taxonomy_term'
   handler_settings:
     target_bundles:
-      board_type: board_type
+      violation_type: violation_type
     sort:
       field: name
       direction: asc

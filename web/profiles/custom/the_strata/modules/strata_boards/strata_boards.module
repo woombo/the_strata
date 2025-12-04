@@ -8,10 +8,36 @@
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Entity\FieldableEntityInterface;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\node\NodeInterface;
+
+/**
+ * Callback for allowed values of field_board_entity_type.
+ *
+ * Returns a list of content types that can be managed on a board.
+ */
+function strata_boards_get_content_types(FieldStorageDefinitionInterface $definition, ?FieldableEntityInterface $entity = NULL, bool &$cacheable = TRUE): array {
+  $cacheable = TRUE;
+  $options = [];
+
+  // Get all node types.
+  $node_types = \Drupal::entityTypeManager()
+    ->getStorage('node_type')
+    ->loadMultiple();
+
+  // Exclude board itself from the options.
+  foreach ($node_types as $type_id => $type) {
+    if ($type_id !== 'board') {
+      $options[$type_id] = $type->label();
+    }
+  }
+
+  return $options;
+}
 
 /**
  * Implements hook_node_access().
@@ -134,6 +160,8 @@ function strata_boards_theme(): array {
         'board' => NULL,
         'description' => NULL,
         'columns' => [],
+        'entity_type' => 'ticket',
+        'entity_type_label' => 'Ticket',
         'add_ticket_url' => NULL,
         'all_tickets_url' => NULL,
       ],
@@ -186,43 +214,141 @@ function strata_boards_preprocess_poll_results(array &$variables): void {
 }
 
 /**
- * Implements hook_form_FORM_ID_alter() for node_ticket_form.
+ * Implements hook_form_alter().
+ *
+ * Applies board-related form alterations to any node form with board fields.
  */
-function strata_boards_form_node_ticket_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
-  $request = \Drupal::request();
-
-  // Pre-populate board field from query parameter.
-  $board_id = $request->query->get('board');
-  if ($board_id && isset($form['field_ticket_board'])) {
-    $form['field_ticket_board']['widget'][0]['target_id']['#default_value'] = \Drupal::entityTypeManager()
-      ->getStorage('node')
-      ->load($board_id);
+function strata_boards_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  // Only process node forms.
+  $form_object = $form_state->getFormObject();
+  if (!$form_object instanceof \Drupal\Core\Entity\EntityFormInterface) {
+    return;
   }
 
-  // Pre-populate status from query parameter or default to "ToDo".
-  $status_id = $request->query->get('status');
-  if ($status_id && isset($form['field_ticket_status'])) {
-    $form['field_ticket_status']['widget']['#default_value'] = [$status_id];
+  $entity = $form_object->getEntity();
+  if (!$entity instanceof NodeInterface || $entity->bundle() === 'board') {
+    return;
   }
-  elseif (isset($form['field_ticket_status']) && empty($form['field_ticket_status']['widget']['#default_value'])) {
-    $terms = \Drupal::entityTypeManager()
-      ->getStorage('taxonomy_term')
-      ->loadByProperties([
-        'vid' => 'ticket_column',
-        'name' => 'ToDo',
-      ]);
-    if ($terms) {
-      $todo_term = reset($terms);
-      $form['field_ticket_status']['widget']['#default_value'] = [$todo_term->id()];
+
+  // Check if this content type has both board fields.
+  if (!isset($form['field_board_ref']) || !isset($form['field_board_status'])) {
+    return;
+  }
+
+  // Determine if this is a new node or an edit.
+  $is_new = $entity->isNew();
+
+  if ($is_new) {
+    // For new nodes, check for board ID in query parameter.
+    $request = \Drupal::request();
+    $board_id = $request->query->get('board');
+
+    if ($board_id) {
+      $board = \Drupal::entityTypeManager()
+        ->getStorage('node')
+        ->load($board_id);
+
+      if ($board && $board->bundle() === 'board') {
+        $form['field_board_ref']['widget'][0]['target_id']['#default_value'] = $board;
+
+        // Filter status options based on board's selected columns.
+        _strata_boards_filter_status_options($form, $board);
+      }
+    }
+
+    // Pre-populate status from query parameter or default to first available option.
+    $status_id = $request->query->get('status');
+    if ($status_id) {
+      $form['field_board_status']['widget']['#default_value'] = [$status_id];
+    }
+    elseif (empty($form['field_board_status']['widget']['#default_value'])) {
+      _strata_boards_set_default_status($form);
+    }
+  }
+  else {
+    // For existing nodes, get the board from the entity.
+    if ($entity->hasField('field_board_ref') && !$entity->get('field_board_ref')->isEmpty()) {
+      $board = $entity->get('field_board_ref')->entity;
+      if ($board) {
+        _strata_boards_filter_status_options($form, $board);
+      }
     }
   }
 }
 
 /**
- * Implements hook_form_FORM_ID_alter() for node_ticket_edit_form.
+ * Sets the default status to the first available option or "ToDo" if available.
+ *
+ * @param array &$form
+ *   The form array.
  */
-function strata_boards_form_node_ticket_edit_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
-  // Nothing special for edit form yet.
+function _strata_boards_set_default_status(array &$form): void {
+  $options = $form['field_board_status']['widget']['#options'] ?? [];
+  unset($options['_none']);
+
+  if (empty($options)) {
+    return;
+  }
+
+  // Try to find "ToDo" in the available options.
+  $terms = \Drupal::entityTypeManager()
+    ->getStorage('taxonomy_term')
+    ->loadByProperties([
+      'vid' => 'board_column',
+      'name' => 'ToDo',
+    ]);
+
+  if ($terms) {
+    $todo_term = reset($terms);
+    if (isset($options[$todo_term->id()])) {
+      $form['field_board_status']['widget']['#default_value'] = [$todo_term->id()];
+      return;
+    }
+  }
+
+  // Fall back to the first available option.
+  $form['field_board_status']['widget']['#default_value'] = [array_key_first($options)];
+}
+
+/**
+ * Helper function to filter status options based on board's selected columns.
+ *
+ * @param array &$form
+ *   The form array.
+ * @param \Drupal\node\NodeInterface $board
+ *   The board node.
+ */
+function _strata_boards_filter_status_options(array &$form, NodeInterface $board): void {
+  // Check if the board has specific columns selected.
+  if (!$board->hasField('field_board_columns') || $board->get('field_board_columns')->isEmpty()) {
+    // No specific columns selected, show all options.
+    return;
+  }
+
+  // Get the selected column IDs from the board.
+  $allowed_column_ids = [];
+  foreach ($board->get('field_board_columns') as $item) {
+    $allowed_column_ids[] = $item->target_id;
+  }
+
+  // Filter the status options to only include allowed columns.
+  if (isset($form['field_board_status']['widget']['#options'])) {
+    $original_options = $form['field_board_status']['widget']['#options'];
+    $filtered_options = [];
+
+    foreach ($original_options as $key => $value) {
+      // Keep the '_none' option if it exists.
+      if ($key === '_none') {
+        $filtered_options[$key] = $value;
+      }
+      // Only include options that are in the allowed list.
+      elseif (in_array($key, $allowed_column_ids)) {
+        $filtered_options[$key] = $value;
+      }
+    }
+
+    $form['field_board_status']['widget']['#options'] = $filtered_options;
+  }
 }
 
 /**
@@ -263,8 +389,8 @@ function strata_boards_node_view_alter(array &$build, NodeInterface $node, Entit
     $meta_items = [];
 
     // Status badge.
-    if (isset($build['field_ticket_status']) && $node->hasField('field_ticket_status') && !$node->get('field_ticket_status')->isEmpty()) {
-      $status_term = $node->get('field_ticket_status')->entity;
+    if (isset($build['field_board_status']) && $node->hasField('field_board_status') && !$node->get('field_board_status')->isEmpty()) {
+      $status_term = $node->get('field_board_status')->entity;
       if ($status_term) {
         $status_name = $status_term->label();
         $status_class = strtolower(str_replace(' ', '-', $status_name));
@@ -277,7 +403,7 @@ function strata_boards_node_view_alter(array &$build, NodeInterface $node, Entit
           ],
           '#weight' => 0,
         ];
-        unset($build['field_ticket_status']);
+        unset($build['field_board_status']);
       }
     }
 

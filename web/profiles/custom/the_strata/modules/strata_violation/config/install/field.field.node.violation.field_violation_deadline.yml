@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_violation_deadline
+    - node.type.violation
+  module:
+    - datetime
+id: node.violation.field_violation_deadline
+field_name: field_violation_deadline
+entity_type: node
+bundle: violation
+label: Deadline
+description: 'When this violation should be resolved.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

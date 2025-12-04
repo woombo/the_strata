@@ -14,7 +14,7 @@ use Drupal\user\Entity\Role;
  * Implements hook_install().
  */
 function strata_boards_install(): void {
-  // Create default ticket column terms.
+  // Create default board column terms.
   $columns = [
     ['name' => 'ToDo', 'weight' => 0],
     ['name' => 'In Progress', 'weight' => 1],
@@ -24,13 +24,13 @@ function strata_boards_install(): void {
 
   foreach ($columns as $column) {
     Term::create([
-      'vid' => 'ticket_column',
+      'vid' => 'board_column',
       'name' => $column['name'],
       'weight' => $column['weight'],
     ])->save();
   }
 
-  // Create default ticket type terms.
+  // Create default board type terms.
   $types = [
     'Bug',
     'Feature',
@@ -40,7 +40,7 @@ function strata_boards_install(): void {
 
   foreach ($types as $weight => $type) {
     Term::create([
-      'vid' => 'ticket_type',
+      'vid' => 'board_type',
       'name' => $type,
       'weight' => $weight,
     ])->save();
@@ -63,10 +63,10 @@ function strata_boards_uninstall(): void {
   // Delete taxonomy terms.
   $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
 
-  $column_terms = $term_storage->loadByProperties(['vid' => 'ticket_column']);
+  $column_terms = $term_storage->loadByProperties(['vid' => 'board_column']);
   $term_storage->delete($column_terms);
 
-  $type_terms = $term_storage->loadByProperties(['vid' => 'ticket_type']);
+  $type_terms = $term_storage->loadByProperties(['vid' => 'board_type']);
   $term_storage->delete($type_terms);
 }
 

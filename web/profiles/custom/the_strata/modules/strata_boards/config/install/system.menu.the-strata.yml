@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {  }
+id: the-strata
+label: 'The Strata'
+description: 'The Strata navigation menu.'
+locked: false

@@ -3,11 +3,9 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_violation_files
-    - media.type.audio
-    - media.type.document
-    - media.type.image
-    - media.type.video
     - node.type.violation
+  module:
+    - media
 id: node.violation.field_violation_files
 field_name: field_violation_files
 entity_type: node
@@ -21,11 +19,7 @@ default_value_callback: ''
 settings:
   handler: 'default:media'
   handler_settings:
-    target_bundles:
-      audio: audio
-      document: document
-      image: image
-      video: video
+    target_bundles: null
     sort:
       field: _none
       direction: ASC

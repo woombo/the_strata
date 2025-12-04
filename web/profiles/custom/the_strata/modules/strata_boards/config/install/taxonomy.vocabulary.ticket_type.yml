@@ -1,8 +1,0 @@
-langcode: en
-status: true
-dependencies: {  }
-name: 'Ticket Type'
-vid: ticket_type
-description: 'Types of tickets (Bug, Feature, Task, etc.).'
-weight: 0
-new_revision: false

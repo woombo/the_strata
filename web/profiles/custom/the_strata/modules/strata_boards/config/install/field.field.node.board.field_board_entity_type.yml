@@ -1,0 +1,21 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_board_entity_type
+    - node.type.board
+  module:
+    - options
+id: node.board.field_board_entity_type
+field_name: field_board_entity_type
+entity_type: node
+bundle: board
+label: 'Content Type'
+description: 'Select the content type to be managed on this board.'
+required: true
+translatable: false
+default_value:
+  - value: ticket
+default_value_callback: ''
+settings: {  }
+field_type: list_string

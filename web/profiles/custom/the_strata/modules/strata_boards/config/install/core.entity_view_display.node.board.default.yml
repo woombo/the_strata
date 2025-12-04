@@ -3,8 +3,10 @@ status: true
 dependencies:
   config:
     - field.field.node.board.field_board_description
+    - field.field.node.board.field_board_entity_type
     - node.type.board
   module:
+    - options
     - text
     - user
 id: node.board.default
@@ -24,4 +26,5 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  field_board_entity_type: true

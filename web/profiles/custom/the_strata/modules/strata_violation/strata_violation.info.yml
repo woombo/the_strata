@@ -11,3 +11,4 @@ dependencies:
   - drupal:text
   - drupal:options
   - drupal:media
+  - strata_boards:strata_boards

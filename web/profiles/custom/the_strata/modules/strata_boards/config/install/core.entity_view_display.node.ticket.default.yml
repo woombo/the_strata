@@ -3,7 +3,7 @@ status: true
 dependencies:
   config:
     - field.field.node.ticket.field_ticket_assigned_to
-    - field.field.node.ticket.field_ticket_board
+    - field.field.node.ticket.field_board_ref
     - field.field.node.ticket.field_ticket_comments
     - field.field.node.ticket.field_ticket_created_by
     - field.field.node.ticket.field_ticket_created_on
@@ -11,7 +11,7 @@ dependencies:
     - field.field.node.ticket.field_ticket_description
     - field.field.node.ticket.field_ticket_files
     - field.field.node.ticket.field_ticket_relates_to
-    - field.field.node.ticket.field_ticket_status
+    - field.field.node.ticket.field_board_status
     - field.field.node.ticket.field_ticket_type
     - field.field.node.ticket.field_ticket_weight
     - node.type.ticket
@@ -33,7 +33,7 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-  field_ticket_board:
+  field_board_ref:
     type: entity_reference_label
     label: above
     weight: 4
@@ -74,7 +74,7 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-  field_ticket_status:
+  field_board_status:
     type: entity_reference_label
     label: hidden
     weight: 0

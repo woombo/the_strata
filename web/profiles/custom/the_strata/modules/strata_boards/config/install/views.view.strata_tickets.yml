@@ -2,9 +2,9 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_ticket_board
+    - field.storage.node.field_board_ref
     - field.storage.node.field_ticket_files
-    - field.storage.node.field_ticket_status
+    - field.storage.node.field_board_status
     - node.type.board
     - node.type.ticket
     - system.menu.the-strata
@@ -92,10 +92,10 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        field_ticket_status:
-          id: field_ticket_status
-          table: node__field_ticket_status
-          field: field_ticket_status
+        field_board_status:
+          id: field_board_status
+          table: node__field_board_status
+          field: field_board_status
           relationship: none
           group_type: group
           admin_label: ''
@@ -155,10 +155,10 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        field_ticket_board:
-          id: field_ticket_board
-          table: node__field_ticket_board
-          field: field_ticket_board
+        field_board_ref:
+          id: field_board_ref
+          table: node__field_board_ref
+          field: field_board_ref
           relationship: none
           group_type: group
           admin_label: ''
@@ -533,8 +533,8 @@ display:
           default_row_class: true
           columns:
             title: title
-            field_ticket_status: field_ticket_status
-            field_ticket_board: field_ticket_board
+            field_board_status: field_board_status
+            field_board_ref: field_board_ref
             comment_count: comment_count
             field_ticket_files_count: field_ticket_files_count
             created: created
@@ -547,14 +547,14 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            field_ticket_status:
+            field_board_status:
               sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
               responsive: ''
-            field_ticket_board:
+            field_board_ref:
               sortable: true
               default_sort_order: asc
               align: ''
@@ -623,9 +623,9 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags:
-        - 'config:field.storage.node.field_ticket_board'
+        - 'config:field.storage.node.field_board_ref'
         - 'config:field.storage.node.field_ticket_files'
-        - 'config:field.storage.node.field_ticket_status'
+        - 'config:field.storage.node.field_board_status'
   page_1:
     id: page_1
     display_title: Page
@@ -653,9 +653,9 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags:
-        - 'config:field.storage.node.field_ticket_board'
+        - 'config:field.storage.node.field_board_ref'
         - 'config:field.storage.node.field_ticket_files'
-        - 'config:field.storage.node.field_ticket_status'
+        - 'config:field.storage.node.field_board_status'
   page_board_tickets:
     id: page_board_tickets
     display_title: 'Board Tickets'
@@ -664,10 +664,10 @@ display:
     display_options:
       title: 'All Tickets'
       arguments:
-        field_ticket_board_target_id:
-          id: field_ticket_board_target_id
-          table: node__field_ticket_board
-          field: field_ticket_board_target_id
+        field_board_ref_target_id:
+          id: field_board_ref_target_id
+          table: node__field_board_ref
+          field: field_board_ref_target_id
           relationship: none
           group_type: group
           admin_label: ''
@@ -740,14 +740,14 @@ display:
         options:
           grouping:
             -
-              field: field_ticket_status
+              field: field_board_status
               rendered: true
               rendered_strip: false
           row_class: ''
           default_row_class: true
           columns:
             title: title
-            field_ticket_status: field_ticket_status
+            field_board_status: field_board_status
             field_ticket_type: field_ticket_type
             field_ticket_assigned_to: field_ticket_assigned_to
             field_ticket_deadline: field_ticket_deadline
@@ -763,7 +763,7 @@ display:
               separator: ''
               empty_column: false
               responsive: ''
-            field_ticket_status:
+            field_board_status:
               sortable: true
               default_sort_order: asc
               align: ''
@@ -842,6 +842,6 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags:
-        - 'config:field.storage.node.field_ticket_board'
+        - 'config:field.storage.node.field_board_ref'
         - 'config:field.storage.node.field_ticket_files'
-        - 'config:field.storage.node.field_ticket_status'
+        - 'config:field.storage.node.field_board_status'

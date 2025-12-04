@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {  }
+name: 'Board Type'
+vid: board_type
+description: 'Types for board items (Bug, Feature, Task, etc.).'
+weight: 0
+new_revision: false
