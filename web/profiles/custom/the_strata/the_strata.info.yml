@@ -47,6 +47,7 @@ install:
   - poll
   - token
   - entity_embed
+  - field_group
   - gin_toolbar
   - gin_login
   - strata_boards
