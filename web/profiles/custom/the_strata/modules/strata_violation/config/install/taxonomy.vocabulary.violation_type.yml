@@ -5,3 +5,4 @@ name: 'Violation Type'
 vid: violation_type
 description: 'Type values for violation content type.'
 weight: 0
+new_revision: false

@@ -4,8 +4,6 @@ dependencies:
   config:
     - field.storage.node.field_notice_files
     - node.type.notice
-  module:
-    - media
 id: node.notice.field_notice_files
 field_name: field_notice_files
 entity_type: node

@@ -15,7 +15,8 @@ description: 'Select the content type to be managed on this board.'
 required: true
 translatable: false
 default_value:
-  - value: ticket
+  -
+    value: ticket
 default_value_callback: ''
 settings: {  }
 field_type: list_string

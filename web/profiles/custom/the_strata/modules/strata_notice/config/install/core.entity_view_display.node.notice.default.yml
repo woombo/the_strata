@@ -18,44 +18,37 @@ targetEntityType: node
 bundle: notice
 mode: default
 content:
-  field_board_ref:
-    type: entity_reference_label
-    weight: -1
-    region: content
-    label: inline
-    settings:
-      link: true
-    third_party_settings: {  }
   field_board_status:
     type: entity_reference_label
-    weight: 0
-    region: content
     label: inline
     settings:
       link: false
     third_party_settings: {  }
+    weight: 0
+    region: content
   field_notice_description:
     type: text_default
     label: hidden
-    weight: 2
-    region: content
     settings: {  }
     third_party_settings: {  }
+    weight: 2
+    region: content
   field_notice_image:
     type: image
     label: hidden
-    weight: 1
-    region: content
     settings:
       image_link: ''
       image_style: large
       image_loading:
         attribute: lazy
     third_party_settings: {  }
-  links:
-    weight: 100
+    weight: 1
     region: content
+  links:
     settings: {  }
     third_party_settings: {  }
+    weight: 3
+    region: content
 hidden:
+  field_board_ref: true
   field_notice_files: true

@@ -5,15 +5,13 @@ dependencies:
     - field.storage.node.field_board_columns
     - node.type.board
     - taxonomy.vocabulary.board_column
-  module:
-    - options
 id: node.board.field_board_columns
 field_name: field_board_columns
 entity_type: node
 bundle: board
-label: Board Columns
+label: 'Board Columns'
 description: 'Select the columns to display on this board. Leave empty to show all columns.'
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''
@@ -26,4 +24,5 @@ settings:
       field: weight
       direction: asc
     auto_create: false
+    auto_create_bundle: ''
 field_type: entity_reference

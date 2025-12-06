@@ -1,0 +1,24 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - comment.type.violation_comments
+    - field.storage.comment.comment_body
+  module:
+    - text
+id: comment.violation_comments.comment_body
+field_name: comment_body
+entity_type: comment
+bundle: violation_comments
+label: Comment
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: ''
+    format: basic_html
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

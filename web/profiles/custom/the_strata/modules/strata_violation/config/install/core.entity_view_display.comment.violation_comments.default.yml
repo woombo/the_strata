@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - comment.type.violation_comments
+    - field.field.comment.violation_comments.comment_body
+  module:
+    - text
+id: comment.violation_comments.default
+targetEntityType: comment
+bundle: violation_comments
+mode: default
+content:
+  comment_body:
+    type: text_default
+    label: hidden
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  links:
+    weight: 100
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

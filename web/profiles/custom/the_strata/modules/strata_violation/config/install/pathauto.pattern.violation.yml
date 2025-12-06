@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: violation
+label: Violation
+type: 'canonical_entities:node'
+pattern: 'violation/[node:title]'
+selection_criteria:
+  -
+    id: 'entity_bundle:node'
+    bundles:
+      violation: violation
+    negate: false
+    context_mapping:
+      node: node
+selection_logic: and
+weight: 0
+relationships: {  }

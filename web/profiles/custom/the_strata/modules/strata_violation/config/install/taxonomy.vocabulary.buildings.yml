@@ -5,3 +5,4 @@ name: Buildings
 vid: buildings
 description: 'Building locations for the strata.'
 weight: 0
+new_revision: false
