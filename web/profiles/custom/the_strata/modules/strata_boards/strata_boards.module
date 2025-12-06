@@ -377,19 +377,20 @@ function strata_boards_node_view_alter(array &$build, NodeInterface $node, Entit
     $build['#cache']['tags'][] = 'node_list:ticket';
   }
 
-  // For ticket nodes, add wrapper class to comments field and attach library.
-  if ($node->bundle() === 'ticket' && in_array($display->getMode(), ['full', 'default'])) {
-    // Attach the ticket CSS library.
+  // For content types with board fields, add styling and metadata.
+  if ($node->hasField('field_board_status') && in_array($display->getMode(), ['full', 'default'])) {
+    // Attach the ticket CSS library (works for all board-enabled content types).
     $build['#attached']['library'][] = 'strata_boards/ticket';
 
-    // Add wrapper class for the ticket view.
+    // Add wrapper class for the view.
     $build['#attributes']['class'][] = 'strata-ticket-view';
+    $build['#attributes']['class'][] = 'strata-' . $node->bundle() . '-view';
 
     // Build the metadata section with styled badges.
     $meta_items = [];
 
     // Status badge.
-    if (isset($build['field_board_status']) && $node->hasField('field_board_status') && !$node->get('field_board_status')->isEmpty()) {
+    if (isset($build['field_board_status']) && !$node->get('field_board_status')->isEmpty()) {
       $status_term = $node->get('field_board_status')->entity;
       if ($status_term) {
         $status_name = $status_term->label();
@@ -407,22 +408,26 @@ function strata_boards_node_view_alter(array &$build, NodeInterface $node, Entit
       }
     }
 
-    // Type badge.
-    if (isset($build['field_ticket_type']) && $node->hasField('field_ticket_type') && !$node->get('field_ticket_type')->isEmpty()) {
-      $type_term = $node->get('field_ticket_type')->entity;
-      if ($type_term) {
-        $type_name = $type_term->label();
-        $type_class = strtolower(str_replace(' ', '-', $type_name));
-        $meta_items['type'] = [
-          '#type' => 'html_tag',
-          '#tag' => 'span',
-          '#value' => $type_name,
-          '#attributes' => [
-            'class' => ['strata-ticket-meta__type', 'strata-ticket-meta__type--' . $type_class],
-          ],
-          '#weight' => 1,
-        ];
-        unset($build['field_ticket_type']);
+    // Type badge - check various type fields.
+    $type_fields = ['field_ticket_type', 'field_violation_type'];
+    foreach ($type_fields as $type_field) {
+      if (isset($build[$type_field]) && $node->hasField($type_field) && !$node->get($type_field)->isEmpty()) {
+        $type_term = $node->get($type_field)->entity;
+        if ($type_term) {
+          $type_name = $type_term->label();
+          $type_class = strtolower(str_replace(' ', '-', $type_name));
+          $meta_items['type'] = [
+            '#type' => 'html_tag',
+            '#tag' => 'span',
+            '#value' => $type_name,
+            '#attributes' => [
+              'class' => ['strata-ticket-meta__type', 'strata-ticket-meta__type--' . $type_class],
+            ],
+            '#weight' => 1,
+          ];
+          unset($build[$type_field]);
+        }
+        break;
       }
     }
 
@@ -432,7 +437,6 @@ function strata_boards_node_view_alter(array &$build, NodeInterface $node, Entit
       if ($assigned_user) {
         $display_name = $assigned_user->getDisplayName();
         $initials = _strata_boards_get_initials($display_name);
-        $user_url = $assigned_user->toUrl()->toString();
 
         $meta_items['assigned'] = [
           '#type' => 'html_tag',
@@ -459,45 +463,49 @@ function strata_boards_node_view_alter(array &$build, NodeInterface $node, Entit
       }
     }
 
-    // Deadline badge.
-    if (isset($build['field_ticket_deadline']) && $node->hasField('field_ticket_deadline') && !$node->get('field_ticket_deadline')->isEmpty()) {
-      $deadline_value = $node->get('field_ticket_deadline')->value;
-      if ($deadline_value) {
-        $deadline_timestamp = strtotime($deadline_value);
-        $formatted_date = \Drupal::service('date.formatter')->format($deadline_timestamp, 'custom', 'M j, Y');
+    // Deadline badge - check various deadline fields.
+    $deadline_fields = ['field_ticket_deadline', 'field_violation_deadline'];
+    foreach ($deadline_fields as $deadline_field) {
+      if (isset($build[$deadline_field]) && $node->hasField($deadline_field) && !$node->get($deadline_field)->isEmpty()) {
+        $deadline_value = $node->get($deadline_field)->value;
+        if ($deadline_value) {
+          $deadline_timestamp = strtotime($deadline_value);
+          $formatted_date = \Drupal::service('date.formatter')->format($deadline_timestamp, 'custom', 'M j, Y');
 
-        // Determine if overdue or soon.
-        $now = time();
-        $days_until = ($deadline_timestamp - $now) / 86400;
-        $deadline_class = '';
-        if ($days_until < 0) {
-          $deadline_class = 'strata-ticket-meta__deadline--overdue';
-        }
-        elseif ($days_until <= 3) {
-          $deadline_class = 'strata-ticket-meta__deadline--soon';
-        }
+          // Determine if overdue or soon.
+          $now = time();
+          $days_until = ($deadline_timestamp - $now) / 86400;
+          $deadline_class = '';
+          if ($days_until < 0) {
+            $deadline_class = 'strata-ticket-meta__deadline--overdue';
+          }
+          elseif ($days_until <= 3) {
+            $deadline_class = 'strata-ticket-meta__deadline--soon';
+          }
 
-        // Calendar icon SVG.
-        $calendar_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>';
+          // Calendar icon SVG.
+          $calendar_icon = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>';
 
-        $meta_items['deadline'] = [
-          '#type' => 'html_tag',
-          '#tag' => 'span',
-          '#attributes' => [
-            'class' => array_filter(['strata-ticket-meta__deadline', $deadline_class]),
-          ],
-          '#weight' => 3,
-          'icon' => [
-            '#type' => 'inline_template',
-            '#template' => $calendar_icon,
-          ],
-          'date' => [
+          $meta_items['deadline'] = [
             '#type' => 'html_tag',
             '#tag' => 'span',
-            '#value' => $formatted_date,
-          ],
-        ];
-        unset($build['field_ticket_deadline']);
+            '#attributes' => [
+              'class' => array_filter(['strata-ticket-meta__deadline', $deadline_class]),
+            ],
+            '#weight' => 3,
+            'icon' => [
+              '#type' => 'inline_template',
+              '#template' => $calendar_icon,
+            ],
+            'date' => [
+              '#type' => 'html_tag',
+              '#tag' => 'span',
+              '#value' => $formatted_date,
+            ],
+          ];
+          unset($build[$deadline_field]);
+        }
+        break;
       }
     }
 
@@ -512,31 +520,35 @@ function strata_boards_node_view_alter(array &$build, NodeInterface $node, Entit
       ] + $meta_items;
     }
 
-    // Embed the strata_media view for files.
-    if ($node->hasField('field_ticket_files') && !$node->get('field_ticket_files')->isEmpty()) {
-      $media_ids = [];
-      foreach ($node->get('field_ticket_files') as $item) {
-        if ($item->target_id) {
-          $media_ids[] = $item->target_id;
+    // Embed the strata_media view for files - check various file fields.
+    $file_fields = ['field_ticket_files', 'field_violation_files', 'field_notice_files'];
+    foreach ($file_fields as $file_field) {
+      if ($node->hasField($file_field) && !$node->get($file_field)->isEmpty()) {
+        $media_ids = [];
+        foreach ($node->get($file_field) as $item) {
+          if ($item->target_id) {
+            $media_ids[] = $item->target_id;
+          }
         }
-      }
-      if (!empty($media_ids)) {
-        $build['ticket_files'] = [
-          '#type' => 'container',
-          '#attributes' => [
-            'class' => ['strata-ticket-files'],
-          ],
-          '#weight' => 6,
-          'label' => [
-            '#type' => 'html_tag',
-            '#tag' => 'h3',
-            '#value' => t('Files'),
+        if (!empty($media_ids)) {
+          $build['content_files'] = [
+            '#type' => 'container',
             '#attributes' => [
-              'class' => ['strata-ticket-files__label'],
+              'class' => ['strata-ticket-files'],
             ],
-          ],
-          'view' => views_embed_view('strata_media', 'embed_1', implode('+', $media_ids)),
-        ];
+            '#weight' => 6,
+            'label' => [
+              '#type' => 'html_tag',
+              '#tag' => 'h3',
+              '#value' => t('Files'),
+              '#attributes' => [
+                'class' => ['strata-ticket-files__label'],
+              ],
+            ],
+            'view' => views_embed_view('strata_media', 'embed_1', implode('+', $media_ids)),
+          ];
+        }
+        break;
       }
     }
 
@@ -544,6 +556,12 @@ function strata_boards_node_view_alter(array &$build, NodeInterface $node, Entit
     if (isset($build['field_ticket_comments'])) {
       $build['field_ticket_comments']['#prefix'] = '<div class="strata-ticket-comments">';
       $build['field_ticket_comments']['#suffix'] = '</div>';
+    }
+
+    // Wrap the violation comments field with our custom class.
+    if (isset($build['field_violation_comments'])) {
+      $build['field_violation_comments']['#prefix'] = '<div class="strata-violation-comments">';
+      $build['field_violation_comments']['#suffix'] = '</div>';
     }
   }
 }

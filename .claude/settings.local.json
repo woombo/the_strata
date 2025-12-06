@@ -6,7 +6,10 @@
       "Bash(ddev drush:*)",
       "Bash(ddev composer require:*)",
       "Bash(curl:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(chmod:*)",
+      "Bash(composer require:*)",
+      "Bash(grep:*)"
     ],
     "deny": [],
     "ask": []

@@ -2,8 +2,10 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.ticket.field_ticket_assigned_to
+    - core.entity_view_display.comment.ticket_comments.default
     - field.field.node.ticket.field_board_ref
+    - field.field.node.ticket.field_board_status
+    - field.field.node.ticket.field_ticket_assigned_to
     - field.field.node.ticket.field_ticket_comments
     - field.field.node.ticket.field_ticket_created_by
     - field.field.node.ticket.field_ticket_created_on
@@ -11,7 +13,6 @@ dependencies:
     - field.field.node.ticket.field_ticket_description
     - field.field.node.ticket.field_ticket_files
     - field.field.node.ticket.field_ticket_relates_to
-    - field.field.node.ticket.field_board_status
     - field.field.node.ticket.field_ticket_type
     - field.field.node.ticket.field_ticket_weight
     - node.type.ticket
@@ -25,77 +26,70 @@ targetEntityType: node
 bundle: ticket
 mode: default
 content:
+  field_board_status:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
   field_ticket_assigned_to:
     type: entity_reference_label
     label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
     weight: 2
     region: content
-    settings:
-      link: true
-    third_party_settings: {  }
-  field_board_ref:
-    type: entity_reference_label
-    label: above
-    weight: 4
-    region: content
-    settings:
-      link: true
-    third_party_settings: {  }
   field_ticket_comments:
     type: comment_default
     label: hidden
-    weight: 110
-    region: content
     settings:
       view_mode: default
       pager_id: 0
     third_party_settings: {  }
+    weight: 7
+    region: content
   field_ticket_deadline:
     type: datetime_default
     label: hidden
-    weight: 3
-    region: content
     settings:
       timezone_override: ''
       format_type: medium
     third_party_settings: {  }
+    weight: 3
+    region: content
   field_ticket_description:
     type: text_default
     label: hidden
-    weight: 5
-    region: content
     settings: {  }
     third_party_settings: {  }
+    weight: 4
+    region: content
   field_ticket_relates_to:
     type: entity_reference_label
     label: above
-    weight: 7
-    region: content
     settings:
       link: true
     third_party_settings: {  }
-  field_board_status:
-    type: entity_reference_label
-    label: hidden
-    weight: 0
+    weight: 5
     region: content
-    settings:
-      link: false
-    third_party_settings: {  }
   field_ticket_type:
     type: entity_reference_label
     label: hidden
-    weight: 1
-    region: content
     settings:
       link: false
     third_party_settings: {  }
-  links:
-    weight: 100
+    weight: 1
     region: content
+  links:
     settings: {  }
     third_party_settings: {  }
+    weight: 6
+    region: content
 hidden:
+  field_board_ref: true
   field_ticket_created_by: true
   field_ticket_created_on: true
   field_ticket_files: true

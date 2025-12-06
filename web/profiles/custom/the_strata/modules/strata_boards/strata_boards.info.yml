@@ -14,5 +14,6 @@ dependencies:
   - drupal:views
   - drupal:toolbar
   - drupal:comment
+  - field_group:field_group
   - pathauto:pathauto
   - poll:poll

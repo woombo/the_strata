@@ -2,11 +2,11 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.board.field_board_columns
     - field.field.node.board.field_board_description
     - field.field.node.board.field_board_entity_type
     - node.type.board
   module:
-    - options
     - text
     - user
 id: node.board.default
@@ -27,4 +27,5 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  field_board_columns: true
   field_board_entity_type: true

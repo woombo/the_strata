@@ -11,7 +11,7 @@ entity_type: node
 bundle: violation
 label: Type
 description: 'The type of violation.'
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''
@@ -24,4 +24,5 @@ settings:
       field: name
       direction: asc
     auto_create: true
+    auto_create_bundle: ''
 field_type: entity_reference
