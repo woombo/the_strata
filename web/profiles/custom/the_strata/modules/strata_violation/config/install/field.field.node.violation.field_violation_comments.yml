@@ -2,7 +2,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - comment.type.violation_comments
     - field.storage.node.field_violation_comments
     - node.type.violation
   module:

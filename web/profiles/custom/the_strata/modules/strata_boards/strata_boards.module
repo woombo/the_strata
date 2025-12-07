@@ -536,13 +536,13 @@ function strata_boards_node_view_alter(array &$build, NodeInterface $node, Entit
             '#attributes' => [
               'class' => ['strata-ticket-files'],
             ],
-            '#weight' => 6,
+            '#weight' => 20,
             'label' => [
               '#type' => 'html_tag',
               '#tag' => 'h3',
-              '#value' => t('Files'),
+              '#value' => t('Files :'),
               '#attributes' => [
-                'class' => ['strata-ticket-files__label'],
+                'class' => ['field__label', 'strata-ticket-files__label'],
               ],
             ],
             'view' => views_embed_view('strata_media', 'embed_1', implode('+', $media_ids)),
