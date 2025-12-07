@@ -4,6 +4,7 @@ dependencies:
   config:
     - field.field.node.violation.field_board_ref
     - field.field.node.violation.field_board_status
+    - field.field.node.violation.field_violation_comments
     - field.field.node.violation.field_violation_date
     - field.field.node.violation.field_violation_deadline
     - field.field.node.violation.field_violation_details
@@ -48,22 +49,14 @@ content:
       timezone_override: ''
       format_type: medium
     third_party_settings: {  }
-    weight: 10
+    weight: 9
     region: content
   field_violation_details:
     type: text_default
-    label: above
+    label: inline
     settings: {  }
     third_party_settings: {  }
     weight: 8
-    region: content
-  field_violation_files:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 9
     region: content
   field_violation_location:
     type: entity_reference_label
@@ -116,7 +109,9 @@ content:
   links:
     settings: {  }
     third_party_settings: {  }
-    weight: 11
+    weight: 10
     region: content
 hidden:
   field_board_ref: true
+  field_violation_comments: true
+  field_violation_files: true

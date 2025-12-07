@@ -4,6 +4,7 @@ dependencies:
   config:
     - field.field.node.violation.field_board_ref
     - field.field.node.violation.field_board_status
+    - field.field.node.violation.field_violation_comments
     - field.field.node.violation.field_violation_date
     - field.field.node.violation.field_violation_deadline
     - field.field.node.violation.field_violation_details
@@ -185,4 +186,5 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  field_violation_comments: true

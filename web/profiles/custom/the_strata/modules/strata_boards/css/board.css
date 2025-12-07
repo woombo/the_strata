@@ -1048,6 +1048,12 @@
   border-bottom: 1px solid #e1e4e8;
 }
 
+.node__submitted {}
+.node__submitted .field {
+    display: initial;
+    padding: 0;
+}
+
 .strata-violation-view .field:nth-child(odd) {
   background: #f8f9fa;
 }
