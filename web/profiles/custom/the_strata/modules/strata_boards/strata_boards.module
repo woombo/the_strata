@@ -521,34 +521,40 @@ function strata_boards_node_view_alter(array &$build, NodeInterface $node, Entit
     }
 
     // Embed the strata_media view for files - check various file fields.
-    $file_fields = ['field_ticket_files', 'field_violation_files', 'field_notice_files'];
-    foreach ($file_fields as $file_field) {
-      if ($node->hasField($file_field) && !$node->get($file_field)->isEmpty()) {
-        $media_ids = [];
-        foreach ($node->get($file_field) as $item) {
-          if ($item->target_id) {
-            $media_ids[] = $item->target_id;
+    // Only add if content_files hasn't been added yet.
+    if (!isset($build['content_files'])) {
+      $file_fields = ['field_ticket_files', 'field_violation_files', 'field_notice_files'];
+      foreach ($file_fields as $file_field) {
+        if ($node->hasField($file_field) && !$node->get($file_field)->isEmpty()) {
+          // Remove the original field from the build array to prevent duplication.
+          unset($build[$file_field]);
+
+          $media_ids = [];
+          foreach ($node->get($file_field) as $item) {
+            if ($item->target_id) {
+              $media_ids[] = $item->target_id;
+            }
           }
-        }
-        if (!empty($media_ids)) {
-          $build['content_files'] = [
-            '#type' => 'container',
-            '#attributes' => [
-              'class' => ['strata-ticket-files'],
-            ],
-            '#weight' => 20,
-            'label' => [
-              '#type' => 'html_tag',
-              '#tag' => 'h3',
-              '#value' => t('Files :'),
+          if (!empty($media_ids)) {
+            $build['content_files'] = [
+              '#type' => 'container',
               '#attributes' => [
-                'class' => ['field__label', 'strata-ticket-files__label'],
+                'class' => ['strata-ticket-files'],
               ],
-            ],
-            'view' => views_embed_view('strata_media', 'embed_1', implode('+', $media_ids)),
-          ];
+              '#weight' => 20,
+              'label' => [
+                '#type' => 'html_tag',
+                '#tag' => 'h3',
+                '#value' => t('Files :'),
+                '#attributes' => [
+                  'class' => ['field__label', 'strata-ticket-files__label'],
+                ],
+              ],
+              'view' => views_embed_view('strata_media', 'embed_1', implode('+', $media_ids)),
+            ];
+          }
+          break;
         }
-        break;
       }
     }
 
