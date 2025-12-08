@@ -1,0 +1,20 @@
+name: 'The Strata Theme'
+type: theme
+description: 'Custom admin theme based on Gin for The Strata.'
+core_version_requirement: ^11
+base theme: gin
+package: Strata
+
+regions:
+  header: Header
+  pre_content: 'Pre-content'
+  breadcrumb: Breadcrumb
+  highlighted: Highlighted
+  help: Help
+  content: Content
+  page_top: 'Page top'
+  page_bottom: 'Page bottom'
+  sidebar_first: 'First sidebar'
+
+libraries:
+  - the_strata_theme/global
