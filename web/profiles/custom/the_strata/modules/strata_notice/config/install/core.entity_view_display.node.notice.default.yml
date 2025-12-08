@@ -7,7 +7,7 @@ dependencies:
     - field.field.node.notice.field_notice_description
     - field.field.node.notice.field_notice_files
     - field.field.node.notice.field_notice_image
-    - image.style.large
+    - image.style.wide
     - node.type.notice
   module:
     - image
@@ -38,7 +38,7 @@ content:
     label: hidden
     settings:
       image_link: ''
-      image_style: large
+      image_style: wide
       image_loading:
         attribute: lazy
     third_party_settings: {  }
