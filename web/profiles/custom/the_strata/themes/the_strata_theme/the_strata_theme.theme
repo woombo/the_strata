@@ -1,0 +1,82 @@
+<?php
+
+/**
+ * @file
+ * Functions to support theming in The Strata Theme.
+ */
+
+use Drupal\Core\Link;
+use Drupal\Core\Url;
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_preprocess_page_title().
+ *
+ * Prepend content type label to node titles for board-enabled content types.
+ */
+function the_strata_theme_preprocess_page_title(array &$variables): void {
+  $node = \Drupal::routeMatch()->getParameter('node');
+  if ($node instanceof NodeInterface && $node->hasField('field_board_status')) {
+    $node_type = $node->type->entity;
+    if ($node_type) {
+      $type_label = $node_type->label();
+      $variables['title'] = $type_label . ': ' . $node->label();
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_html().
+ *
+ * Set the head title for board-enabled content types.
+ */
+function the_strata_theme_preprocess_html(array &$variables): void {
+  $node = \Drupal::routeMatch()->getParameter('node');
+  if ($node instanceof NodeInterface && $node->hasField('field_board_status')) {
+    $node_type = $node->type->entity;
+    if ($node_type) {
+      $type_label = $node_type->label();
+      $new_title = $type_label . ': ' . $node->label();
+      if (isset($variables['head_title']['title'])) {
+        $variables['head_title']['title'] = $new_title;
+      }
+      else {
+        $variables['head_title'] = ['title' => $new_title];
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_breadcrumb().
+ *
+ * Replace "Back to Administration" with "Home" for anonymous users.
+ */
+function the_strata_theme_preprocess_breadcrumb(array &$variables): void {
+  $current_user = \Drupal::currentUser();
+
+  if ($current_user->isAnonymous() && !empty($variables['breadcrumb'])) {
+    // Check if the first breadcrumb item is the admin link.
+    $first_item = &$variables['breadcrumb'][0];
+    if (isset($first_item['text'])) {
+      $text = $first_item['text'];
+      // Check for "Back to Administration" or similar admin-related text.
+      if (is_string($text) && (stripos($text, 'administration') !== FALSE || stripos($text, 'admin') !== FALSE)) {
+        $first_item['text'] = t('Home');
+        $first_item['url'] = Url::fromRoute('<front>')->toString();
+      }
+    }
+  }
+
+  // Also ensure first item is always "Home" for anonymous users on node pages.
+  if ($current_user->isAnonymous() && !empty($variables['breadcrumb'])) {
+    $node = \Drupal::routeMatch()->getParameter('node');
+    if ($node instanceof NodeInterface) {
+      // Replace first item with Home link.
+      $variables['breadcrumb'][0] = [
+        'text' => t('Home'),
+        'url' => Url::fromRoute('<front>')->toString(),
+      ];
+    }
+  }
+}
