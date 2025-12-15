@@ -22,6 +22,20 @@ function strata_notice_node_view_alter(array &$build, NodeInterface $node, Entit
 
     // Add wrapper class for the notice view.
     $build['#attributes']['class'][] = 'strata-notice-view';
+
+    // Hide the status badge for anonymous users.
+    if (\Drupal::currentUser()->isAnonymous()) {
+      // Remove status from ticket_meta if it exists (added by strata_boards).
+      if (isset($build['ticket_meta']['status'])) {
+        unset($build['ticket_meta']['status']);
+      }
+      // If ticket_meta is now empty, remove it entirely.
+      if (isset($build['ticket_meta']) && count(array_filter(array_keys($build['ticket_meta']), fn($k) => !str_starts_with($k, '#'))) === 0) {
+        unset($build['ticket_meta']);
+      }
+    }
+    // Add cache context for user roles since display varies by login state.
+    $build['#cache']['contexts'][] = 'user.roles:anonymous';
   }
 }
 
