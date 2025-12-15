@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\NodeInterface;
 
 /**
@@ -47,4 +48,43 @@ function strata_notice_node_view_alter(array &$build, NodeInterface $node, Entit
       }
     }
   }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for views_exposed_form.
+ *
+ * Converts the Board filter to a select dropdown on the notices view.
+ */
+function strata_notice_form_views_exposed_form_alter(array &$form, FormStateInterface $form_state, string $form_id): void {
+  $view = $form_state->get('view');
+  if (!$view || $view->id() !== 'strata_notices') {
+    return;
+  }
+
+  // Check if the board filter exists.
+  if (!isset($form['board'])) {
+    return;
+  }
+
+  // Load all board nodes to populate the dropdown.
+  $boards = \Drupal::entityTypeManager()
+    ->getStorage('node')
+    ->loadByProperties([
+      'type' => 'board',
+      'status' => 1,
+    ]);
+
+  // Build options array.
+  $options = ['' => t('- Any -')];
+  foreach ($boards as $board) {
+    $options[$board->id()] = $board->label();
+  }
+
+  // Replace the text field with a select dropdown.
+  $form['board'] = [
+    '#type' => 'select',
+    '#title' => t('Board'),
+    '#options' => $options,
+    '#default_value' => $form['board']['#default_value'] ?? '',
+  ];
 }

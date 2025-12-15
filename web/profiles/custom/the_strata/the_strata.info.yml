@@ -57,9 +57,10 @@ themes:
   - olivero
   - claro
   - gin
+  - the_strata_theme
 
 distribution:
   name: 'The Strata'
   install:
-    theme: gin
+    theme: the_strata_theme
     finish_url: '/admin'

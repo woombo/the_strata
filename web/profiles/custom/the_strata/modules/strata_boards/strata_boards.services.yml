@@ -1,6 +1,0 @@
-services:
-  strata_boards.node_title_subscriber:
-    class: Drupal\strata_boards\EventSubscriber\NodeTitleSubscriber
-    arguments: ['@current_route_match']
-    tags:
-      - { name: event_subscriber }
