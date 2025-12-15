@@ -13,40 +13,15 @@ use Drupal\node\NodeInterface;
  * Implements hook_ENTITY_TYPE_view_alter() for node entities.
  */
 function strata_notice_node_view_alter(array &$build, NodeInterface $node, EntityViewDisplayInterface $display): void {
-  // For notice nodes, embed the strata_media view for files.
+  // For notice nodes in full/default view mode, add styling.
+  // Note: File embedding is handled by strata_boards_node_view_alter() for all
+  // board-enabled content types.
   if ($node->bundle() === 'notice' && in_array($display->getMode(), ['full', 'default'])) {
     // Attach the notice CSS library.
     $build['#attached']['library'][] = 'strata_notice/notice';
 
     // Add wrapper class for the notice view.
     $build['#attributes']['class'][] = 'strata-notice-view';
-
-    if ($node->hasField('field_notice_files') && !$node->get('field_notice_files')->isEmpty()) {
-      $media_ids = [];
-      foreach ($node->get('field_notice_files') as $item) {
-        if ($item->target_id) {
-          $media_ids[] = $item->target_id;
-        }
-      }
-      if (!empty($media_ids)) {
-        $build['notice_files'] = [
-          '#type' => 'container',
-          '#attributes' => [
-            'class' => ['strata-notice-files'],
-          ],
-          '#weight' => 3,
-          'label' => [
-            '#type' => 'html_tag',
-            '#tag' => 'h3',
-            '#value' => t('Files'),
-            '#attributes' => [
-              'class' => ['strata-notice-files__label'],
-            ],
-          ],
-          'view' => views_embed_view('strata_media', 'embed_1', implode('+', $media_ids)),
-        ];
-      }
-    }
   }
 }
 
