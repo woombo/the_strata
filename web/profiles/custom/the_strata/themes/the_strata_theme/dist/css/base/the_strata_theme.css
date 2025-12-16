@@ -1,0 +1,61 @@
+/**
+ * @file
+ * The Strata Theme - Custom styles.
+ */
+
+/* ==========================================================================
+   Strata Header
+   ========================================================================== */
+
+.strata-header {
+  background-color: var(--color-gray-050);
+  padding: 0.75rem 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 502;
+  border-bottom: 1px solid #CCC;
+}
+
+.strata-header__inner {
+  display: flex;
+  align-items: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.strata-header__branding {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: #000;
+}
+
+.strata-header__branding:hover {
+  text-decoration: none;
+  color: #000;
+}
+
+.strata-header__logo {
+  height: 40px;
+  width: auto;
+  max-width: 120px;
+  object-fit: contain;
+}
+
+.strata-header__site-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  white-space: nowrap;
+}
+
+/* Adjust TheStrataTheme's toolbar offset when Strata header is present */
+body.gin--navigation {
+  padding-top: 0;
+}
+
+/* Ensure proper stacking with TheStrataTheme navigation */
+.gin-secondary-toolbar {
+  top: auto;
+}

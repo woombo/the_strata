@@ -2,81 +2,51 @@
 
 /**
  * @file
- * Functions to support theming in The Strata Theme.
+ * the_strata_theme.theme
  */
 
-use Drupal\Core\Link;
-use Drupal\Core\Url;
-use Drupal\node\NodeInterface;
+use Composer\Autoload\ClassLoader;
 
 /**
- * Implements hook_preprocess_page_title().
- *
- * Prepend content type label to node titles for board-enabled content types.
+ * Load include files which contain additional theming logic.
  */
-function the_strata_theme_preprocess_page_title(array &$variables): void {
-  $node = \Drupal::routeMatch()->getParameter('node');
-  if ($node instanceof NodeInterface && $node->hasField('field_board_status')) {
-    $node_type = $node->type->entity;
-    if ($node_type) {
-      $type_label = $node_type->label();
-      $variables['title'] = $type_label . ': ' . $node->label();
+_the_strata_theme_include_theme_includes();
+
+/**
+ * Helper function to include all theme includes.
+ *
+ * We know, this is ugly, but we need to load all theme includes to make sure
+ * they are registered.
+ */
+function _the_strata_theme_include_theme_includes(): void {
+  static $included;
+  if (!isset($included)) {
+    $included = TRUE;
+    $loader = new ClassLoader();
+    $loader->addPsr4("Drupal\\the_strata_theme\\", __DIR__ . "/src");
+    $loader->register();
+    foreach (glob(__DIR__ . '/includes/*.theme') as $file) {
+      include_once $file;
     }
   }
 }
 
 /**
- * Implements hook_preprocess_html().
- *
- * Set the head title for board-enabled content types.
+ * Set The Strata Theme CSS on top of all other CSS files.
  */
-function the_strata_theme_preprocess_html(array &$variables): void {
-  $node = \Drupal::routeMatch()->getParameter('node');
-  if ($node instanceof NodeInterface && $node->hasField('field_board_status')) {
-    $node_type = $node->type->entity;
-    if ($node_type) {
-      $type_label = $node_type->label();
-      $new_title = $type_label . ': ' . $node->label();
-      if (isset($variables['head_title']['title'])) {
-        $variables['head_title']['title'] = $new_title;
-      }
-      else {
-        $variables['head_title'] = ['title' => $new_title];
-      }
-    }
-  }
-}
+function the_strata_theme_css_alter(&$css, $assets) {
+  // Use anything greater than 100 to have it load after the theme
+  // as CSS_AGGREGATE_THEME is set to 100.
+  // Let's be on the safe side and assign a high number to it.
+  $base_css = \Drupal::service('extension.list.theme')->getPath('the_strata_theme') . '/dist/css/base/the_strata_theme.css';
 
-/**
- * Implements hook_preprocess_breadcrumb().
- *
- * Replace "Back to Administration" with "Home" for anonymous users.
- */
-function the_strata_theme_preprocess_breadcrumb(array &$variables): void {
-  $current_user = \Drupal::currentUser();
-
-  if ($current_user->isAnonymous() && !empty($variables['breadcrumb'])) {
-    // Check if the first breadcrumb item is the admin link.
-    $first_item = &$variables['breadcrumb'][0];
-    if (isset($first_item['text'])) {
-      $text = $first_item['text'];
-      // Check for "Back to Administration" or similar admin-related text.
-      if (is_string($text) && (stripos($text, 'administration') !== FALSE || stripos($text, 'admin') !== FALSE)) {
-        $first_item['text'] = t('Home');
-        $first_item['url'] = Url::fromRoute('<front>')->toString();
-      }
-    }
+  if (isset($css[$base_css])) {
+    $css[$base_css]['group'] = 200;
   }
 
-  // Also ensure first item is always "Home" for anonymous users on node pages.
-  if ($current_user->isAnonymous() && !empty($variables['breadcrumb'])) {
-    $node = \Drupal::routeMatch()->getParameter('node');
-    if ($node instanceof NodeInterface) {
-      // Replace first item with Home link.
-      $variables['breadcrumb'][0] = [
-        'text' => t('Home'),
-        'url' => Url::fromRoute('<front>')->toString(),
-      ];
-    }
+  // The the_strata_theme-custom.css file should be loaded just after our the_strata_theme.css file.
+  $custom_css = 'public://the_strata_theme-custom.css';
+  if (isset($css[$custom_css])) {
+    $css[$custom_css]['group'] = 201;
   }
 }
