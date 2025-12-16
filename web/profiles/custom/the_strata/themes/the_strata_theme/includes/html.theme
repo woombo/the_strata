@@ -1,0 +1,106 @@
+<?php
+
+/**
+ * @file
+ * html.theme
+ */
+
+use Drupal\the_strata_theme\TheStrataThemeContentFormHelper;
+use Drupal\the_strata_theme\TheStrataThemeNavigation;
+use Drupal\the_strata_theme\TheStrataThemeSettings;
+
+/**
+ * Implements hook_preprocess_HOOK() for html.
+ */
+function the_strata_theme_preprocess_html(&$variables) {
+  // Are we relevant?
+  $the_strata_theme_activated = _the_strata_theme_is_active();
+
+  if ($the_strata_theme_activated) {
+    // Check if IMCE is active.
+    if (isset($variables['attributes']['class']) && in_array('imce-page', $variables['attributes']['class'])) {
+      return;
+    }
+
+    // Get theme settings.
+    /** @var \Drupal\the_strata_theme\TheStrataThemeSettings $settings */
+    $settings = \Drupal::classResolver(TheStrataThemeSettings::class);
+    $toolbar = $settings->get('classic_toolbar');
+
+    // Set accent color.
+    $variables['attributes']['data-the_strata_theme-accent'] = $settings->get('preset_accent_color');
+
+    // Set focus color.
+    $variables['attributes']['data-the_strata_theme-focus'] = $settings->get('preset_focus_color');
+
+    // High contrast mode.
+    if ($settings->get('high_contrast_mode')) {
+      $variables['attributes']['class'][] = 'the_strata_theme--high-contrast-mode';
+    }
+
+    // Set layout density.
+    $variables['attributes']['data-the_strata_theme-layout-density'] = $settings->get('layout_density');
+
+    // Edit form? Use the new TheStrataTheme Edit form layout.
+    if (\Drupal::classResolver(TheStrataThemeContentFormHelper::class)->isContentForm()) {
+      $variables['attributes']['class'][] = 'the_strata_theme--edit-form';
+    }
+
+    // Only add the_strata_theme--classic-toolbar class if user has permission.
+    if (
+      !\Drupal::currentUser()->hasPermission('access toolbar') &&
+      !\Drupal::currentUser()->hasPermission('access navigation')
+    ) {
+      return;
+    }
+
+    // TheStrataTheme secondary toolbar.
+    if ($toolbar !== 'classic' || _the_strata_theme_module_is_active('navigation')) {
+      $variables['page']['the_strata_theme_secondary_toolbar'] = [
+        '#type' => 'toolbar',
+        '#access' => \Drupal::currentUser()->hasPermission('access toolbar') || \Drupal::currentUser()->hasPermission('access navigation'),
+        '#cache' => [
+          'keys' => ['toolbar_secondary'],
+          'contexts' => ['user.permissions'],
+        ],
+        '#attributes' => [
+          'id' => 'toolbar-administration-secondary',
+        ],
+      ];
+    }
+
+    // Check if Navigation module is active.
+    if (_the_strata_theme_module_is_active('navigation')) {
+      $variables['attributes']['class'][] = 'the_strata_theme--core-navigation';
+    }
+    elseif ($toolbar === 'new') {
+      /** @var \Drupal\the_strata_theme\TheStrataThemeNavigaton $navigation */
+      $navigation = \Drupal::classResolver(TheStrataThemeNavigation::class);
+      // Get new navigation.
+      $variables['page_top']['navigation'] = $navigation->getNavigationStructure();
+      // Get active trail.
+      $variables['#attached']['drupalSettings']['active_trail_paths'] = $navigation->getNavigationActiveTrail();
+      // Set toolbar class.
+      $variables['attributes']['class'][] = 'the_strata_theme--navigation';
+    }
+    else {
+      // Set toolbar class.
+      $variables['attributes']['class'][] = 'the_strata_theme--' . $toolbar . '-toolbar';
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for html__entity_browser__modal.
+ */
+function the_strata_theme_preprocess_html__entity_browser__modal(&$variables) {
+  the_strata_theme_preprocess_html($variables);
+
+  // Remove toolbar class in entity browser modal.
+  if (isset($variables['attributes']['class'])) {
+    $toolbar_class = preg_grep('/the_strata_theme--(.*)-toolbar/', $variables['attributes']['class']);
+    foreach ($toolbar_class as $key => $class) {
+      unset($variables['attributes']['class'][$key]);
+    }
+  }
+}

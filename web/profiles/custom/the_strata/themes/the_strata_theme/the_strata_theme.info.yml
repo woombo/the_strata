@@ -1,12 +1,152 @@
-name: 'The Strata Theme'
+name: The Strata Theme
 type: theme
-description: 'Custom admin theme based on Gin for The Strata.'
-core_version_requirement: ^11
-base theme: gin
-package: Strata
+base theme: claro
+description: 'The Strata Admin'
+core_version_requirement: ^11.2
 
+# These dependencies will not allow the installation of the_strata_theme at all if the_strata_theme_toolbar is not activated.
+# A bit harsh, so we'll continue to just rely on the composer requirement for now.
+# dependencies:
+#   - drupal:the_strata_theme_toolbar
+#   - drupal:link
+
+libraries:
+  - claro/global-styling
+  - the_strata_theme/the_strata_theme
+
+libraries-override:
+  # the_strata_theme overrides: replace
+  media_library/view:
+    js:
+      js/media_library.view.js: js/overrides/media_library.view.js
+
+  core/drupal.tableselect:
+    js:
+      misc/tableselect.js: js/overrides/tableselect.js
+
+  core/drupal.tabledrag:
+    js:
+      misc/tabledrag.js: js/overrides/tabledrag.js
+
+  # the_strata_theme overrides: disable
+  # needed override to overcome dialog styling issues
+  claro/claro.drupal.dialog:
+    css:
+      theme:
+        css/components/dialog.css: false
+
+  core/drupal.dialog.off_canvas:
+    css:
+      base:
+        misc/dialog/off-canvas.base.css: false
+        misc/dialog/off-canvas.css: false
+        misc/dialog/off-canvas.theme.css: false
+
+  claro/global-styling:
+    css:
+      layout:
+        css/layout/local-actions.css: false
+      theme:
+        css/theme/colors.css: false
+
+  core/drupal.tableheader:
+    js:
+      misc/tableheader.js: false
+    css:
+      component:
+        css/components/sticky-header.module.css: false
+        misc/components/sticky-header.module.css: false
+
+libraries-extend:
+  core/drupal.message:
+    - the_strata_theme/messages
+  core/drupal.tableselect:
+    - the_strata_theme/tableselect
+  core/drupal.tableheader:
+    - the_strata_theme/tableheader
+  core/drupal.autocomplete:
+    - the_strata_theme/autocomplete
+  core/ckeditor:
+    - the_strata_theme/ckeditor
+  ckeditor/ckeditor:
+    - the_strata_theme/ckeditor
+  core/ckeditor5:
+    - the_strata_theme/ckeditor5
+  core/drupal.dialog:
+    - the_strata_theme/dialog
+  core/drupal.ajax:
+    - the_strata_theme/ajax
+  core/drupal.dropbutton:
+    - the_strata_theme/dropbutton
+  media/media_embed_ckeditor_theme:
+    - the_strata_theme/the_strata_theme_media_embed_ckeditor_theme
+  media_library/view:
+    - the_strata_theme/media_library
+  media_library/widget:
+    - the_strata_theme/media_library
+  contextual/drupal.contextual-links:
+    - the_strata_theme/contextual_links
+  autosave_form/drupal.autosave_form:
+    - the_strata_theme/autosave
+  chosen/drupal.chosen:
+    - the_strata_theme/chosen
+  dropzonejs/widget:
+    - the_strata_theme/dropzonejs
+  entity_browser/entity_browser:
+    - the_strata_theme/entity_browser
+  entity_browser/tabs:
+    - the_strata_theme/entity_browser
+  entity_browser/entity_list:
+    - the_strata_theme/entity_browser
+  entity_browser/entity_reference:
+    - the_strata_theme/entity_browser
+  linkit/linkit.admin:
+    - the_strata_theme/linkit
+  module_filter/modules.tabs:
+    - the_strata_theme/module_filter
+  module_filter/update.status:
+    - the_strata_theme/module_filter
+  module_filter/modules:
+    - the_strata_theme/module_filter
+  upgrade_status/upgrade_status.admin:
+    - the_strata_theme/upgrade_status
+  webform/webform.filter:
+    - the_strata_theme/webform
+  webform_ui/webform_ui:
+    - the_strata_theme/webform
+    - the_strata_theme/webform_ui
+  webform/webform.element.help:
+    - the_strata_theme/webform
+  webform/webform.element.details.toggle:
+    - the_strata_theme/webform
+  webform/webform.form.tabs:
+    - the_strata_theme/webform
+  workbench/workbench.toolbar:
+   - the_strata_theme/workbench
+  paragraphs/drupal.paragraphs.widget:
+    - the_strata_theme/paragraphs
+  entity_reference_layout/erl_widget:
+    - the_strata_theme/entity_reference_layout
+    - the_strata_theme/layout_paragraphs
+  layout_paragraphs/layout_paragraphs_widget:
+    - the_strata_theme/layout_paragraphs
+  layout_paragraphs/builder:
+    - the_strata_theme/layout_paragraphs2
+  responsive_preview/drupal.responsive-preview:
+    - the_strata_theme/responsive_preview
+  workspaces/drupal.workspaces.overview:
+    - the_strata_theme/workspaces
+
+ckeditor_stylesheets:
+  - dist/css/theme/accent.css
+  - dist/css/theme/variables.css
+  - dist/css/theme/ckeditor.css
+
+ckeditor5-stylesheets: false
+
+# Regions
 regions:
-  header: Header
+  header: 'Header'
   pre_content: 'Pre-content'
   breadcrumb: Breadcrumb
   highlighted: Highlighted
@@ -15,6 +155,5 @@ regions:
   page_top: 'Page top'
   page_bottom: 'Page bottom'
   sidebar_first: 'First sidebar'
-
-libraries:
-  - the_strata_theme/global
+regions_hidden:
+  - sidebar_first
