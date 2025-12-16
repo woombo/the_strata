@@ -9,10 +9,10 @@
 
 .strata-header {
   background-color: var(--color-gray-050);
-  padding: 0.75rem 1.5rem;
+  padding: 1.5rem 1.5rem;
   position: sticky;
   top: 0;
-  z-index: 502;
+  z-index: 100;
   border-bottom: 1px solid #CCC;
 }
 
@@ -29,6 +29,7 @@
   gap: 0.75rem;
   text-decoration: none;
   color: #000;
+  margin: 0 auto;
 }
 
 .strata-header__branding:hover {
@@ -37,10 +38,16 @@
 }
 
 .strata-header__logo {
-  height: 40px;
+  height: 58px;
   width: auto;
-  max-width: 120px;
-  object-fit: contain;
+  /* object-fit: contain; */
+}
+
+/* SVG logo specific styles */
+.strata-header__logo[src$=".svg"],
+.strata-header__logo[src*=".svg?"] {
+  height: 58px;
+  width: auto;
 }
 
 .strata-header__site-name {
@@ -48,6 +55,7 @@
   font-weight: 600;
   letter-spacing: 0.025em;
   white-space: nowrap;
+  display: none;
 }
 
 /* Adjust TheStrataTheme's toolbar offset when Strata header is present */
