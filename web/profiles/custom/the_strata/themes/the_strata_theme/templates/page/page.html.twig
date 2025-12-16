@@ -14,7 +14,8 @@
   <div class="strata-header__inner">
     <a href="{{ path('<front>') }}" class="strata-header__branding" rel="home">
       {% if logo_url %}
-        <img src="{{ logo_url }}" alt="{{ site_name }}" class="strata-header__logo" />
+        {% set is_svg = logo_url ends with '.svg' or '.svg?' in logo_url %}
+        <img src="{{ logo_url }}" alt="{{ site_name }}" class="strata-header__logo{% if is_svg %} strata-header__logo--svg{% endif %}" role="img"{% if is_svg %} loading="eager"{% endif %} />
       {% endif %}
       {% if site_name %}
         <span class="strata-header__site-name">{{ site_name }}</span>
