@@ -47,17 +47,14 @@ install:
   - poll
   - token
   - entity_embed
-  - gin_toolbar
-  - gin_login
   - strata_boards
   - strata_notice
   - strata_violation
 
 themes:
-  - olivero
   - claro
-  - gin
   - the_strata_theme
+  - strata_theme
 
 distribution:
   name: 'The Strata'

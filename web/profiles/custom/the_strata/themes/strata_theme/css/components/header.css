@@ -1,0 +1,84 @@
+/**
+ * @file
+ * Strata Theme - Header styles.
+ */
+
+/* ==========================================================================
+   Strata Header
+   ========================================================================== */
+
+.strata-header {
+  background-color: #f5f5f5;
+  padding: 1rem 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid #ccc;
+}
+
+.strata-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.strata-header__branding {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: #000;
+}
+
+.strata-header__branding:hover {
+  text-decoration: none;
+  color: #333;
+}
+
+.strata-header__logo {
+  height: 50px;
+  width: auto;
+  max-width: 200px;
+  object-fit: contain;
+}
+
+/* SVG logo specific styles */
+.strata-header__logo--svg,
+.strata-header__logo[src$=".svg"],
+.strata-header__logo[src*=".svg?"] {
+  height: 50px;
+  width: auto;
+}
+
+.strata-header__site-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  white-space: nowrap;
+}
+
+.strata-header__nav {
+  display: flex;
+  align-items: center;
+}
+
+.strata-header__nav .menu {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.strata-header__nav .menu a {
+  text-decoration: none;
+  color: #333;
+  padding: 0.5rem;
+}
+
+.strata-header__nav .menu a:hover {
+  color: #000;
+  text-decoration: underline;
+}

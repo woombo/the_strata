@@ -14,8 +14,8 @@ function the_strata_install() {
   // Set Gin as the default theme.
   \Drupal::configFactory()
     ->getEditable('system.theme')
-    ->set('default', 'gin')
-    ->set('admin', 'gin')
+    ->set('default', 'strata_theme')
+    ->set('admin', 'claro')
     ->save();
 
   // Set the default homepage.

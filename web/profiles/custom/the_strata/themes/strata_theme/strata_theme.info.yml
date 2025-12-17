@@ -1,0 +1,40 @@
+name: Strata Theme
+type: theme
+description: 'The Strata frontend theme based on Stable9.'
+package: Strata
+base theme: stable9
+version: 1.0.0
+core_version_requirement: ^11
+libraries:
+  - strata_theme/base
+  - strata_theme/messages
+  - core/normalize
+libraries-extend:
+  user/drupal.user:
+    - strata_theme/user
+  core/drupal.dropbutton:
+    - strata_theme/dropbutton
+  core/drupal.dialog:
+    - strata_theme/dialog
+  file/drupal.file:
+    - strata_theme/file
+  core/drupal.item-list:
+    - strata_theme/item-list
+  core/drupal.progress:
+    - strata_theme/progress
+  core/drupal.tablesort:
+    - strata_theme/drupal.tablesort
+
+regions:
+  header: Header
+  primary_menu: 'Primary menu'
+  secondary_menu: 'Secondary menu'
+  breadcrumb: Breadcrumb
+  highlighted: Highlighted
+  help: Help
+  content: Content
+  sidebar_first: 'Sidebar first'
+  sidebar_second: 'Sidebar second'
+  footer: Footer
+  page_top: 'Page top'
+  page_bottom: 'Page bottom'
