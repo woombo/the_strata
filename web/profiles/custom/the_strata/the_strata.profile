@@ -27,9 +27,6 @@ function the_strata_install_tasks(&$install_state) {
       'display_name' => t('Install additional modules'),
       'type' => 'batch',
     ],
-    'the_strata_final_configuration' => [
-      'display_name' => t('Apply final configuration'),
-    ],
   ];
 }
 
@@ -70,30 +67,4 @@ function the_strata_install_profile_modules(array &$install_state) {
 function _the_strata_install_module($module, array &$context) {
   \Drupal::service('module_installer')->install([$module], TRUE);
   $context['message'] = t('Installed %module module.', ['%module' => $module]);
-}
-
-/**
- * Applies final configuration for The Strata profile.
- *
- * @param array $install_state
- *   The current install state.
- */
-function the_strata_final_configuration(array &$install_state) {
-  // Set Gin as the default theme.
-  \Drupal::configFactory()
-    ->getEditable('system.theme')
-    ->set('default', 'gin')
-    ->set('admin', 'gin')
-    ->save();
-
-  // Disable the default frontpage view.
-  if (\Drupal::moduleHandler()->moduleExists('views')) {
-    $view = \Drupal::entityTypeManager()
-      ->getStorage('view')
-      ->load('frontpage');
-    if ($view) {
-      $view->disable();
-      $view->save();
-    }
-  }
 }

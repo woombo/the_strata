@@ -391,7 +391,6 @@ display:
             remember_roles:
               authenticated: authenticated
             placeholder: ''
-            type: select
           is_grouped: false
           group_info:
             label: ''
