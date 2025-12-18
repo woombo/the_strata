@@ -53,11 +53,11 @@ install:
 
 themes:
   - claro
-  - the_strata_theme
+  - strata_theme
   - strata_theme
 
 distribution:
   name: 'The Strata'
   install:
-    theme: the_strata_theme
+    theme: strata_theme
     finish_url: '/admin'
