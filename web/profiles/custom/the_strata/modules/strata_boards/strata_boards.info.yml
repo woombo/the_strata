@@ -4,6 +4,7 @@ description: 'Trello-like board management system for project tracking.'
 core_version_requirement: ^11
 package: Strata
 dependencies:
+  - strata_base:strata_base
   - drupal:node
   - drupal:taxonomy
   - drupal:file

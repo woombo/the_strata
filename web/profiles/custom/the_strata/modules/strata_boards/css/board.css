@@ -94,9 +94,9 @@
 
 /* Single Column */
 .strata-board__column {
-  flex: 0 0 300px;
-  min-width: 300px;
-  max-width: 300px;
+  flex: 0 0 292px;
+  min-width: 292px;
+  max-width: 292px;
   background: #ebecf0;
   border-radius: 8px;
   display: flex;

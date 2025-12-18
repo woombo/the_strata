@@ -12,6 +12,7 @@
     ],
     "require": {
         "composer/installers": "^2.0",
+        "doctrine/annotations": "^1.14 || ^2.0",
         "drupal/admin_toolbar": "^3.6",
         "drupal/core-composer-scaffold": "^11",
         "drupal/core-project-message": "^11",
@@ -20,6 +21,7 @@
         "drupal/field_group": "^4.0",
         "drupal/pathauto": "^1.14",
         "drupal/poll": "2.0.x-dev",
+        "drupal/rules": "4.0.x-dev",
         "drush/drush": "^13"
     },
     "require-dev": {

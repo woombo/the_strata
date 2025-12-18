@@ -47,6 +47,9 @@ install:
   - poll
   - token
   - entity_embed
+  - typed_data
+  - rules
+  - strata_base
   - strata_boards
   - strata_notice
   - strata_violation
