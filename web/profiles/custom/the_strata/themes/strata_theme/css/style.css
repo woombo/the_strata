@@ -325,7 +325,7 @@ input[type="tel"],
 input[type="url"],
 textarea,
 select {
-  width: 100%;
+  /* width: 100%; */
   padding: var(--spacing-sm) var(--spacing-md);
   font-family: var(--font-primary);
   font-size: 1rem;
@@ -350,7 +350,7 @@ select:focus {
 }
 
 label {
-  display: block;
+  /* display: block; */
   font-weight: 600;
   margin-bottom: var(--spacing-xs);
   color: var(--strata-gray-700);

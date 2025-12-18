@@ -1,6 +1,8 @@
 langcode: en
 status: true
 dependencies:
+  config:
+    - core.entity_view_mode.poll.teaser
   module:
     - entity_embed
     - poll
@@ -10,6 +12,9 @@ type_id: entity
 type_settings:
   entity_type: poll
   bundles: {  }
-  display_plugins: {  }
+  display_plugins:
+    - 'view_mode:poll.teaser'
+  entity_browser: ''
+  entity_browser_settings: {  }
 icon: {  }
 icon_uuid: null
