@@ -2,6 +2,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_display.comment.violation_comments.default
     - field.field.node.violation.field_board_ref
     - field.field.node.violation.field_board_status
     - field.field.node.violation.field_violation_comments
@@ -17,6 +18,7 @@ dependencies:
     - field.field.node.violation.field_violation_type
     - node.type.violation
   module:
+    - comment
     - datetime
     - text
     - user
@@ -106,6 +108,15 @@ content:
     third_party_settings: {  }
     weight: 1
     region: content
+  field_violation_comments:
+    type: comment_default
+    label: above
+    settings:
+      view_mode: default
+      pager_id: 0
+    third_party_settings: {  }
+    weight: 11
+    region: content
   links:
     settings: {  }
     third_party_settings: {  }
@@ -113,5 +124,4 @@ content:
     region: content
 hidden:
   field_board_ref: true
-  field_violation_comments: true
   field_violation_files: true

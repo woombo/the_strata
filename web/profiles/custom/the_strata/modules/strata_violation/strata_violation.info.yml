@@ -4,6 +4,7 @@ description: 'Violation tracking and management for strata properties.'
 core_version_requirement: ^11
 package: Strata
 dependencies:
+  - strata_base:strata_base
   - drupal:comment
   - drupal:node
   - drupal:taxonomy

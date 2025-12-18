@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies: {  }
+name: w_900_h_auto
+label: w-900_h-auto
+effects:
+  85dc5da5-a36e-41c0-8b61-03ecd20d990b:
+    uuid: 85dc5da5-a36e-41c0-8b61-03ecd20d990b
+    id: image_scale
+    weight: 1
+    data:
+      width: 900
+      height: null
+      upscale: true

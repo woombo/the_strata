@@ -4,6 +4,7 @@ description: 'Provides notice content type for strata communications.'
 core_version_requirement: ^11
 package: Strata
 dependencies:
+  - strata_base:strata_base
   - drupal:node
   - drupal:file
   - drupal:image

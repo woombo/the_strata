@@ -1,0 +1,8 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Strata Base module.
+ */
+
+declare(strict_types=1);
