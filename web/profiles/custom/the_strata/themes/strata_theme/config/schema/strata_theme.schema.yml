@@ -1,0 +1,3 @@
+strata_theme.settings:
+  type: theme_settings
+  label: 'Strata Theme settings'
