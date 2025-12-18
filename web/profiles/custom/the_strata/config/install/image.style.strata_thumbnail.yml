@@ -1,6 +1,9 @@
+uuid: 9f9dbbe5-2ae7-43d1-ad7f-9b38c93010fa
 langcode: en
 status: true
 dependencies: {  }
+_core:
+  default_config_hash: EVeRmwrI1nER205Spt6r-5-rInYQwyh9WhiDVWbkNBk
 name: strata_thumbnail
 label: 'Strata Thumbnail (100x100)'
 effects:

@@ -786,8 +786,8 @@ display:
           plugin_id: text
           empty: false
           content:
-            value: '<a href="/poll/add" class="button button--primary button--small">+ Add Poll</a>'
-            format: full_html
+            value: "<ul class=\"local-actions\">\r\n<li class=\"local-actions__item\"><a href=\"/poll/add\" class=\"button button--action button--primary\" data-drupal-link-system-path=\"poll/add\">Add poll</a></li>\r\n</ul>"
+            format: basic_html
           tokenize: false
       footer: {  }
       display_extenders: {  }

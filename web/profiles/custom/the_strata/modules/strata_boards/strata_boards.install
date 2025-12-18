@@ -19,7 +19,8 @@ function strata_boards_install(): void {
     ['name' => 'ToDo', 'weight' => 0],
     ['name' => 'In Progress', 'weight' => 1],
     ['name' => 'Blocked', 'weight' => 2],
-    ['name' => 'Done', 'weight' => 3],
+    ['name' => 'Published', 'weight' => 3],
+    ['name' => 'Done', 'weight' => 4],
   ];
 
   foreach ($columns as $column) {

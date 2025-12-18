@@ -3,18 +3,35 @@
  * Inline items.
  */
 
+.container-inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5em;
+}
+
 .container-inline label::after,
 .container-inline .label::after {
   content: ":";
 }
+
 .form-type-radios .container-inline label::after,
 .form-type-checkboxes .container-inline label::after {
   content: "";
 }
+
+.form-type-radios .container-inline,
+.form-type-checkboxes .container-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+}
+
 .form-type-radios .container-inline .form-type-radio,
 .form-type-checkboxes .container-inline .form-type-checkbox {
-  margin: 0 1em;
+  margin: 0;
 }
+
 .container-inline .form-actions,
 .container-inline.form-actions {
   margin-top: 0;

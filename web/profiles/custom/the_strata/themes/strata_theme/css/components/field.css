@@ -6,20 +6,24 @@
 .field__label {
   font-weight: bold;
 }
-.field--label-inline .field__label,
-.field--label-inline .field__items {
-  float: left; /* LTR */
+
+.field--label-inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5em;
 }
-.field--label-inline .field__label,
-.field--label-inline > .field__item,
-.field--label-inline .field__items {
-  padding-right: 0.5em;
+
+.field--label-inline .field__label {
+  flex-shrink: 0;
 }
-[dir="rtl"] .field--label-inline .field__label,
-[dir="rtl"] .field--label-inline .field__items {
-  padding-right: 0;
-  padding-left: 0.5em;
-}
+
 .field--label-inline .field__label::after {
   content: ":";
+}
+
+.field--label-inline .field__items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25em;
 }
