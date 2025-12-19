@@ -607,6 +607,7 @@ display:
           empty_table: false
           caption: ''
           description: ''
+          class: ''
       row:
         type: fields
       query:
@@ -866,7 +867,7 @@ display:
           type: timestamp
           settings:
             date_format: custom
-            custom_date_format: 'd/m/Y H:i'
+            custom_date_format: d/m/Y
             timezone: ''
             tooltip:
               date_format: long
@@ -941,6 +942,33 @@ display:
           fields:
             title: title
             field_notice_description: field_notice_description
+        notice_month:
+          id: notice_month
+          table: node_field_data
+          field: notice_month
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          plugin_id: notice_month_filter
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: ''
+            label: Month
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: month
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
       filter_groups:
         operator: AND
         groups:
