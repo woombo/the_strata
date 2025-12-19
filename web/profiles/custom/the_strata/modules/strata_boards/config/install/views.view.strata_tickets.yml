@@ -817,7 +817,7 @@ display:
         header: false
       header: {  }
       display_extenders: {  }
-      path: node/%node/tickets
+      path: board/%node/tickets
     cache_metadata:
       max-age: -1
       contexts:

@@ -6,6 +6,7 @@ dependencies:
     - node.type.page
   module:
     - text
+    - user
 id: node.page.default
 targetEntityType: node
 bundle: page

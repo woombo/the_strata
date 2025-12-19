@@ -35,6 +35,15 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
+  field_violation_comments:
+    type: comment_default
+    label: above
+    settings:
+      view_mode: default
+      pager_id: 0
+    third_party_settings: {  }
+    weight: 11
+    region: content
   field_violation_date:
     type: datetime_default
     label: inline
@@ -107,15 +116,6 @@ content:
       link: true
     third_party_settings: {  }
     weight: 1
-    region: content
-  field_violation_comments:
-    type: comment_default
-    label: above
-    settings:
-      view_mode: default
-      pager_id: 0
-    third_party_settings: {  }
-    weight: 11
     region: content
   links:
     settings: {  }
