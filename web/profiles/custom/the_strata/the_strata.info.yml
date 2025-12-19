@@ -49,7 +49,11 @@ install:
   - entity_embed
   - typed_data
   - rules
+  - flood_control
+  - password_policy
+  - seckit
   - strata_base
+  - strata_basic_page
   - strata_boards
   - strata_notice
   - strata_violation
