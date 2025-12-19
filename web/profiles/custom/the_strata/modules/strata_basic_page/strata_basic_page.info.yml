@@ -1,0 +1,9 @@
+name: 'Strata Basic Page'
+type: module
+description: 'Provides a basic Page content type with title and content.'
+core_version_requirement: ^11
+package: Strata
+dependencies:
+  - strata_base:strata_base
+  - drupal:node
+  - drupal:text
