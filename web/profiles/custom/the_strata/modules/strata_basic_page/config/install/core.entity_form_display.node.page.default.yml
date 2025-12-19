@@ -5,6 +5,7 @@ dependencies:
     - field.field.node.page.body
     - node.type.page
   module:
+    - path
     - text
 id: node.page.default
 targetEntityType: node
