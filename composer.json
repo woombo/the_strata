@@ -19,9 +19,12 @@
         "drupal/core-recommended": "^11",
         "drupal/entity_embed": "^1.7",
         "drupal/field_group": "^4.0",
+        "drupal/flood_control": "^3.0",
+        "drupal/password_policy": "^4.0",
         "drupal/pathauto": "^1.14",
         "drupal/poll": "2.0.x-dev",
         "drupal/rules": "4.0.x-dev",
+        "drupal/seckit": "^2.0",
         "drush/drush": "^13"
     },
     "require-dev": {
