@@ -1,0 +1,58 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.violation
+    - user.role.strata_manager
+  module:
+    - rules
+    - node
+id: violation_created_notification
+label: 'Violation Created Notification'
+events:
+  -
+    event_name: 'rules_entity_insert:node--violation'
+description: 'Sends an email notification to Strata Managers when a new violation is created.'
+tags: {  }
+config_version: '3'
+expression:
+  id: rules_rule
+  uuid: a1b2c3d4-e5f6-7890-abcd-ef1234567890
+  weight: 0
+  conditions:
+    id: rules_and
+    uuid: b2c3d4e5-f6a7-8901-bcde-f12345678901
+    weight: 0
+    negate: false
+    conditions: {  }
+  actions:
+    id: rules_action_set
+    uuid: c3d4e5f6-a7b8-9012-cdef-123456789012
+    weight: 0
+    actions:
+      -
+        id: rules_action
+        uuid: d4e5f6a7-b8c9-0123-defa-234567890123
+        weight: 0
+        action_id: rules_email_to_users_of_role
+        context_values:
+          roles:
+            - strata_manager
+          subject: 'New violation - [node:title]'
+          message: |
+            A new violation has been created.
+
+            Title: [node:title]
+            Date of Violation: [node:field_violation_date]
+            Name: [node:field_violation_name]
+            Suite: [node:field_violation_suite]
+            Location: [node:field_violation_location]
+            Violation Type: [node:field_violation_type]
+            Details: [node:field_violation_details]
+            Repeat Offender: [node:field_violation_repeat]
+            Deadline: [node:field_violation_deadline]
+
+            View the violation: [node:url]
+        context_mapping: {  }
+        context_processors: {  }
+        provides_mapping: {  }
