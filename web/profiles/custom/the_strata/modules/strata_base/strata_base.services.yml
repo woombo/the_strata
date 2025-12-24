@@ -1,0 +1,6 @@
+services:
+  strata_base.node_access_subscriber:
+    class: Drupal\strata_base\EventSubscriber\NodeAccessSubscriber
+    arguments: ['@current_user', '@config.factory']
+    tags:
+      - { name: event_subscriber }

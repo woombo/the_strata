@@ -1,7 +1,8 @@
 <?php
 
-namespace Drupal\strata_boards\EventSubscriber;
+namespace Drupal\strata_base\EventSubscriber;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Url;
 use Drupal\node\NodeInterface;
@@ -13,14 +14,9 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
- * Restricts access to ticket and violation nodes for anonymous users.
+ * Restricts access to configured node types for anonymous users.
  */
 class NodeAccessSubscriber implements EventSubscriberInterface {
-
-  /**
-   * Node types that require authentication.
-   */
-  protected const RESTRICTED_TYPES = ['ticket', 'violation'];
 
   /**
    * The current user.
@@ -30,13 +26,23 @@ class NodeAccessSubscriber implements EventSubscriberInterface {
   protected AccountProxyInterface $currentUser;
 
   /**
+   * The config factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected ConfigFactoryInterface $configFactory;
+
+  /**
    * Constructs a NodeAccessSubscriber object.
    *
    * @param \Drupal\Core\Session\AccountProxyInterface $current_user
    *   The current user.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory.
    */
-  public function __construct(AccountProxyInterface $current_user) {
+  public function __construct(AccountProxyInterface $current_user, ConfigFactoryInterface $config_factory) {
     $this->currentUser = $current_user;
+    $this->configFactory = $config_factory;
   }
 
   /**
@@ -76,7 +82,7 @@ class NodeAccessSubscriber implements EventSubscriberInterface {
       return;
     }
 
-    if (in_array($node->bundle(), self::RESTRICTED_TYPES, TRUE)) {
+    if ($this->isRestricted($node)) {
       $url = Url::fromRoute('<front>')->toString();
       $response = new RedirectResponse($url);
       $event->setResponse($response);
@@ -112,11 +118,27 @@ class NodeAccessSubscriber implements EventSubscriberInterface {
       return;
     }
 
-    if (in_array($node->bundle(), self::RESTRICTED_TYPES, TRUE)) {
+    if ($this->isRestricted($node)) {
       $url = Url::fromRoute('<front>')->toString();
       $response = new RedirectResponse($url);
       $event->setResponse($response);
     }
+  }
+
+  /**
+   * Checks if the node type is restricted.
+   *
+   * @param \Drupal\node\NodeInterface $node
+   *   The node to check.
+   *
+   * @return bool
+   *   TRUE if the node type is restricted, FALSE otherwise.
+   */
+  protected function isRestricted(NodeInterface $node): bool {
+    $config = $this->configFactory->get('strata_base.settings');
+    $restricted_types = $config->get('restricted_content_types') ?? [];
+
+    return in_array($node->bundle(), $restricted_types, TRUE);
   }
 
 }

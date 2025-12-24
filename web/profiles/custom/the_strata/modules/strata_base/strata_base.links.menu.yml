@@ -1,0 +1,13 @@
+strata_base.config:
+  title: 'Strata'
+  description: 'Strata Configuration'
+  route_name: strata_base.config
+  parent: system.admin_config
+  weight: 50
+
+strata_base.restricted_content:
+  title: 'Restricted Content'
+  description: 'Configure which content types are restricted from anonymous users.'
+  route_name: strata_base.restricted_content
+  parent: strata_base.config
+  weight: 0

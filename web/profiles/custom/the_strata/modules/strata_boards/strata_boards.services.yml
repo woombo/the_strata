@@ -1,6 +1,0 @@
-services:
-  strata_boards.node_access_subscriber:
-    class: Drupal\strata_boards\EventSubscriber\NodeAccessSubscriber
-    arguments: ['@current_user']
-    tags:
-      - { name: event_subscriber }

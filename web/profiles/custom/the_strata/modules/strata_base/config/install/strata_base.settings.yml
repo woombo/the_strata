@@ -1,0 +1,4 @@
+restricted_content_types:
+  - ticket
+  - violation
+  - board

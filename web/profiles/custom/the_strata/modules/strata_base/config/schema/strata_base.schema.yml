@@ -1,0 +1,10 @@
+strata_base.settings:
+  type: config_object
+  label: 'Strata Base settings'
+  mapping:
+    restricted_content_types:
+      type: sequence
+      label: 'Restricted content types'
+      sequence:
+        type: string
+        label: 'Content type machine name'
