@@ -1,0 +1,15 @@
+strata_base.config:
+  path: '/admin/config/strata'
+  defaults:
+    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
+    _title: 'Strata'
+  requirements:
+    _permission: 'access administration pages'
+
+strata_base.restricted_content:
+  path: '/admin/config/strata/restricted-content'
+  defaults:
+    _form: '\Drupal\strata_base\Form\RestrictedContentForm'
+    _title: 'Restricted Content'
+  requirements:
+    _permission: 'administer site configuration'
