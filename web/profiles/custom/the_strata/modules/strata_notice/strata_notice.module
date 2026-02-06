@@ -17,10 +17,7 @@ function strata_notice_node_view_alter(array &$build, NodeInterface $node, Entit
   // Note: File embedding is handled by strata_boards_node_view_alter() for all
   // board-enabled content types.
   if ($node->bundle() === 'notice' && in_array($display->getMode(), ['full', 'default'])) {
-    // Attach the notice CSS library.
-    $build['#attached']['library'][] = 'strata_notice/notice';
-
-    // Add wrapper class for the notice view.
+    // Add wrapper class for the notice view (CSS is in strata_theme).
     $build['#attributes']['class'][] = 'strata-notice-view';
 
     // Hide the status badge for anonymous users.

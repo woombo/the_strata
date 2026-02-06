@@ -1,0 +1,16 @@
+name: 'Strata Meeting'
+type: module
+description: 'Provides the Meeting content type for strata council meetings.'
+core_version_requirement: ^10 || ^11
+package: Strata
+dependencies:
+  - strata_base:strata_base
+  - strata_boards:strata_boards
+  - drupal:node
+  - drupal:user
+  - drupal:comment
+  - drupal:taxonomy
+  - drupal:media
+  - drupal:datetime
+  - drupal:text
+  - pathauto:pathauto

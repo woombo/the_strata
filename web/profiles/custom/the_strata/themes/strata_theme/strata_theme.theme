@@ -24,6 +24,28 @@ function strata_theme_preprocess_page(array &$variables): void {
 }
 
 /**
+ * Implements hook_preprocess_node().
+ */
+function strata_theme_preprocess_node(array &$variables): void {
+  // Extract comment fields from content to render outside node__content.
+  $variables['comments'] = [];
+
+  // Comment field names by content type.
+  $comment_fields = [
+    'ticket' => 'field_ticket_comments',
+    'violation' => 'field_violation_comments',
+    'strata_meeting' => 'field_meeting_comments',
+  ];
+
+  $bundle = $variables['node']->bundle();
+  if (isset($comment_fields[$bundle]) && isset($variables['content'][$comment_fields[$bundle]])) {
+    $field_name = $comment_fields[$bundle];
+    $variables['comments'] = $variables['content'][$field_name];
+    unset($variables['content'][$field_name]);
+  }
+}
+
+/**
  * Implements hook_preprocess_image_widget().
  */
 function strata_theme_preprocess_image_widget(array &$variables): void {

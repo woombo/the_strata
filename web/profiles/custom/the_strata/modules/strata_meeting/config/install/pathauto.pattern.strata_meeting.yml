@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+  enforced:
+    module:
+      - strata_meeting
+id: strata_meeting
+label: Meeting
+type: 'canonical_entities:node'
+pattern: 'meeting/[node:title]'
+selection_criteria:
+  -
+    id: 'entity_bundle:node'
+    bundles:
+      strata_meeting: strata_meeting
+    negate: false
+    context_mapping:
+      node: node
+selection_logic: and
+weight: 0
+relationships: {  }

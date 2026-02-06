@@ -1,0 +1,858 @@
+/**
+ * @file
+ * Unified content type theming for Strata content types.
+ * Includes: tickets, violations, notices, meetings.
+ */
+
+/* ==========================================================================
+   Common Content View Styles
+   ========================================================================== */
+
+.strata-ticket-view,
+.strata-violation-view .node__content,
+.strata-notice-view,
+.strata-meeting-view {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* .strata-violation-view .node__content {
+  max-width: 900px;
+} */
+
+/* Hide "Member for" text across all content types */
+.strata-ticket-view .field--name-user-member-for,
+.strata-ticket-view .user-member-for,
+.strata-ticket-view .user-info,
+.strata-ticket-view .profile,
+.strata-violation-view .node__content .field--name-user-member-for,
+.strata-violation-view .node__content .user-member-for,
+.strata-violation-view .node__content .user-info,
+.strata-violation-view .node__content .profile,
+.strata-notice-view .field--name-user-member-for,
+.strata-notice-view .user-member-for,
+.strata-notice-view .user-info,
+.strata-notice-view .profile,
+.strata-notice-view .member-for,
+.strata-meeting-view .field--name-user-member-for,
+.strata-meeting-view .user-member-for,
+.strata-meeting-view .user-info,
+.strata-meeting-view .profile,
+.strata-meeting-view .member-for {
+  display: none !important;
+}
+
+/* ==========================================================================
+   Ticket Meta Section
+   ========================================================================== */
+
+.strata-ticket-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  border: 1px solid #e1e4e8;
+}
+
+.strata-ticket-meta .field {
+  margin: 0;
+}
+
+.strata-ticket-meta .field__label {
+  display: none;
+}
+
+/* Status badge */
+.strata-ticket-meta__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  border-radius: 4px;
+  background: #ebecf0;
+  color: #172b4d;
+}
+
+.strata-ticket-meta__status::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.strata-ticket-meta__status--todo {
+  background: #ebecf0;
+  color: #5e6c84;
+}
+
+.strata-ticket-meta__status--in-progress {
+  background: #deebff;
+  color: #0747a6;
+}
+
+.strata-ticket-meta__status--done {
+  background: #e3fcef;
+  color: #006644;
+}
+
+.strata-ticket-meta__status--blocked {
+  background: #ffebe6;
+  color: #bf2600;
+}
+
+/* Type badge */
+.strata-ticket-meta__type {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 4px;
+  letter-spacing: 0.025em;
+}
+
+.strata-ticket-meta__type--bug {
+  background: #ffebe6;
+  color: #bf2600;
+}
+
+.strata-ticket-meta__type--feature {
+  background: #e3fcef;
+  color: #006644;
+}
+
+.strata-ticket-meta__type--task {
+  background: #deebff;
+  color: #0747a6;
+}
+
+.strata-ticket-meta__type--improvement {
+  background: #fff0b3;
+  color: #172b4d;
+}
+
+/* Assigned user */
+.strata-ticket-meta__assigned {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem 0.25rem 0.25rem;
+  font-size: 0.8125rem;
+  background: #fff;
+  border: 1px solid #e1e4e8;
+  border-radius: 16px;
+  color: #172b4d;
+}
+
+.strata-ticket-meta__assigned-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  border-radius: 50%;
+}
+
+.strata-ticket-meta__assigned a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.strata-ticket-meta__assigned a:hover {
+  text-decoration: underline;
+  color: #0052cc;
+}
+
+/* Deadline */
+.strata-ticket-meta__deadline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.8125rem;
+  background: #fff;
+  border: 1px solid #e1e4e8;
+  border-radius: 4px;
+  color: #5e6c84;
+}
+
+.strata-ticket-meta__deadline svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.strata-ticket-meta__deadline--overdue {
+  background: #ffebe6;
+  border-color: #ffbdad;
+  color: #bf2600;
+}
+
+.strata-ticket-meta__deadline--soon {
+  background: #fff0b3;
+  border-color: #ffe380;
+  color: #172b4d;
+}
+
+/* ==========================================================================
+   Ticket View Page
+   ========================================================================== */
+
+.strata-ticket-view .field--name-field-ticket-description {
+  margin: 1.5rem 0;
+  line-height: 1.6;
+  color: #333;
+}
+
+.strata-ticket-view .field--name-field-ticket-description .field__label {
+  display: none;
+}
+
+/* Board reference */
+.strata-ticket-view .field--name-field-ticket-board {
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border-left: 3px solid #0052cc;
+}
+
+.strata-ticket-view .field--name-field-ticket-board .field__label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #5e6c84;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+}
+
+.strata-ticket-view .field--name-field-ticket-board a {
+  color: #0052cc;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.strata-ticket-view .field--name-field-ticket-board a:hover {
+  text-decoration: underline;
+}
+
+/* Related tickets */
+.strata-ticket-view .field--name-field-ticket-relates-to {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+}
+
+.strata-ticket-view .field--name-field-ticket-relates-to .field__label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #172b4d;
+  margin-bottom: 0.5rem;
+}
+
+.strata-ticket-view .field--name-field-ticket-relates-to .field__item {
+  margin-bottom: 0.25rem;
+}
+
+.strata-ticket-view .field--name-field-ticket-relates-to a {
+  color: #0052cc;
+  text-decoration: none;
+}
+
+.strata-ticket-view .field--name-field-ticket-relates-to a:hover {
+  text-decoration: underline;
+}
+
+/* Hide unwanted ticket elements */
+.strata-ticket-view .field--name-field-ticket-created-by,
+.strata-ticket-view .field--name-field-ticket-created-on {
+  display: none !important;
+}
+
+/* ==========================================================================
+   Violation View Page
+   ========================================================================== */
+
+.strata-violation-view .node__content .field {
+  display: flex;
+  align-items: flex-start;
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid #e1e4e8;
+}
+
+.node__submitted .field {
+  display: initial;
+  padding: 0;
+}
+
+.strata-violation-view .node__content .field:nth-child(odd) {
+  background: #f8f9fa;
+}
+
+.strata-violation-view .node__content .field:nth-child(even) {
+  background: #fff;
+}
+
+.strata-violation-view .node__content .field__label {
+  font-weight: 600;
+  color: #5e6c84;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.strata-violation-view .node__content .field__label::before {
+  content: '';
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.strata-violation-view .node__content .field__item,
+.strata-violation-view .node__content .field__items {
+  flex: 1;
+  color: #172b4d;
+}
+
+/* Violation field icons */
+.strata-violation-view .node__content .field--name-field-violation-date .field__label::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%235e6c84' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Cline x1='16' y1='2' x2='16' y2='6'%3E%3C/line%3E%3Cline x1='8' y1='2' x2='8' y2='6'%3E%3C/line%3E%3Cline x1='3' y1='10' x2='21' y2='10'%3E%3C/line%3E%3C/svg%3E");
+}
+
+.strata-violation-view .node__content .field--name-field-violation-location .field__label::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%235e6c84' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z'%3E%3C/path%3E%3Ccircle cx='12' cy='10' r='3'%3E%3C/circle%3E%3C/svg%3E");
+}
+
+.strata-violation-view .node__content .field--name-field-violation-name .field__label::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%235e6c84' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'%3E%3C/path%3E%3Ccircle cx='12' cy='7' r='4'%3E%3C/circle%3E%3C/svg%3E");
+}
+
+.strata-violation-view .node__content .field--name-field-violation-suite .field__label::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%235e6c84' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'%3E%3C/path%3E%3Cpolyline points='9 22 9 12 15 12 15 22'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+.strata-violation-view .node__content .field--name-field-violation-police-file .field__label::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%235e6c84' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'%3E%3C/path%3E%3Cpolyline points='14 2 14 8 20 8'%3E%3C/polyline%3E%3Cline x1='16' y1='13' x2='8' y2='13'%3E%3C/line%3E%3Cline x1='16' y1='17' x2='8' y2='17'%3E%3C/line%3E%3Cpolyline points='10 9 9 9 8 9'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+.strata-violation-view .node__content .field--name-field-violation-details .field__label::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%235e6c84' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='17' y1='10' x2='3' y2='10'%3E%3C/line%3E%3Cline x1='21' y1='6' x2='3' y2='6'%3E%3C/line%3E%3Cline x1='21' y1='14' x2='3' y2='14'%3E%3C/line%3E%3Cline x1='17' y1='18' x2='3' y2='18'%3E%3C/line%3E%3C/svg%3E");
+}
+
+.strata-violation-view .node__content .field--name-field-violation-repeat .field__label::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%235e6c84' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='17 1 21 5 17 9'%3E%3C/polyline%3E%3Cpath d='M3 11V9a4 4 0 0 1 4-4h14'%3E%3C/path%3E%3Cpolyline points='7 23 3 19 7 15'%3E%3C/polyline%3E%3Cpath d='M21 13v2a4 4 0 0 1-4 4H3'%3E%3C/path%3E%3C/svg%3E");
+}
+
+.strata-violation-view .node__content .field--name-field-violation-type .field__label::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%235e6c84' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolygon points='12 2 2 7 12 12 22 7 12 2'%3E%3C/polygon%3E%3Cpolyline points='2 17 12 22 22 17'%3E%3C/polyline%3E%3Cpolyline points='2 12 12 17 22 12'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+.strata-violation-view .node__content .field--name-field-violation-deadline .field__label::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%235e6c84' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'%3E%3C/circle%3E%3Cpolyline points='12 6 12 12 16 14'%3E%3C/polyline%3E%3C/svg%3E");
+}
+
+/* Violation details field - special handling for long text */
+.strata-violation-view .node__content .field--name-field-violation-details {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.strata-violation-view .node__content .field--name-field-violation-details .field__label {
+  margin-bottom: 0.5rem;
+}
+
+.strata-violation-view .node__content .field--name-field-violation-details .field__item {
+  width: 100%;
+  line-height: 1.6;
+}
+
+/* Violation fields container */
+.strata-violation-view .node__content .violation-fields {
+  border: 1px solid #e1e4e8;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+/* Hide fields that are in the meta section */
+.strata-violation-view .node__content .field--name-field-board-status,
+.strata-violation-view .node__content .field--name-field-violation-type {
+  display: none;
+}
+
+/* Board reference styling for violation */
+.strata-violation-view .node__content .field--name-field-board-ref {
+  background: #f0f4ff !important;
+  border-left: 3px solid #0052cc;
+}
+
+.strata-violation-view .node__content .field--name-field-board-ref .field__label::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%230052cc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Cline x1='3' y1='9' x2='21' y2='9'%3E%3C/line%3E%3Cline x1='9' y1='21' x2='9' y2='9'%3E%3C/line%3E%3C/svg%3E");
+}
+
+.strata-violation-view .node__content .field--name-field-board-ref a {
+  color: #0052cc;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.strata-violation-view .node__content .field--name-field-board-ref a:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   Meeting View Page
+   ========================================================================== */
+
+.strata-meeting-view .field {
+  display: flex;
+  align-items: flex-start;
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid #e1e4e8;
+}
+
+.strata-meeting-view .field:nth-child(odd) {
+  background: #f8f9fa;
+}
+
+.strata-meeting-view .field:nth-child(even) {
+  background: #fff;
+}
+
+.strata-meeting-view .field__label {
+  font-weight: 600;
+  color: #5e6c84;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 140px;
+}
+
+.strata-meeting-view .field__item,
+.strata-meeting-view .field__items {
+  flex: 1;
+  color: #172b4d;
+}
+
+/* Meeting long text fields */
+.strata-meeting-view .field--name-field-meeting-minutes,
+.strata-meeting-view .field--name-field-meeting-directives {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.strata-meeting-view .field--name-field-meeting-minutes .field__label,
+.strata-meeting-view .field--name-field-meeting-directives .field__label {
+  margin-bottom: 0.5rem;
+}
+
+.strata-meeting-view .field--name-field-meeting-minutes .field__item,
+.strata-meeting-view .field--name-field-meeting-directives .field__item {
+  width: 100%;
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   Files Section (Common)
+   ========================================================================== */
+
+.strata-ticket-files,
+.strata-notice-files,
+.strata-meeting-files {
+  margin: 1.5rem 0;
+}
+
+.strata-ticket-files__label,
+.strata-notice-files__label,
+.strata-meeting-files__label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #172b4d;
+  margin: 0 0 0.75rem;
+}
+
+/* Media view table styling */
+.strata-ticket-files .views-table,
+.strata-notice-files .views-table,
+.strata-meeting-files .views-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.strata-ticket-files .views-table th,
+.strata-notice-files .views-table th,
+.strata-meeting-files .views-table th {
+  background: #f8f9fa;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #5e6c84;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  border-bottom: 1px solid #e1e4e8;
+}
+
+.strata-ticket-files .views-table td,
+.strata-notice-files .views-table td,
+.strata-meeting-files .views-table td {
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  border-bottom: 1px solid #f4f5f7;
+  vertical-align: middle;
+}
+
+.strata-ticket-files .views-table tr:last-child td,
+.strata-notice-files .views-table tr:last-child td,
+.strata-meeting-files .views-table tr:last-child td {
+  border-bottom: none;
+}
+
+.strata-ticket-files .views-table a,
+.strata-notice-files .views-table a,
+.strata-meeting-files .views-table a {
+  color: #0052cc;
+  text-decoration: none;
+}
+
+.strata-ticket-files .views-table a:hover,
+.strata-notice-files .views-table a:hover,
+.strata-meeting-files .views-table a:hover {
+  text-decoration: underline;
+}
+
+/* Thumbnail styling */
+.strata-ticket-files .views-table img,
+.strata-notice-files .views-table img,
+.strata-meeting-files .views-table img {
+  max-width: 100px;
+  max-height: 100px;
+  border-radius: 4px;
+}
+
+/* Files table for ticket view */
+.strata-ticket-view .field--name-field-ticket-files {
+  margin: 1.5rem 0;
+}
+
+.strata-ticket-view .field--name-field-ticket-files .field__label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #172b4d;
+  margin-bottom: 0.75rem;
+}
+
+.strata-ticket-view .field--name-field-ticket-files table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.strata-ticket-view .field--name-field-ticket-files th {
+  background: #f8f9fa;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #5e6c84;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  border-bottom: 1px solid #e1e4e8;
+}
+
+.strata-ticket-view .field--name-field-ticket-files td {
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  border-bottom: 1px solid #f4f5f7;
+  vertical-align: middle;
+}
+
+.strata-ticket-view .field--name-field-ticket-files tr:last-child td {
+  border-bottom: none;
+}
+
+.strata-ticket-view .field--name-field-ticket-files a {
+  color: #0052cc;
+  text-decoration: none;
+}
+
+.strata-ticket-view .field--name-field-ticket-files a:hover {
+  text-decoration: underline;
+}
+
+.strata-ticket-view .field--name-field-ticket-files .file {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.strata-ticket-view .field--name-field-ticket-files .file-size {
+  color: #5e6c84;
+  font-size: 0.8125rem;
+}
+
+/* ==========================================================================
+   Global Comments Styling
+   ========================================================================== */
+
+/* Comment section container */
+.node__comments,
+.comment-wrapper,
+.field--type-comment {
+  margin-top: 2rem;
+  /* padding-top: 2rem;
+  border-top: 1px solid #e1e4e8; */
+}
+
+.node__comments > .field__label,
+.field--type-comment > .field__label {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #172b4d;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #0052cc;
+  display: inline-block;
+}
+
+/* Individual Comment */
+.comment {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+  border-left: 3px solid #0052cc;
+  transition: box-shadow 0.2s;
+}
+
+.comment:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Hide comment title */
+.comment__title,
+.comment-title,
+h3.comment__title {
+  display: none;
+}
+
+/* Comment meta */
+.comment__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.comment__author {
+  font-weight: 600;
+  color: #172b4d;
+}
+
+.comment__author a {
+  color: #0052cc;
+  text-decoration: none;
+}
+
+.comment__author a:hover {
+  text-decoration: underline;
+}
+
+.comment__submitted,
+.comment__created {
+  font-size: 0.8125rem;
+  color: #5e6c84;
+}
+
+.theusername {
+  color: #000;
+  font-weight: bold;
+  font-size: 110%;
+}
+
+.comment__content {
+  color: #333;
+  line-height: 1.6;
+}
+
+.comment__content p {
+  margin: 0 0 0.75rem;
+}
+
+.comment__content p:last-child {
+  margin-bottom: 0;
+}
+
+/* Comment Links */
+.comment__links {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e1e4e8;
+}
+
+.comment__links ul {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.comment__links a {
+  font-size: 0.8125rem;
+  color: #5e6c84;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.comment__links a:hover {
+  color: #0052cc;
+}
+
+/* Indented/Threaded Comments */
+.indented {
+  margin-left: 1.5rem;
+  padding-left: 1rem;
+  border-left: 2px solid #e1e4e8;
+}
+
+.indented .comment {
+  background: #fff;
+  border-left-color: #5e6c84;
+}
+
+/* Comment Form */
+.comment-form {
+  width: 100%;
+  background: #fff;
+  border: 1px solid #e1e4e8;
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.comment-form .form-item {
+  margin-bottom: 1rem;
+}
+
+.comment-form .form-item label {
+  font-weight: 600;
+  color: #172b4d;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.comment-form textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 0.75rem;
+  border: 1px solid #dfe1e6;
+  border-radius: 4px;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.comment-form textarea:focus {
+  outline: none;
+  border-color: #0052cc;
+  box-shadow: 0 0 0 2px rgba(0, 82, 204, 0.2);
+}
+
+.comment-form .form-submit {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.625rem 1.25rem;
+  background: #0052cc;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.comment-form .form-submit:hover {
+  background: #0065ff;
+}
+
+/* No Comments */
+.comment-empty {
+  text-align: center;
+  padding: 2rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  color: #5e6c84;
+}
+
+/* Hide unwanted comment elements */
+.comment .user-info,
+.comment .profile,
+.comment .field--name-user-member-for,
+.comment .member-for {
+  display: none !important;
+}
+
+/* Hide "Add new comment" headings */
+h2.comment-form__title,
+.node__comments > h2,
+.field--type-comment > h2 {
+  display: none !important;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  .indented {
+    margin-left: 0.75rem;
+    padding-left: 0.75rem;
+  }
+
+  .comment__meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .strata-violation-view .node__content .field,
+  .strata-meeting-view .field {
+    flex-direction: column;
+  }
+
+  .strata-violation-view .node__content .field__label,
+  .strata-meeting-view .field__label {
+    margin-bottom: 0.5rem;
+  }
+}

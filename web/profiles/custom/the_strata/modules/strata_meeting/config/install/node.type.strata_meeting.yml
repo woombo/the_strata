@@ -1,0 +1,17 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+    - strata_meeting
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+name: Meeting
+type: strata_meeting
+description: 'Meeting records for strata council.'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true
