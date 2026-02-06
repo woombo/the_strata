@@ -1,0 +1,27 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - comment.type.meeting_comments
+    - field.field.comment.meeting_comments.comment_body
+  module:
+    - text
+  enforced:
+    module:
+      - strata_meeting
+id: comment.meeting_comments.default
+targetEntityType: comment
+bundle: meeting_comments
+mode: default
+content:
+  comment_body:
+    type: text_textarea
+    weight: 0
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  author: true
+  subject: true

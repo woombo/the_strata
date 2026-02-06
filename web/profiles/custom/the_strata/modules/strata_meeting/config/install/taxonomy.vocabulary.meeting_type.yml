@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {  }
+name: 'Meeting Type'
+vid: meeting_type
+description: 'Type values for meeting content type.'
+weight: 0
+new_revision: false

@@ -1,0 +1,31 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_meeting_type
+    - node.type.strata_meeting
+    - taxonomy.vocabulary.meeting_type
+  enforced:
+    module:
+      - strata_meeting
+id: node.strata_meeting.field_meeting_type
+field_name: field_meeting_type
+entity_type: node
+bundle: strata_meeting
+label: 'Meeting Type'
+description: 'The type of meeting.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      meeting_type: meeting_type
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -57,6 +57,7 @@ install:
   - strata_boards
   - strata_notice
   - strata_violation
+  - strata_meeting
 
 themes:
   - claro

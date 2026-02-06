@@ -3,6 +3,7 @@ base:
   css:
     theme:
       css/style.css: {}
+      css/components/content-types.css: {}
     component:
       css/components/header.css:
         weight: -10

@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies:
+  enforced:
+    module:
+      - strata_meeting
+id: meeting_comments
+label: 'Meeting comments'
+target_entity_type_id: node
+description: 'Comments for meetings.'

@@ -18,6 +18,10 @@ ul.inline li {
   padding: 0 0.5em;
   list-style-type: none;
 }
+ul.inline li {
+  font-family: var(--font-primary);
+  font-size: 1rem;
+}
 ul.links a.is-active {
   color: #000;
 }

@@ -22,8 +22,8 @@
  * @see \Drupal\user\UserThemeHooks::preprocessUsername()
  */
 #}
-{% if link_path -%}
+{# {% if link_path -%}
   <a{{ attributes.addClass('username') }}>{{ name }}{{ extra }}</a>
-{%- else -%}
-  <span{{ attributes }}>{{ name }}{{ extra }}</span>
-{%- endif -%}
+{%- else -%} #}
+  <span{{ attributes.addClass('theusername') }}>{{ name }}{{ extra }}</span>
+{# {%- endif -%} #}

@@ -94,4 +94,10 @@
     {{ content }}
   </div>
 
+  {% if comments %}
+    <div class="node__comments">
+      {{ comments }}
+    </div>
+  {% endif %}
+
 </article>
