@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "521e5cd84a67abae539b251847db1cdf",
+    "content-hash": "c9560ab7578d0081bbe245db69ab51e1",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1783,35 +1783,77 @@
             }
         },
         {
-            "name": "drupal/flood_control",
-            "version": "3.0.0",
+            "name": "drupal/highlight_changes",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
-                "url": "https://git.drupalcode.org/project/flood_control.git",
-                "reference": "3.0.0"
+                "url": "https://git.drupalcode.org/project/highlight_changes.git",
+                "reference": "2.1.0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/flood_control-3.0.0.zip",
-                "reference": "3.0.0",
-                "shasum": "f453629f547a30670f9d5394b925b1895bb68615"
+                "url": "https://ftp.drupal.org/files/projects/highlight_changes-2.1.0.zip",
+                "reference": "2.1.0",
+                "shasum": "f642594fc8cdc74df23de946ad648d8164f019ae"
             },
             "require": {
-                "drupal/core": "^10.2 || ^11"
+                "drupal/core": "^10 || ^11 || ^12",
+                "npm-asset/diff": "^3.3"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "3.0.0",
-                    "datestamp": "1727430687",
+                    "version": "2.1.0",
+                    "datestamp": "1760374459",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
                     }
-                },
-                "drush": {
-                    "services": {
-                        "drush.services.yml": ">=9"
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Rich Gerdes",
+                    "homepage": "https://www.drupal.org/u/richgerdes",
+                    "email": "richard.gerdes@rutgers.edu"
+                }
+            ],
+            "description": "Provides active changes highlighting for entity forms in Drupal.",
+            "homepage": "https://www.drupal.org/project/highlight_changes",
+            "support": {
+                "source": "http://git.drupal.org/project/highlight_changes.git",
+                "issues": "https://www.drupal.org/project/issues/highlight_changes"
+            }
+        },
+        {
+            "name": "drupal/login_security",
+            "version": "2.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/login_security.git",
+                "reference": "2.0.3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/login_security-2.0.3.zip",
+                "reference": "2.0.3",
+                "shasum": "dad46694234bfb81bc058e29c3e5c49b5ee04bf0"
+            },
+            "require": {
+                "drupal/core": "^8.9 || ^9 || ^10 || ^11"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "2.0.3",
+                    "datestamp": "1769701677",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
                     }
                 }
             },
@@ -1821,22 +1863,43 @@
             ],
             "authors": [
                 {
-                    "name": "batigolix",
-                    "homepage": "https://www.drupal.org/user/22175"
+                    "name": "anybody",
+                    "homepage": "https://www.drupal.org/user/291091"
                 },
                 {
-                    "name": "dave reid",
-                    "homepage": "https://www.drupal.org/user/53892"
+                    "name": "cyu",
+                    "homepage": "https://www.drupal.org/user/202205"
                 },
                 {
-                    "name": "fabianderijk",
-                    "homepage": "https://www.drupal.org/user/278745"
+                    "name": "deekayen",
+                    "homepage": "https://www.drupal.org/user/972"
+                },
+                {
+                    "name": "deetergp",
+                    "homepage": "https://www.drupal.org/user/1134002"
+                },
+                {
+                    "name": "grevil",
+                    "homepage": "https://www.drupal.org/user/3668491"
+                },
+                {
+                    "name": "ilo",
+                    "homepage": "https://www.drupal.org/user/118449"
+                },
+                {
+                    "name": "jribeiro",
+                    "homepage": "https://www.drupal.org/user/1975716"
+                },
+                {
+                    "name": "shrop",
+                    "homepage": "https://www.drupal.org/user/14767"
                 }
             ],
-            "description": "Provides administration possibilities for hidden flood control variables",
-            "homepage": "https://www.drupal.org/project/flood_control",
+            "description": "Enable security options in the login flow of the site.",
+            "homepage": "https://drupal.org/project/login_security",
             "support": {
-                "source": "https://git.drupalcode.org/project/flood_control"
+                "source": "https://git.drupalcode.org/project/login_security",
+                "issues": "https://drupal.org/project/issues/login_security"
             }
         },
         {
@@ -3239,6 +3302,75 @@
                 "source": "https://github.com/nikic/PHP-Parser/tree/v5.7.0"
             },
             "time": "2025-12-06T11:56:16+00:00"
+        },
+        {
+            "name": "npm-asset/diff",
+            "version": "3.5.1",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/diff/-/diff-3.5.1.tgz"
+            },
+            "type": "npm-asset",
+            "license": [
+                "BSD-3-Clause"
+            ]
+        },
+        {
+            "name": "oomphinc/composer-installers-extender",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/oomphinc/composer-installers-extender.git",
+                "reference": "cbf4b6f9a24153b785d09eee755b995ba87bd5f9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/oomphinc/composer-installers-extender/zipball/cbf4b6f9a24153b785d09eee755b995ba87bd5f9",
+                "reference": "cbf4b6f9a24153b785d09eee755b995ba87bd5f9",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.1 || ^2.0",
+                "composer/installers": "^1.0 || ^2.0",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "composer/composer": "^2.0",
+                "phpunit/phpunit": "^7.2",
+                "squizlabs/php_codesniffer": "^3.3"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "OomphInc\\ComposerInstallersExtender\\Plugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "OomphInc\\ComposerInstallersExtender\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stephen Beemsterboer",
+                    "email": "stephen@oomphinc.com",
+                    "homepage": "https://github.com/balbuf"
+                },
+                {
+                    "name": "Nathan Dentzau",
+                    "email": "nate@oomphinc.com",
+                    "homepage": "http://oomph.is/ndentzau"
+                }
+            ],
+            "description": "Extend the composer/installers plugin to accept any arbitrary package type.",
+            "homepage": "http://www.oomphinc.com/",
+            "support": {
+                "issues": "https://github.com/oomphinc/composer-installers-extender/issues",
+                "source": "https://github.com/oomphinc/composer-installers-extender/tree/2.0.1"
+            },
+            "time": "2021-12-15T12:32:42+00:00"
         },
         {
             "name": "pear/archive_tar",
@@ -13066,5 +13198,5 @@
     "prefer-lowest": false,
     "platform": {},
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }

@@ -27,3 +27,6 @@
   flex-wrap: wrap;
   gap: 0.25em;
 }
+.field--type-entity-reference.field--label-inline .field__items {
+  display: block;
+}
