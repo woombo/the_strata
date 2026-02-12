@@ -8,3 +8,27 @@ strata_base.settings:
       sequence:
         type: string
         label: 'Content type machine name'
+    notification_roles:
+      type: sequence
+      label: 'Notification roles'
+      sequence:
+        type: string
+        label: 'Role machine name'
+    notification_content_types:
+      type: sequence
+      label: 'Notification content types'
+      sequence:
+        type: string
+        label: 'Content type machine name'
+    notification_content_triggers:
+      type: sequence
+      label: 'Content notification triggers'
+      sequence:
+        type: string
+        label: 'Trigger type'
+    notification_comment_triggers:
+      type: sequence
+      label: 'Comment notification triggers'
+      sequence:
+        type: string
+        label: 'Trigger type'

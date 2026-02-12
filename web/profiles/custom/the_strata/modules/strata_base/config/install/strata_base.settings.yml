@@ -3,4 +3,8 @@ restricted_content_types:
   - violation
   - board
   - notice
-  - strata_meeting
+  - meeting
+notification_roles: []
+notification_content_types: []
+notification_content_triggers: []
+notification_comment_triggers: []

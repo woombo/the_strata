@@ -11,3 +11,10 @@ strata_base.restricted_content:
   route_name: strata_base.restricted_content
   parent: strata_base.config
   weight: 0
+
+strata_base.content_notification:
+  title: 'Content Notification'
+  description: 'Configure notifications for content and comment changes.'
+  route_name: strata_base.content_notification
+  parent: strata_base.config
+  weight: 1
