@@ -3,15 +3,15 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_meeting_type
-    - node.type.strata_meeting
+    - node.type.meeting
     - taxonomy.vocabulary.meeting_type
   enforced:
     module:
       - strata_meeting
-id: node.strata_meeting.field_meeting_type
+id: node.meeting.field_meeting_type
 field_name: field_meeting_type
 entity_type: node
-bundle: strata_meeting
+bundle: meeting
 label: 'Meeting Type'
 description: 'The type of meeting.'
 required: false

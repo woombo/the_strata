@@ -3,16 +3,16 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_meeting_date
-    - node.type.strata_meeting
+    - node.type.meeting
   module:
     - datetime
   enforced:
     module:
       - strata_meeting
-id: node.strata_meeting.field_meeting_date
+id: node.meeting.field_meeting_date
 field_name: field_meeting_date
 entity_type: node
-bundle: strata_meeting
+bundle: meeting
 label: 'Meeting Date'
 description: 'The date of the meeting.'
 required: false

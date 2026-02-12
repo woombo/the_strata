@@ -4,14 +4,14 @@ dependencies:
   config:
     - field.storage.node.field_board_ref
     - node.type.board
-    - node.type.strata_meeting
+    - node.type.meeting
   enforced:
     module:
       - strata_meeting
-id: node.strata_meeting.field_board_ref
+id: node.meeting.field_board_ref
 field_name: field_board_ref
 entity_type: node
-bundle: strata_meeting
+bundle: meeting
 label: Board
 description: 'The board this meeting belongs to.'
 required: true

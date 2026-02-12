@@ -13,7 +13,7 @@ use Drupal\node\NodeInterface;
  */
 function strata_meeting_node_view_alter(array &$build, NodeInterface $node, EntityViewDisplayInterface $display): void {
   // For meeting nodes in full/default view mode, add styling class.
-  if ($node->bundle() === 'strata_meeting' && in_array($display->getMode(), ['full', 'default'])) {
+  if ($node->bundle() === 'meeting' && in_array($display->getMode(), ['full', 'default'])) {
     // Add wrapper class for the meeting view (CSS is in strata_theme).
     $build['#attributes']['class'][] = 'strata-meeting-view';
 
