@@ -13,3 +13,11 @@ strata_base.restricted_content:
     _title: 'Restricted Content'
   requirements:
     _permission: 'administer site configuration'
+
+strata_base.content_notification:
+  path: '/admin/config/strata/content-notification'
+  defaults:
+    _form: '\Drupal\strata_base\Form\ContentNotificationForm'
+    _title: 'Content Notification'
+  requirements:
+    _permission: 'administer site configuration'
