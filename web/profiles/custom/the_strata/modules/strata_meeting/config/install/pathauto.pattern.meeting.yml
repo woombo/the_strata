@@ -6,7 +6,7 @@ dependencies:
   enforced:
     module:
       - strata_meeting
-id: strata_meeting
+id: meeting
 label: Meeting
 type: 'canonical_entities:node'
 pattern: 'meeting/[node:title]'
@@ -14,7 +14,7 @@ selection_criteria:
   -
     id: 'entity_bundle:node'
     bundles:
-      strata_meeting: strata_meeting
+      meeting: meeting
     negate: false
     context_mapping:
       node: node

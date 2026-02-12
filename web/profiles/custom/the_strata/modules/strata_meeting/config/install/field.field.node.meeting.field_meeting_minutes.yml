@@ -2,19 +2,19 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_meeting_directives
-    - node.type.strata_meeting
+    - field.storage.node.field_meeting_minutes
+    - node.type.meeting
   module:
     - text
   enforced:
     module:
       - strata_meeting
-id: node.strata_meeting.field_meeting_directives
-field_name: field_meeting_directives
+id: node.meeting.field_meeting_minutes
+field_name: field_meeting_minutes
 entity_type: node
-bundle: strata_meeting
-label: Directives
-description: 'Directives or action items from the meeting.'
+bundle: meeting
+label: Minutes
+description: 'The minutes of the meeting.'
 required: false
 translatable: false
 default_value: {  }

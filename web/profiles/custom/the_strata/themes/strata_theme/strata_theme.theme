@@ -34,7 +34,7 @@ function strata_theme_preprocess_node(array &$variables): void {
   $comment_fields = [
     'ticket' => 'field_ticket_comments',
     'violation' => 'field_violation_comments',
-    'strata_meeting' => 'field_meeting_comments',
+    'meeting' => 'field_meeting_comments',
   ];
 
   $bundle = $variables['node']->bundle();

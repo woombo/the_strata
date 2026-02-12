@@ -3,14 +3,14 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_meeting_participants
-    - node.type.strata_meeting
+    - node.type.meeting
   enforced:
     module:
       - strata_meeting
-id: node.strata_meeting.field_meeting_participants
+id: node.meeting.field_meeting_participants
 field_name: field_meeting_participants
 entity_type: node
-bundle: strata_meeting
+bundle: meeting
 label: Participants
 description: 'Users participating in this meeting.'
 required: false

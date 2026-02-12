@@ -9,7 +9,7 @@ third_party_settings:
     available_menus: {  }
     parent: ''
 name: Meeting
-type: strata_meeting
+type: meeting
 description: 'Meeting records for strata council.'
 help: ''
 new_revision: true

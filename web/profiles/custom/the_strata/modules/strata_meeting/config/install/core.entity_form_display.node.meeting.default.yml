@@ -2,16 +2,16 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.strata_meeting.field_board_ref
-    - field.field.node.strata_meeting.field_board_status
-    - field.field.node.strata_meeting.field_meeting_comments
-    - field.field.node.strata_meeting.field_meeting_date
-    - field.field.node.strata_meeting.field_meeting_directives
-    - field.field.node.strata_meeting.field_meeting_files
-    - field.field.node.strata_meeting.field_meeting_minutes
-    - field.field.node.strata_meeting.field_meeting_participants
-    - field.field.node.strata_meeting.field_meeting_type
-    - node.type.strata_meeting
+    - field.field.node.meeting.field_board_ref
+    - field.field.node.meeting.field_board_status
+    - field.field.node.meeting.field_meeting_comments
+    - field.field.node.meeting.field_meeting_date
+    - field.field.node.meeting.field_meeting_directives
+    - field.field.node.meeting.field_meeting_files
+    - field.field.node.meeting.field_meeting_minutes
+    - field.field.node.meeting.field_meeting_participants
+    - field.field.node.meeting.field_meeting_type
+    - node.type.meeting
   module:
     - datetime
     - media_library
@@ -21,9 +21,9 @@ dependencies:
   enforced:
     module:
       - strata_meeting
-id: node.strata_meeting.default
+id: node.meeting.default
 targetEntityType: node
-bundle: strata_meeting
+bundle: meeting
 mode: default
 content:
   created:

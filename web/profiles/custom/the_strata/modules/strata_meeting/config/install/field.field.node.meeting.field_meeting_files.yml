@@ -3,14 +3,14 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_meeting_files
-    - node.type.strata_meeting
+    - node.type.meeting
   enforced:
     module:
       - strata_meeting
-id: node.strata_meeting.field_meeting_files
+id: node.meeting.field_meeting_files
 field_name: field_meeting_files
 entity_type: node
-bundle: strata_meeting
+bundle: meeting
 label: Files
 description: 'Attach files to this meeting. You can select existing files or upload new ones.'
 required: false
