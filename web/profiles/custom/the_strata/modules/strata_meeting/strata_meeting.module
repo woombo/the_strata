@@ -4,3 +4,20 @@
  * @file
  * Primary module hooks for Strata Meeting module.
  */
+
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_ENTITY_TYPE_view_alter() for node entities.
+ */
+function strata_meeting_node_view_alter(array &$build, NodeInterface $node, EntityViewDisplayInterface $display): void {
+  // For meeting nodes in full/default view mode, add styling class.
+  if ($node->bundle() === 'strata_meeting' && in_array($display->getMode(), ['full', 'default'])) {
+    // Add wrapper class for the meeting view (CSS is in strata_theme).
+    $build['#attributes']['class'][] = 'strata-meeting-view';
+
+    // Add cache context for user roles since display varies by login state.
+    $build['#cache']['contexts'][] = 'user.roles:anonymous';
+  }
+}

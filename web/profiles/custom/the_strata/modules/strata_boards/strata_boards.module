@@ -523,7 +523,7 @@ function strata_boards_node_view_alter(array &$build, NodeInterface $node, Entit
     // Embed the strata_media view for files - check various file fields.
     // Only add if content_files hasn't been added yet.
     if (!isset($build['content_files'])) {
-      $file_fields = ['field_ticket_files', 'field_violation_files', 'field_notice_files'];
+      $file_fields = ['field_ticket_files', 'field_violation_files', 'field_notice_files', 'field_meeting_files'];
       foreach ($file_fields as $file_field) {
         if ($node->hasField($file_field) && !$node->get($file_field)->isEmpty()) {
           // Remove the original field from the build array to prevent duplication.

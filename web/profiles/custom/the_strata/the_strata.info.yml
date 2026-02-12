@@ -49,9 +49,10 @@ install:
   - entity_embed
   - typed_data
   - rules
-  - flood_control
   - password_policy
+  - login_security
   - seckit
+  - highlight_changes
   - strata_base
   - strata_basic_page
   - strata_boards
