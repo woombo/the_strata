@@ -8,3 +8,35 @@ notification_roles: []
 notification_content_types: []
 notification_content_triggers: []
 notification_comment_triggers: []
+notification_template_content_created_subject: 'New [node:content-type:name]: [node:title]'
+notification_template_content_created_body: |
+  A new [node:content-type:name] has been created.
+
+  Title: [node:title]
+  Author: [node:author:display-name]
+
+  View: [node:url]
+notification_template_content_updated_subject: '[node:content-type:name] updated: [node:title]'
+notification_template_content_updated_body: |
+  A [node:content-type:name] has been updated.
+
+  Title: [node:title]
+  Updated by: [current-user:display-name]
+
+  View: [node:url]
+notification_template_comment_created_subject: 'New comment on [node:content-type:name]: [node:title]'
+notification_template_comment_created_body: |
+  A new comment has been added to a [node:content-type:name].
+
+  Content: [node:title]
+  Comment by: [comment:author]
+
+  View: [node:url]
+notification_template_comment_updated_subject: 'Comment updated on [node:content-type:name]: [node:title]'
+notification_template_comment_updated_body: |
+  A comment has been updated on a [node:content-type:name].
+
+  Content: [node:title]
+  Updated by: [comment:author]
+
+  View: [node:url]

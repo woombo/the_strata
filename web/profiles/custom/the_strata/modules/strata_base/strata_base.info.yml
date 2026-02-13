@@ -4,6 +4,7 @@ description: 'Base module providing shared functionality for Strata modules.'
 core_version_requirement: ^11
 package: Strata
 dependencies:
+  - drupal:comment
   - drupal:node
   - drupal:user
   - drupal:system
