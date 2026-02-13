@@ -131,6 +131,107 @@ class ContentNotificationForm extends ConfigFormBase {
       '#parents' => ['notification_comment_triggers'],
     ];
 
+    $token_help_content = $this->t('Available tokens: [node:title], [node:url], [node:content-type:name], [node:author:display-name], [current-user:display-name], [site:name], [site:url].');
+    $token_help_comment = $this->t('Available tokens: [node:title], [node:url], [node:content-type:name], [comment:author], [comment:body], [current-user:display-name], [site:name], [site:url].');
+
+    $form['email_templates_group'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Email templates'),
+      '#open' => FALSE,
+    ];
+
+    // Content created template.
+    $form['email_templates_group']['content_created'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Content created'),
+      '#open' => FALSE,
+    ];
+
+    $form['email_templates_group']['content_created']['notification_template_content_created_subject'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Subject'),
+      '#default_value' => $config->get('notification_template_content_created_subject') ?? '',
+      '#parents' => ['notification_template_content_created_subject'],
+    ];
+
+    $form['email_templates_group']['content_created']['notification_template_content_created_body'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Body'),
+      '#default_value' => $config->get('notification_template_content_created_body') ?? '',
+      '#description' => $token_help_content,
+      '#rows' => 8,
+      '#parents' => ['notification_template_content_created_body'],
+    ];
+
+    // Content updated template.
+    $form['email_templates_group']['content_updated'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Content updated'),
+      '#open' => FALSE,
+    ];
+
+    $form['email_templates_group']['content_updated']['notification_template_content_updated_subject'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Subject'),
+      '#default_value' => $config->get('notification_template_content_updated_subject') ?? '',
+      '#parents' => ['notification_template_content_updated_subject'],
+    ];
+
+    $form['email_templates_group']['content_updated']['notification_template_content_updated_body'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Body'),
+      '#default_value' => $config->get('notification_template_content_updated_body') ?? '',
+      '#description' => $token_help_content,
+      '#rows' => 8,
+      '#parents' => ['notification_template_content_updated_body'],
+    ];
+
+    // Comment created template.
+    $form['email_templates_group']['comment_created'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Comment created'),
+      '#open' => FALSE,
+    ];
+
+    $form['email_templates_group']['comment_created']['notification_template_comment_created_subject'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Subject'),
+      '#default_value' => $config->get('notification_template_comment_created_subject') ?? '',
+      '#parents' => ['notification_template_comment_created_subject'],
+    ];
+
+    $form['email_templates_group']['comment_created']['notification_template_comment_created_body'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Body'),
+      '#default_value' => $config->get('notification_template_comment_created_body') ?? '',
+      '#description' => $token_help_comment,
+      '#rows' => 8,
+      '#parents' => ['notification_template_comment_created_body'],
+    ];
+
+    // Comment updated template.
+    $form['email_templates_group']['comment_updated'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Comment updated'),
+      '#open' => FALSE,
+    ];
+
+    $form['email_templates_group']['comment_updated']['notification_template_comment_updated_subject'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Subject'),
+      '#default_value' => $config->get('notification_template_comment_updated_subject') ?? '',
+      '#parents' => ['notification_template_comment_updated_subject'],
+    ];
+
+    $form['email_templates_group']['comment_updated']['notification_template_comment_updated_body'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Body'),
+      '#default_value' => $config->get('notification_template_comment_updated_body') ?? '',
+      '#description' => $token_help_comment,
+      '#rows' => 8,
+      '#parents' => ['notification_template_comment_updated_body'],
+    ];
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -143,6 +244,14 @@ class ContentNotificationForm extends ConfigFormBase {
       ->set('notification_content_types', array_values(array_filter($form_state->getValue('notification_content_types') ?? [])))
       ->set('notification_content_triggers', array_values(array_filter($form_state->getValue('notification_content_triggers') ?? [])))
       ->set('notification_comment_triggers', array_values(array_filter($form_state->getValue('notification_comment_triggers') ?? [])))
+      ->set('notification_template_content_created_subject', $form_state->getValue('notification_template_content_created_subject') ?? '')
+      ->set('notification_template_content_created_body', $form_state->getValue('notification_template_content_created_body') ?? '')
+      ->set('notification_template_content_updated_subject', $form_state->getValue('notification_template_content_updated_subject') ?? '')
+      ->set('notification_template_content_updated_body', $form_state->getValue('notification_template_content_updated_body') ?? '')
+      ->set('notification_template_comment_created_subject', $form_state->getValue('notification_template_comment_created_subject') ?? '')
+      ->set('notification_template_comment_created_body', $form_state->getValue('notification_template_comment_created_body') ?? '')
+      ->set('notification_template_comment_updated_subject', $form_state->getValue('notification_template_comment_updated_subject') ?? '')
+      ->set('notification_template_comment_updated_body', $form_state->getValue('notification_template_comment_updated_body') ?? '')
       ->save();
 
     parent::submitForm($form, $form_state);

@@ -32,3 +32,27 @@ strata_base.settings:
       sequence:
         type: string
         label: 'Trigger type'
+    notification_template_content_created_subject:
+      type: string
+      label: 'Content created email subject'
+    notification_template_content_created_body:
+      type: string
+      label: 'Content created email body'
+    notification_template_content_updated_subject:
+      type: string
+      label: 'Content updated email subject'
+    notification_template_content_updated_body:
+      type: string
+      label: 'Content updated email body'
+    notification_template_comment_created_subject:
+      type: string
+      label: 'Comment created email subject'
+    notification_template_comment_created_body:
+      type: string
+      label: 'Comment created email body'
+    notification_template_comment_updated_subject:
+      type: string
+      label: 'Comment updated email subject'
+    notification_template_comment_updated_body:
+      type: string
+      label: 'Comment updated email body'

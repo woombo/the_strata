@@ -6,3 +6,171 @@
  */
 
 declare(strict_types=1);
+
+use Drupal\comment\CommentInterface;
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_mail().
+ */
+function strata_base_mail(string $key, array &$message, array $params): void {
+  $message['subject'] = $params['subject'];
+  $message['body'][] = $params['body'];
+}
+
+/**
+ * Implements hook_node_insert().
+ */
+function strata_base_node_insert(NodeInterface $node): void {
+  _strata_base_content_notification($node, 'created');
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function strata_base_node_update(NodeInterface $node): void {
+  _strata_base_content_notification($node, 'updated');
+}
+
+/**
+ * Implements hook_comment_insert().
+ */
+function strata_base_comment_insert(CommentInterface $comment): void {
+  _strata_base_comment_notification($comment, 'created');
+}
+
+/**
+ * Implements hook_comment_update().
+ */
+function strata_base_comment_update(CommentInterface $comment): void {
+  _strata_base_comment_notification($comment, 'updated');
+}
+
+/**
+ * Sends content notification emails when a node is created or updated.
+ *
+ * @param \Drupal\node\NodeInterface $node
+ *   The node entity.
+ * @param string $trigger
+ *   The trigger type: 'created' or 'updated'.
+ */
+function _strata_base_content_notification(NodeInterface $node, string $trigger): void {
+  $config = \Drupal::config('strata_base.settings');
+
+  $triggers = $config->get('notification_content_triggers') ?? [];
+  if (!in_array($trigger, $triggers, TRUE)) {
+    return;
+  }
+
+  $content_types = $config->get('notification_content_types') ?? [];
+  if (!in_array($node->bundle(), $content_types, TRUE)) {
+    return;
+  }
+
+  $roles = $config->get('notification_roles') ?? [];
+  if (empty($roles)) {
+    return;
+  }
+
+  $mail_key = $trigger === 'created' ? 'content_created' : 'content_updated';
+  $subject_template = $config->get("notification_template_{$mail_key}_subject") ?? '';
+  $body_template = $config->get("notification_template_{$mail_key}_body") ?? '';
+
+  if (empty($subject_template) || empty($body_template)) {
+    return;
+  }
+
+  $token_data = ['node' => $node];
+  $token = \Drupal::token();
+  $subject = $token->replace($subject_template, $token_data, ['clear' => TRUE]);
+  $body = $token->replace($body_template, $token_data, ['clear' => TRUE]);
+
+  _strata_base_send_notification($roles, $subject, $body, $mail_key);
+}
+
+/**
+ * Sends comment notification emails when a comment is created or updated.
+ *
+ * @param \Drupal\comment\CommentInterface $comment
+ *   The comment entity.
+ * @param string $trigger
+ *   The trigger type: 'created' or 'updated'.
+ */
+function _strata_base_comment_notification(CommentInterface $comment, string $trigger): void {
+  $config = \Drupal::config('strata_base.settings');
+
+  $triggers = $config->get('notification_comment_triggers') ?? [];
+  if (!in_array($trigger, $triggers, TRUE)) {
+    return;
+  }
+
+  $entity = $comment->getCommentedEntity();
+  if (!$entity instanceof NodeInterface) {
+    return;
+  }
+
+  $content_types = $config->get('notification_content_types') ?? [];
+  if (!in_array($entity->bundle(), $content_types, TRUE)) {
+    return;
+  }
+
+  $roles = $config->get('notification_roles') ?? [];
+  if (empty($roles)) {
+    return;
+  }
+
+  $mail_key = $trigger === 'created' ? 'comment_created' : 'comment_updated';
+  $subject_template = $config->get("notification_template_{$mail_key}_subject") ?? '';
+  $body_template = $config->get("notification_template_{$mail_key}_body") ?? '';
+
+  if (empty($subject_template) || empty($body_template)) {
+    return;
+  }
+
+  $token_data = ['node' => $entity, 'comment' => $comment];
+  $token = \Drupal::token();
+  $subject = $token->replace($subject_template, $token_data, ['clear' => TRUE]);
+  $body = $token->replace($body_template, $token_data, ['clear' => TRUE]);
+
+  _strata_base_send_notification($roles, $subject, $body, $mail_key);
+}
+
+/**
+ * Sends notification emails to active users with the specified roles.
+ *
+ * @param array $roles
+ *   Array of role machine names.
+ * @param string $subject
+ *   The email subject.
+ * @param string $body
+ *   The email body.
+ * @param string $mail_key
+ *   The mail key identifying the notification type.
+ */
+function _strata_base_send_notification(array $roles, string $subject, string $body, string $mail_key): void {
+  $user_storage = \Drupal::entityTypeManager()->getStorage('user');
+
+  $uids = $user_storage->getQuery()
+    ->condition('status', 1)
+    ->condition('roles', $roles, 'IN')
+    ->accessCheck(FALSE)
+    ->execute();
+
+  if (empty($uids)) {
+    return;
+  }
+
+  $users = $user_storage->loadMultiple($uids);
+  $mail_manager = \Drupal::service('plugin.manager.mail');
+  $langcode = \Drupal::languageManager()->getDefaultLanguage()->getId();
+
+  foreach ($users as $user) {
+    $to = $user->getEmail();
+    if ($to) {
+      $mail_manager->mail('strata_base', $mail_key, $to, $langcode, [
+        'subject' => $subject,
+        'body' => $body,
+      ]);
+    }
+  }
+}
