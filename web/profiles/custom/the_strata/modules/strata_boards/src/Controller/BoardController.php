@@ -110,6 +110,7 @@ class BoardController extends ControllerBase {
       '#columns' => $columns_data,
       '#entity_type' => $entity_type,
       '#entity_type_label' => $entity_type_label,
+      '#can_create' => $this->currentUser()->hasPermission("create $entity_type content"),
       '#add_ticket_url' => Url::fromRoute('node.add', ['node_type' => $entity_type], ['query' => ['board' => $node->id()]])->toString(),
       '#all_tickets_url' => Url::fromRoute('view.strata_tickets.page_board_tickets', ['node' => $node->id()])->toString(),
       '#attached' => [
@@ -119,6 +120,7 @@ class BoardController extends ControllerBase {
         'drupalSettings' => [
           'strata_boards' => [
             'board_id' => $node->id(),
+            'can_edit' => $this->currentUser()->hasPermission("edit any $entity_type content"),
           ],
         ],
       ],

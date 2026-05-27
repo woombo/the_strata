@@ -42,11 +42,13 @@
             {{ ticket }}
           {% endfor %}
         </div>
-        <div class="strata-board__column-footer">
-          <a href="{{ path('node.add', {'node_type': entity_type}, {'query': {'board': board.id, 'status': column_id}}) }}" class="strata-board__column-add-ticket">
-            + Add {{ entity_type_label|lower }}
-          </a>
-        </div>
+        {% if can_create %}
+          <div class="strata-board__column-footer">
+            <a href="{{ path('node.add', {'node_type': entity_type}, {'query': {'board': board.id, 'status': column_id}}) }}" class="strata-board__column-add-ticket">
+              + Add {{ entity_type_label|lower }}
+            </a>
+          </div>
+        {% endif %}
       </div>
     {% endfor %}
   </div>

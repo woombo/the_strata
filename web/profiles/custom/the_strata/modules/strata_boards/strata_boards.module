@@ -14,6 +14,32 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\node\NodeInterface;
+use Drupal\views\ViewExecutable;
+
+/**
+ * Implements hook_views_pre_render().
+ *
+ * Hide "Create Board" buttons when user lacks permission to create board content.
+ */
+function strata_boards_views_pre_render(ViewExecutable $view): void {
+  if ($view->id() !== 'strata_boards') {
+    return;
+  }
+
+  if (\Drupal::currentUser()->hasPermission('create board content')) {
+    return;
+  }
+
+  // Remove the "+ Add new Board" header button.
+  if (isset($view->header['area_text_custom'])) {
+    $view->header['area_text_custom']->options['content'] = '';
+  }
+
+  // Keep the empty message but remove the "Create your first board" button.
+  if (isset($view->empty['area_text_custom'])) {
+    $view->empty['area_text_custom']->options['content'] = '<p>No boards have been created yet.</p>';
+  }
+}
 
 /**
  * Callback for allowed values of field_board_entity_type.
@@ -162,6 +188,7 @@ function strata_boards_theme(): array {
         'columns' => [],
         'entity_type' => 'ticket',
         'entity_type_label' => 'Ticket',
+        'can_create' => FALSE,
         'add_ticket_url' => NULL,
         'all_tickets_url' => NULL,
       ],
