@@ -4,3 +4,19 @@
  * @file
  * Install, update and uninstall functions for the Strata Meeting module.
  */
+
+use Drupal\taxonomy\Entity\Term;
+
+/**
+ * Implements hook_install().
+ */
+function strata_meeting_install(): void {
+  $terms = ['AGM', 'SGM', 'Council Meeting'];
+  foreach ($terms as $weight => $name) {
+    Term::create([
+      'vid' => 'meeting_type',
+      'name' => $name,
+      'weight' => $weight,
+    ])->save();
+  }
+}

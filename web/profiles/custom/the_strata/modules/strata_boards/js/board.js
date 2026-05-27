@@ -8,12 +8,22 @@
 
   Drupal.behaviors.strataBoards = {
     attach: function (context, settings) {
+      // Only enable drag-and-drop if user has edit permission.
+      if (!settings.strata_boards || !settings.strata_boards.can_edit) {
+        return;
+      }
+
       const columns = once('strata-board-columns', '.strata-board__column-content', context);
       const tickets = once('strata-board-tickets', '.strata-ticket-card', context);
 
       if (!columns.length) {
         return;
       }
+
+      // Enable dragging on tickets.
+      tickets.forEach(function (ticket) {
+        ticket.setAttribute('draggable', 'true');
+      });
 
       let draggedElement = null;
       let draggedPlaceholder = null;
@@ -88,10 +98,17 @@
 
       // Setup drop zones on columns.
       columns.forEach(function (column) {
+        var dragEnterCount = 0;
+
+        column.addEventListener('dragenter', function (e) {
+          e.preventDefault();
+          dragEnterCount++;
+          this.classList.add('drag-over');
+        });
+
         column.addEventListener('dragover', function (e) {
           e.preventDefault();
           e.dataTransfer.dropEffect = 'move';
-          this.classList.add('drag-over');
 
           if (!draggedElement || !draggedPlaceholder) {
             return;
@@ -108,8 +125,8 @@
         });
 
         column.addEventListener('dragleave', function (e) {
-          // Only remove class if leaving the column entirely.
-          if (!this.contains(e.relatedTarget)) {
+          dragEnterCount--;
+          if (dragEnterCount === 0) {
             this.classList.remove('drag-over');
             // Remove placeholder when leaving column.
             if (draggedPlaceholder && draggedPlaceholder.parentNode === this) {
@@ -120,6 +137,7 @@
 
         column.addEventListener('drop', function (e) {
           e.preventDefault();
+          dragEnterCount = 0;
           this.classList.remove('drag-over');
 
           if (!draggedElement) {
