@@ -54,6 +54,11 @@
             "phpstan/extension-installer": true,
             "tbachert/spi": true
         },
+        "audit": {
+            "ignore": {
+                "PKSA-dwsq-ppd2-mb1x": "CVE-2026-46644 in symfony/polyfill-intl-idn <1.38.1, transitively pinned by drupal/core ~v1.37.0. Remove once a Drupal core release relaxes the constraint."
+            }
+        },
         "sort-packages": true
     },
     "extra": {
