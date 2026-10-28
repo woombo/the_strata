@@ -14,7 +14,9 @@ function strata_theme_preprocess_page(array &$variables): void {
   $variables['site_name'] = $config->get('name');
   $variables['site_slogan'] = $config->get('slogan');
 
-  $logo_path = theme_get_setting('logo.url', 'strata_theme');
+  /** @var \Drupal\Core\Extension\ThemeSettingsProvider $theme_settings */
+  $theme_settings = \Drupal::service('Drupal\Core\Extension\ThemeSettingsProvider');
+  $logo_path = $theme_settings->getSetting('logo.url', 'strata_theme');
   if ($logo_path) {
     // Convert stream wrapper paths (public://, private://) to actual URLs.
     /** @var \Drupal\Core\File\FileUrlGeneratorInterface $file_url_generator */
