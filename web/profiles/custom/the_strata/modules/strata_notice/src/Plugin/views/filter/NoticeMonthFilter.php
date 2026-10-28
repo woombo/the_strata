@@ -142,8 +142,10 @@ class NoticeMonthFilter extends FilterPluginBase {
     $end = mktime(23, 59, 59, $month + 1, 0, $year);
 
     $field = "$this->tableAlias.$this->realField";
-    $this->query->addWhere($this->options['group'], $field, $start, '>=');
-    $this->query->addWhere($this->options['group'], $field, $end, '<=');
+    /** @var \Drupal\views\Plugin\views\query\Sql $query */
+    $query = $this->query;
+    $query->addWhere($this->options['group'], $field, $start, '>=');
+    $query->addWhere($this->options['group'], $field, $end, '<=');
   }
 
   /**

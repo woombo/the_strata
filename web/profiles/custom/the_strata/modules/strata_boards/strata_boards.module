@@ -355,6 +355,7 @@ function _strata_boards_filter_status_options(array &$form, NodeInterface $board
   // Get the selected column IDs from the board.
   $allowed_column_ids = [];
   foreach ($board->get('field_board_columns') as $item) {
+    /** @var \Drupal\Core\Field\Plugin\Field\FieldType\EntityReferenceItem $item */
     $allowed_column_ids[] = $item->target_id;
   }
 
@@ -460,6 +461,7 @@ function strata_boards_node_view_alter(array &$build, NodeInterface $node, Entit
 
     // Assigned to badge.
     if (isset($build['field_ticket_assigned_to']) && $node->hasField('field_ticket_assigned_to') && !$node->get('field_ticket_assigned_to')->isEmpty()) {
+      /** @var \Drupal\user\UserInterface|null $assigned_user */
       $assigned_user = $node->get('field_ticket_assigned_to')->entity;
       if ($assigned_user) {
         $display_name = $assigned_user->getDisplayName();
@@ -558,6 +560,7 @@ function strata_boards_node_view_alter(array &$build, NodeInterface $node, Entit
 
           $media_ids = [];
           foreach ($node->get($file_field) as $item) {
+            /** @var \Drupal\Core\Field\Plugin\Field\FieldType\EntityReferenceItem $item */
             if ($item->target_id) {
               $media_ids[] = $item->target_id;
             }

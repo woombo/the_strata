@@ -4,6 +4,7 @@ namespace Drupal\strata_boards\Controller;
 
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\node\NodeInterface;
@@ -17,6 +18,16 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * Controller for board views.
  */
 class BoardController extends ControllerBase {
+
+  /**
+   * Constructs a BoardController object.
+   *
+   * @param \Drupal\Core\Entity\EntityFieldManagerInterface $entityFieldManager
+   *   The entity field manager.
+   */
+  public function __construct(
+    protected readonly EntityFieldManagerInterface $entityFieldManager,
+  ) {}
 
   /**
    * Displays a board with its tickets organized by columns.
@@ -46,6 +57,7 @@ class BoardController extends ControllerBase {
       // Use only the selected columns, maintaining the order from the field.
       $columns = [];
       foreach ($node->get('field_board_columns') as $item) {
+        /** @var \Drupal\Core\Field\Plugin\Field\FieldType\EntityReferenceItem $item */
         if ($item->entity) {
           $columns[$item->target_id] = $item->entity;
         }
@@ -67,7 +79,7 @@ class BoardController extends ControllerBase {
       ->sort('created', 'ASC');
 
     // Add weight sorting if the field exists for this entity type.
-    $field_definitions = \Drupal::service('entity_field.manager')->getFieldDefinitions('node', $entity_type);
+    $field_definitions = $this->entityFieldManager->getFieldDefinitions('node', $entity_type);
     if (isset($field_definitions['field_ticket_weight'])) {
       $query->sort('field_ticket_weight', 'ASC');
     }
@@ -78,6 +90,7 @@ class BoardController extends ControllerBase {
     // Organize items by column.
     $columns_data = [];
     foreach ($columns as $column) {
+      /** @var \Drupal\taxonomy\TermInterface $column */
       $columns_data[$column->id()] = [
         'id' => $column->id(),
         'name' => $column->getName(),
