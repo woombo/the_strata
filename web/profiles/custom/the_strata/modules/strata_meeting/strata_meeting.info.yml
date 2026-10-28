@@ -13,4 +13,5 @@ dependencies:
   - drupal:media
   - drupal:datetime
   - drupal:text
+  - drupal:views
   - pathauto:pathauto

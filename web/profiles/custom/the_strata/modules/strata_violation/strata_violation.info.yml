@@ -12,6 +12,7 @@ dependencies:
   - drupal:datetime
   - drupal:text
   - drupal:options
+  - drupal:views
   - drupal:media
   - strata_boards:strata_boards
   - rules:rules
