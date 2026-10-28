@@ -154,6 +154,18 @@ function strata_boards_toolbar(): array {
             '#url' => Url::fromRoute('view.strata_notices.page_1'),
             '#attributes' => ['class' => ['toolbar-icon', 'toolbar-icon-strata-notices']],
           ],
+          'meetings' => [
+            '#type' => 'link',
+            '#title' => t('Meetings'),
+            '#url' => Url::fromRoute('view.strata_meetings.page_1'),
+            '#attributes' => ['class' => ['toolbar-icon', 'toolbar-icon-strata-meetings']],
+          ],
+          'violations' => [
+            '#type' => 'link',
+            '#title' => t('Violations'),
+            '#url' => Url::fromRoute('view.strata_violations.page_1'),
+            '#attributes' => ['class' => ['toolbar-icon', 'toolbar-icon-strata-violations']],
+          ],
           'polls' => [
             '#type' => 'link',
             '#title' => t('Polls'),
