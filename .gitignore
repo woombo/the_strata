@@ -58,3 +58,6 @@
 /drush
 /drupal.phar
 /drupal
+
+# Ignore editor and IDE settings
+/.vscode
