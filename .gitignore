@@ -61,3 +61,4 @@
 
 # Ignore editor and IDE settings
 /.vscode
+.claude/settings.local.json
